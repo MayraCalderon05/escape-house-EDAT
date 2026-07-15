@@ -1,5 +1,5 @@
 package estructuras.grafo;
-//grafo etiquetado
+//grafo etiquetado no dirigido
 public class Grafo {
     private NodoVert inicio;
 
@@ -30,19 +30,31 @@ public class Grafo {
     // ya casi lo tengo no me lo toquen que estoy por conectar las neuronas
     private void limpiarAdyacencias(Object vertice, NodoVert n){
         //recorro la lista de adyacentes
-        NodoAdy aux = n.getPrimerAdy();
-        NodoAdy anterior = null;
-        boolean borrado = false;
 
-        while ((aux != null) && !borrado){
-            if (aux.getVertice().getElem().equals(vertice)){
-                borrado = true;
+        while (n != null){
+            NodoAdy aux = n.getPrimerAdy();
+            NodoAdy anterior = null;
+            boolean borrado = false;
 
-            } else {
-                anterior = aux;
-                aux = aux.getSigAdyacente();
+            while ((aux != null) && !borrado){
+                if (aux.getVertice().getElem().equals(vertice)){
+                    //si es el primer adyacente
+                    if (anterior == null){
+                        n.setPrimerAdy(aux.getSigAdyacente());
+                    } else {
+                        //si ya habian adyacentes antes
+                        anterior.setSigAdyacente(aux.getSigAdyacente());
+                    }
+                    borrado = true;
+
+                } else {
+                    anterior = aux;
+                    aux = aux.getSigAdyacente();
+                }
             }
+            n = n.getSigVertice();
         }
+
     }
     private boolean eliminarVerticeAux(Object vertice){
         boolean eliminado = true;
@@ -75,7 +87,12 @@ public class Grafo {
         return eliminado;
     }
     public boolean eliminarVertice(Object vertice){
-        return eliminarVerticeAux(vertice);
+        boolean exito = eliminarVerticeAux(vertice);
+
+        if (exito){
+            limpiarAdyacencias(vertice, this.inicio);
+        }
+        return exito;
     }
 
     private NodoVert ubicarVertice(Object buscado){
