@@ -122,8 +122,18 @@ public class Grafo {
     }
 
 
-    public boolean eliminarArco(Object verticeA, Object verticeB){
+    public boolean eliminarArco(Object origen, Object destino){
+        boolean eliminado = true;
 
+        NodoVert nodoOrigen = ubicarVertice(origen);
+        NodoVert nodoDestino = ubicarVertice(destino);
+
+        if(nodoOrigen != null && nodoDestino != null){
+            NodoAdy nodoEnPos = nodoOrigen.getPrimerAdy();
+            while(nodoEnPos.getVertice() == nodoDestino){
+
+            }
+        }
     }
 
     public boolean existeArco(Object verticeA, Object verticeB){
