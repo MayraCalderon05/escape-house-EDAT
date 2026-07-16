@@ -27,31 +27,36 @@ public class Grafo {
         return insertado;
     }
 
+    private boolean eliminarArcosAux(NodoVert origen, Object destino){
+        boolean borrado = false;
+        NodoAdy aux = origen.getPrimerAdy();
+        NodoAdy anterior = null;
+
+        while (aux != null && !borrado){
+            if (aux.getVertice().getElem().equals(destino)){
+                //si es el primer adyacente
+                if (anterior == null){
+                    origen.setPrimerAdy(aux.getSigAdyacente());
+                } else {
+                    //si ya habian adyacentes antes
+                    anterior.setSigAdyacente(aux.getSigAdyacente());
+                }
+                borrado = true;
+
+            } else {
+                anterior = aux;
+                aux = aux.getSigAdyacente();
+            }
+        }
+
+        return borrado;
+    }
     // ya casi lo tengo no me lo toquen que estoy por conectar las neuronas
     private void limpiarAdyacencias(Object vertice, NodoVert n){
         //recorro la lista de adyacentes
 
         while (n != null){
-            NodoAdy aux = n.getPrimerAdy();
-            NodoAdy anterior = null;
-            boolean borrado = false;
-
-            while ((aux != null) && !borrado){
-                if (aux.getVertice().getElem().equals(vertice)){
-                    //si es el primer adyacente
-                    if (anterior == null){
-                        n.setPrimerAdy(aux.getSigAdyacente());
-                    } else {
-                        //si ya habian adyacentes antes
-                        anterior.setSigAdyacente(aux.getSigAdyacente());
-                    }
-                    borrado = true;
-
-                } else {
-                    anterior = aux;
-                    aux = aux.getSigAdyacente();
-                }
-            }
+            eliminarArcosAux(n, vertice);
             n = n.getSigVertice();
         }
 
@@ -88,7 +93,6 @@ public class Grafo {
     }
     public boolean eliminarVertice(Object vertice){
         boolean exito = eliminarVerticeAux(vertice);
-
         if (exito){
             limpiarAdyacencias(vertice, this.inicio);
         }
@@ -104,13 +108,13 @@ public class Grafo {
     }
     public boolean existeVertice(Object vertice){
         boolean existe = false;
-        if (this.inicio != null){
-            NodoVert aux = ubicarVertice(vertice);
 
-            if (aux != null){
-                existe = true;
-            }
+        NodoVert aux = ubicarVertice(vertice);
+
+        if (aux != null){
+            existe = true;
         }
+
 
         return existe;
     }
@@ -120,9 +124,23 @@ public class Grafo {
 
     }
 
-
+    //este modulo disuelve el arco de un solo lado
+    private boolean disolverArco(Object verticeA, Object verticeB){
+        boolean eliminado = false;
+        NodoVert origen = ubicarVertice(verticeA);
+        //si existe el vertice que busca
+        if (origen != null){
+            eliminado = eliminarArcosAux(origen, verticeB);
+        }
+        return eliminado;
+    }
     public boolean eliminarArco(Object verticeA, Object verticeB){
-
+        boolean eliminado = disolverArco(verticeA, verticeB);
+        if (eliminado) {
+            //por eso aca lo llamo 2 veces, porque el arco esta en ambas listas de adyacencia
+            eliminado = disolverArco(verticeB, verticeA);
+        }
+        return eliminado;
     }
 
     public boolean existeArco(Object verticeA, Object verticeB){
