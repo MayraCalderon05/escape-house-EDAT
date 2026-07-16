@@ -1,5 +1,9 @@
 package estructuras.grafo;
-//grafo etiquetado no dirigido
+import estructuras.lineales.*;
+/// grafo etiquetado no dirigido
+//! si A--B entonces:
+//! en la lista de ady de A está B y en la lista de ady de B esta A
+
 public class Grafo {
     private NodoVert inicio;
 
@@ -143,7 +147,45 @@ public class Grafo {
         return eliminado;
     }
 
+    //abierto a modificaciones
+    private boolean existeArco(NodoVert origen, Object verticeB){
+        boolean existe = false;
+        NodoAdy aux = origen.getPrimerAdy();
+        while (aux != null && !existe){
+            if (aux.getVertice().getElem().equals(verticeB)){
+                existe = true;
+            } else {
+                aux = aux.getSigAdyacente();
+            }
+        }
+        return existe;
+    }
     public boolean existeArco(Object verticeA, Object verticeB){
+        boolean existe = false;
+        NodoVert vertA = ubicarVertice(verticeA);
+        if (vertA != null){
+            existe = existeArco(vertA, verticeB);
+        }
+        return existe;
+    }
+
+    public boolean existeCamino(Object verticeA, Object verticeB){
+
+    }
+
+    public Lista caminoMasCorto(Object verticeA, Object verticeB){
+
+    }
+
+    public Lista caminoMasLargo(Object verticeA, Object verticeB){
+
+    }
+
+    public Lista listarEnProfundidad(){
+
+    }
+
+    public Lista listarEnAnchura(){
 
     }
 
@@ -151,5 +193,12 @@ public class Grafo {
         return this.inicio == null;
     }
 
+    public Grafo clone(){
+
+    }
+
+    public String toString(){
+
+    }
 
 }
