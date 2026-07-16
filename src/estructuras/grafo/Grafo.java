@@ -129,30 +129,30 @@ public class Grafo {
     }
 
     //este modulo disuelve el arco de un solo lado
-    private boolean disolverArco(Object verticeA, Object verticeB){
+    private boolean disolverArco(Object origen, Object destino){
         boolean eliminado = false;
-        NodoVert origen = ubicarVertice(verticeA);
+        NodoVert origenNodo = ubicarVertice(origen);
         //si existe el vertice que busca
         if (origen != null){
-            eliminado = eliminarArcosAux(origen, verticeB);
+            eliminado = eliminarArcosAux(origenNodo, destino);
         }
         return eliminado;
     }
-    public boolean eliminarArco(Object verticeA, Object verticeB){
-        boolean eliminado = disolverArco(verticeA, verticeB);
+    public boolean eliminarArco(Object origen, Object destino){
+        boolean eliminado = disolverArco(origen, destino);
         if (eliminado) {
             //por eso aca lo llamo 2 veces, porque el arco esta en ambas listas de adyacencia
-            eliminado = disolverArco(verticeB, verticeA);
+            eliminado = disolverArco(destino, origen);
         }
         return eliminado;
     }
 
     //abierto a modificaciones
-    private boolean existeArco(NodoVert origen, Object verticeB){
+    private boolean existeArco(NodoVert origen, Object destino){
         boolean existe = false;
         NodoAdy aux = origen.getPrimerAdy();
         while (aux != null && !existe){
-            if (aux.getVertice().getElem().equals(verticeB)){
+            if (aux.getVertice().getElem().equals(destino)){
                 existe = true;
             } else {
                 aux = aux.getSigAdyacente();
@@ -160,21 +160,83 @@ public class Grafo {
         }
         return existe;
     }
-    public boolean existeArco(Object verticeA, Object verticeB){
+    public boolean existeArco(Object origen, Object destino){
         boolean existe = false;
-        NodoVert vertA = ubicarVertice(verticeA);
+        NodoVert vertA = ubicarVertice(origen);
         if (vertA != null){
-            existe = existeArco(vertA, verticeB);
+            existe = existeArco(vertA, destino);
         }
         return existe;
     }
 
-    public boolean existeCamino(Object verticeA, Object verticeB){
+    private boolean encontrarCamino(NodoVert origen, Object destino, Lista visitados){
+         boolean encontrado = false;
+         if (origen != null){
+             //si en el que estoy parada es el destino
+             if (origen.getElem().equals(destino)){
+                 encontrado = true;
+             } else {
+                 //si no es el que estoy buscando
+                 visitados.insertar(origen.getElem(), visitados.longitud()+1);
+                 NodoAdy aux = origen.getPrimerAdy();
+                 while (!encontrado && aux != null){
+                     //si no esta en la lista
+                     if (visitados.localizar(aux.getVertice().getElem()) < 0){
+                         encontrado = encontrarCamino(aux.getVertice(), destino, visitados);
+                     }
+                     aux = aux.getSigAdyacente();
+                 }
+             }
+         }
+         return encontrado;
+    }
+    //si existen ambos te devuelve el punto de inicio, es decir, el origen
+    private NodoVert existenNodos(Object origen, Object destino){
+        NodoVert nodoOrigen = null;
+        //controlo que no le haya mandado el mismo nodo 2 veces
+        if (!(origen.equals(destino))){
+            NodoVert auxOrigen = null;
+            NodoVert auxDestino = null;
+            NodoVert puntero = this.inicio;
 
+            while ((auxOrigen == null || auxDestino == null) && puntero != null){
+                if (puntero.getElem().equals(origen)) auxOrigen = puntero;
+                if (puntero.getElem().equals(destino)) auxDestino = puntero;
+                puntero = puntero.getSigVertice();
+            }
+
+
+            if (auxOrigen != null && auxDestino !=null){
+                nodoOrigen = auxOrigen;
+            }
+        }
+
+        return  nodoOrigen;
+    }
+    public boolean existeCamino(Object origen, Object destino){
+        boolean existe = false;
+        NodoVert origenNodo = existenNodos(origen, destino);
+
+        if (origenNodo != null){
+            Lista visitados = new Lista();
+            existe = encontrarCamino(origenNodo, destino, visitados);
+        }
+        return existe;
     }
 
-    public Lista caminoMasCorto(Object verticeA, Object verticeB){
-
+    private  void caminoCortoAux(Object origen, Object destino, Lista camino){
+        NodoVert nodoOrigen;
+        if(this.inicio !=null){
+            nodoOrigen = existenNodos(origen,destino);
+            if(nodoOrigen!=null){
+                
+            }
+        }
+    }
+    public Lista caminoMasCorto(Object origen, Object destino){
+        Lista camino = new Lista();
+        caminoCortoAux(origen, destino, camino);
+        return camino;
     }
 
     public Lista caminoMasLargo(Object verticeA, Object verticeB){
