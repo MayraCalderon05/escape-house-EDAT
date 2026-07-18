@@ -224,18 +224,51 @@ public class Grafo {
         return existe;
     }
 
-    private  void caminoCortoAux(Object origen, Object destino, Lista camino){
+    private Lista caminoCortoAux(Object origen, Object destino, Lista camino){
+        Lista visitados = new Lista();
         NodoVert nodoOrigen;
+        NodoAdy ady;
         if(this.inicio !=null){
             nodoOrigen = existenNodos(origen,destino);
             if(nodoOrigen!=null){
-                
+                ady = nodoOrigen.getPrimerAdy();
+                visitados.insertar(nodoOrigen.getElem(), visitados.longitud()+1);
+                while(ady!=null){
+                    camino = caminoAux(ady.getVertice(), destino, visitados, camino);
+                    ady = ady.getSigAdyacente();
+                }
             }
         }
+        return camino;
+    }
+    private Lista caminoAux(NodoVert origen, Object destino, Lista visitados, Lista camino){
+        Object aux = origen.getElem();
+        NodoAdy ady = origen.getPrimerAdy();
+        NodoVert nodoAdy;
+        visitados.insertar(aux, visitados.longitud() + 1);
+        if(visitados.longitud()<camino.longitud() || camino.esVacia()) {
+            if (aux.equals(destino)) {
+                camino = visitados.clone();
+            } else {
+                while (ady != null) {
+                    nodoAdy = ady.getVertice();
+                    if (visitados.localizar(nodoAdy.getElem()) < 0) {
+                        camino = caminoAux(nodoAdy, destino, visitados, camino);
+                    }
+                    ady = ady.getSigAdyacente();
+                }
+            }
+        }
+        visitados.eliminar(visitados.longitud());
+        return camino;
     }
     public Lista caminoMasCorto(Object origen, Object destino){
         Lista camino = new Lista();
-        caminoCortoAux(origen, destino, camino);
+        if(origen.equals(destino)){
+            camino.insertar(origen,1);
+        }else{
+            camino = caminoCortoAux(origen, destino, camino);
+        }
         return camino;
     }
 
