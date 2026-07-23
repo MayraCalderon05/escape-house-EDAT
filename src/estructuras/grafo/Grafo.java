@@ -288,12 +288,102 @@ public class Grafo {
         return this.inicio == null;
     }
 
+    private void cloneAux(NodoVert auxOriginal, NodoVert auxClon, Grafo clon){
+
+        while (auxOriginal != null){
+
+            //referencio al primer adyacente del original
+            NodoAdy adyOriginal = auxOriginal.getPrimerAdy();
+            if (adyOriginal != null){
+
+                //obtengo el vertice al que referencia
+                NodoVert referenciaOriginal = adyOriginal.getVertice();
+                //busco el vertice en la lista de vertices del clon
+                NodoVert referenciaClon = clon.ubicarVertice(referenciaOriginal.getElem());
+                // lo seteo
+                auxClon.setPrimerAdy(new NodoAdy(referenciaClon, adyOriginal.getEtiqueta()));
+
+                NodoAdy adyClon = auxClon.getPrimerAdy();
+                adyOriginal = adyOriginal.getSigAdyacente();
+
+                while (adyOriginal != null){
+                    referenciaOriginal = adyOriginal.getVertice();
+                    referenciaClon = clon.ubicarVertice(referenciaOriginal.getElem());
+                    adyClon.setSigAdyacente(new NodoAdy(referenciaClon, adyOriginal.getEtiqueta()));
+
+                    adyOriginal = adyOriginal.getSigAdyacente();
+                    adyClon = adyClon.getSigAdyacente();
+                }
+
+            }
+
+            auxOriginal = auxOriginal.getSigVertice();
+            auxClon = auxClon.getSigVertice();
+        }
+
+
+    }
     public Grafo clone(){
+        Grafo clon = new Grafo();
+
+        //? primero creo la lista de vertces para despues hacer la referencia en la lista de adyacencias
+        if (this.inicio != null){
+            NodoVert auxOriginal = this.inicio;
+            NodoVert auxClon = new NodoVert(auxOriginal.getElem());
+            clon.inicio = auxClon;
+
+            auxOriginal = auxOriginal.getSigVertice();
+            while (auxOriginal != null){
+                NodoVert nuevo = new NodoVert(auxOriginal.getElem());
+
+                auxClon.setSigVertice(nuevo);
+
+                //avanzo en el original
+                auxOriginal = auxOriginal.getSigVertice();
+                //avanzo en la copia
+                auxClon = auxClon.getSigVertice();
+            }
+
+            //? clono la lista de adyacencia
+            cloneAux(this.inicio, clon.inicio, clon);
+
+        }
+
+        return clon;
 
     }
 
-    public String toString(){
 
+    private String toStringAux(NodoVert n, String resultado){
+        if (n != null){
+            resultado = resultado + n.getElem().toString() + "-> [";
+            NodoAdy adyN = n.getPrimerAdy();
+            while (adyN != null){
+                resultado += adyN.getVertice().getElem().toString();
+
+                adyN = adyN.getSigAdyacente();
+
+                if (adyN != null){
+                    resultado += ",";
+                }
+            }
+            resultado += "]";
+            if (n.getSigVertice() != null){
+                resultado += ",";
+            }
+            resultado += "\n";
+            resultado = toStringAux(n.getSigVertice(), resultado);
+        }
+
+        return resultado;
+    }
+    public String toString(){
+        String res = "[";
+        if (this.inicio != null){
+            res = toStringAux(this.inicio, res);
+        }
+        res += "]";
+        return res;
     }
 
 }

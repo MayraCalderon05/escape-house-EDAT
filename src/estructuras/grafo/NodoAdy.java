@@ -10,6 +10,11 @@ public class NodoAdy {
         this.sigAdyacente = null;
         this.etiqueta = 0;
     }
+    public NodoAdy(NodoVert nuevoVertice, int nuevaEtiqueta){
+        this.vertice = nuevoVertice;
+        this.sigAdyacente = null;
+        this.etiqueta = nuevaEtiqueta;
+    }
     public NodoAdy(NodoVert nuevoVertice, NodoAdy nuevoSigAdyacente, int nuevaEtiqueta){
             this.vertice = nuevoVertice;
             this.sigAdyacente = nuevoSigAdyacente;
