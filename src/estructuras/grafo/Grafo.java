@@ -229,7 +229,7 @@ public class Grafo {
         if(this.inicio !=null){
             nodoOrigen = existenNodos(origen,destino);
             if(nodoOrigen!=null){
-                
+
             }
         }
     }
@@ -320,8 +320,37 @@ public class Grafo {
 
     }
 
-    public String toString(){
 
+    private String toStringAux(NodoVert n, String resultado){
+        if (n != null){
+            resultado = resultado + n.getElem().toString() + "-> [";
+            NodoAdy adyN = n.getPrimerAdy();
+            while (adyN != null){
+                resultado += adyN.getVertice().getElem().toString();
+
+                adyN = adyN.getSigAdyacente();
+
+                if (adyN != null){
+                    resultado += ",";
+                }
+            }
+            resultado += "]";
+            if (n.getSigVertice() != null){
+                resultado += ",";
+            }
+            resultado += "\n";
+            resultado = toStringAux(n.getSigVertice(), resultado);
+        }
+
+        return resultado;
+    }
+    public String toString(){
+        String res = "[";
+        if (this.inicio != null){
+            res = toStringAux(this.inicio, res);
+        }
+        res += "]";
+        return res;
     }
 
 }
