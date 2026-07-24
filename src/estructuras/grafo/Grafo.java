@@ -12,10 +12,10 @@ public class Grafo {
     }
 
     public boolean insertarVertice(Object vertice){
-        return insertarAux(inicio, vertice);
+        return insertarVerticeAux(inicio, vertice);
     }
 
-    private boolean insertarAux(NodoVert nodo, Object buscado){
+    private boolean insertarVerticeAux(NodoVert nodo, Object buscado){
         boolean insertado = true;
         NodoVert aux;
         if(nodo != null){
@@ -124,8 +124,26 @@ public class Grafo {
     }
 
     public boolean insertarArco(Object origen, Object destino, int nuevaEtiqueta){
+        boolean insertado = true;
 
+        NodoVert nodoOrigen = ubicarVertice(origen);
+        NodoVert nodoDestino = ubicarVertice(destino);
 
+        if(nodoOrigen != null && nodoDestino != null){
+            NodoAdy nuevoArco = new NodoAdy(nodoDestino, nuevaEtiqueta);
+            if (nodoOrigen.getPrimerAdy() != null){
+                NodoAdy aux = nodoOrigen.getPrimerAdy();
+                while (aux.getSigAdyacente() != null){
+                    aux = aux.getSigAdyacente();
+                }
+                aux.setSigAdyacente(nuevoArco);
+            }else {
+                nodoOrigen.setPrimerAdy(nuevoArco);
+            }
+        }else {
+            insertado = false;
+        }
+        return insertado;
     }
 
     //este modulo disuelve el arco de un solo lado
@@ -321,11 +339,55 @@ public class Grafo {
     }
 
     public Lista listarEnProfundidad(){
+            Lista visitados = new Lista();
+            NodoVert aux = this.inicio;
+            if(aux != null){
+                //si el vertice no fue visitado todavia, avanza en listar
+                if (visitados.localizar(aux.getElem()) < 0){
+                    listarEnProfundidadAux(aux, visitados);
+                }
+                aux = aux.getSigVertice();
+            }
+            return visitados;
+    }
 
+    private void listarEnProfundidadAux(NodoVert nodo, Lista visitados){
+        if (nodo != null){
+            //marca el vertice como visitado
+            visitados.insertar(nodo.getElem(), visitados.longitud()+1);
+            NodoAdy ady = nodo.getPrimerAdy();
+            while (ady != null){
+                //visita los adyacentes de nodo que todavia no fueron visitados
+                if (visitados.localizar(ady.getVertice().getElem()) < 0){
+                    listarEnProfundidadAux(ady.getVertice(), visitados);
+                }
+                ady = ady.getSigAdyacente();
+            }
+        }
     }
 
     public Lista listarEnAnchura(){
+        Lista visitados = new Lista();
+        NodoVert origen = this.inicio;
 
+        if(origen != null){
+            Cola aux = new Cola();
+            aux.poner(origen.getElem());
+            visitados.insertar(origen.getElem(), visitados.longitud()+1);
+            while (!aux.esVacia()){
+                NodoVert elem = (NodoVert) aux.obtenerFrente();
+                aux.sacar();
+                NodoAdy ady = elem.getPrimerAdy();
+                while (ady != null){
+                    if (visitados.localizar(ady.getVertice().getElem()) < 0){
+                        aux.poner(ady.getVertice().getElem());
+                        visitados.insertar(ady.getVertice().getElem(), visitados.longitud()+1);
+                    }
+                    ady = ady.getSigAdyacente();
+                }
+            }
+        }
+        return visitados;
     }
 
     public boolean esVacio(){
