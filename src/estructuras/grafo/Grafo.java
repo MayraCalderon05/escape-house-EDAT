@@ -12,10 +12,10 @@ public class Grafo {
     }
 
     public boolean insertarVertice(Object vertice){
-        return insertarAux(inicio, vertice);
+        return insertarVerticeAux(inicio, vertice);
     }
 
-    private boolean insertarAux(NodoVert nodo, Object buscado){
+    private boolean insertarVerticeAux(NodoVert nodo, Object buscado){
         boolean insertado = true;
         NodoVert aux;
         if(nodo != null){
@@ -130,7 +130,7 @@ public class Grafo {
         NodoVert nodoDestino = ubicarVertice(destino);
 
         if(nodoOrigen != null && nodoDestino != null){
-            NodoAdy nuevoArco = new NodoAdy(nodoDestino, null, nuevaEtiqueta);
+            NodoAdy nuevoArco = new NodoAdy(nodoDestino, nuevaEtiqueta);
             if (nodoOrigen.getPrimerAdy() != null){
                 NodoAdy aux = nodoOrigen.getPrimerAdy();
                 while (aux.getSigAdyacente() != null){
@@ -242,23 +242,100 @@ public class Grafo {
         return existe;
     }
 
-    private  void caminoCortoAux(Object origen, Object destino, Lista camino){
+    private Lista caminoCortoAux(Object origen, Object destino, Lista camino){
+        Lista visitados = new Lista();
         NodoVert nodoOrigen;
-        if(this.inicio !=null){
-            nodoOrigen = existenNodos(origen,destino);
-            if(nodoOrigen!=null){
-                
+        NodoAdy ady;
+        nodoOrigen = existenNodos(origen, destino);     //Verifica que existan los nodos origen y destino dentro del grafo, y retorna el nodo que contiene al objeto origen
+        if(nodoOrigen != null){                         //Si encontro el nodo comienza a buscar el camino mas corto
+            ady = nodoOrigen.getPrimerAdy();            //Saca el primer adyacente del nodo origen
+            visitados.insertar(nodoOrigen.getElem(), visitados.longitud() + 1);     //Inserta el nodo origen a la lista, para no entrar en un bucle
+            while(ady != null){                         //Mientras que queden nodos por recorrer en la lista de adyacencia del nodo origen
+                camino = caminoMasCortoAux(ady.getVertice(), destino, visitados, camino);   //Se llama al modulo que busca el camino
+                ady = ady.getSigAdyacente();            //Avanza al siguiente nodo adyacente
             }
         }
+        return camino;
+    }
+    private Lista caminoMasCortoAux(NodoVert origen, Object destino, Lista visitados, Lista camino){
+        Object aux = origen.getElem();
+        NodoAdy ady = origen.getPrimerAdy();
+        NodoVert nodoAdy;
+        visitados.insertar(aux, visitados.longitud() + 1);                  //Se inserta el nodo "origen" en la lista de visitados
+        if(visitados.longitud()<camino.longitud() || camino.esVacia()) {    //Mientras no se haya encontrado camino, o el recorrido actual sea mas corto que el camino guardado, se sigue buscando el camino
+            if (aux.equals(destino)) {                                      //Si se llega al nodo destino
+                camino = visitados.clone();                                 //Se almacena el nuevo camino mas corto
+            } else {
+                while (ady != null) {                                       //Si no es el nodo destino, se recorre la lista de adyacencia del nodo actual
+                    nodoAdy = ady.getVertice();
+                    if (visitados.localizar(nodoAdy.getElem()) < 0) {       //Se consulta si ya fue visitado ese vertice
+                        camino = caminoMasCortoAux(nodoAdy, destino, visitados, camino);    //si no fue visitado el vertice, se hace la llamada recursiva, con el siguiente nodo adyacente
+                    }
+                    ady = ady.getSigAdyacente();
+                }
+            }
+        }
+        visitados.eliminar(visitados.longitud());                           //Se elimina el nodo "origen" de la lista de visitados, para poder recorrer otros caminos
+        return camino;
     }
     public Lista caminoMasCorto(Object origen, Object destino){
         Lista camino = new Lista();
-        caminoCortoAux(origen, destino, camino);
+        if(this.inicio != null) {             //Si el grafo esta vacio devuelve la lista "camino" vacia.
+            if (origen.equals(destino)) {     //Si el vertice de origen es igual al vertice de destino, entonces es el mismo vertice.
+                camino.insertar(origen, 1);   //Y en tal caso, se devuelve el camino que contiene al unico vertice.
+            } else {
+                camino = caminoCortoAux(origen, destino, camino);     //En caso contrario, se llama al modulo que recorre el grafo y devuelve el camino más corto.
+            }
+        }
         return camino;
     }
 
-    public Lista caminoMasLargo(Object verticeA, Object verticeB){
-
+    private Lista caminoLargoAux(Object origen, Object destino, Lista camino){
+        Lista visitados = new Lista();
+        NodoVert nodoOrigen;
+        NodoAdy ady;
+        nodoOrigen = existenNodos(origen, destino);     //Verifica que existan los nodos origen y destino dentro del grafo, y retorna el nodo que contiene al objeto origen
+        if(nodoOrigen != null){                         //Si encontro el nodo comienza a buscar el camino mas corto
+            ady = nodoOrigen.getPrimerAdy();            //Saca el primer adyacente del nodo origen
+            visitados.insertar(nodoOrigen.getElem(), visitados.longitud() + 1);     //Inserta el nodo origen a la lista, para no entrar en un bucle
+            while(ady != null){                         //Mientras que queden nodos por recorrer en la lista de adyacencia del nodo origen
+                camino = caminoMasLargoAux(ady.getVertice(), destino, visitados, camino);   //Se llama al modulo que busca el camino
+                ady = ady.getSigAdyacente();            //Avanza al siguiente nodo adyacente
+            }
+        }
+        return camino;
+    }
+    private Lista caminoMasLargoAux(NodoVert origen, Object destino, Lista visitados, Lista camino){
+        Object aux = origen.getElem();
+        NodoAdy ady = origen.getPrimerAdy();
+        NodoVert nodoAdy;
+        visitados.insertar(aux, visitados.longitud() + 1);                      //Se inserta el nodo "origen" en la lista de visitados
+        if (aux.equals(destino)) {                                              //Si se llega al nodo destino
+            if(camino.esVacia() || visitados.longitud() > camino.longitud()) {  //Y el recorrido actual es más laroo que el camino guardado, o no hay un camino guardado
+                camino = visitados.clone();                                     //Se almacena el nuevo camino mas largo
+            }
+        } else {
+            while (ady != null) {                                               //Si no es el nodo destino, se recorre la lista de adyacencia del nodo actual
+                nodoAdy = ady.getVertice();
+                if (visitados.localizar(nodoAdy.getElem()) < 0) {               //Se consulta si ya fue visitado ese vertice
+                    camino = caminoMasLargoAux(nodoAdy, destino, visitados, camino);    //si no fue visitado el vertice, se hace la llamada recursiva, con el siguiente nodo adyacente
+                }
+                ady = ady.getSigAdyacente();
+            }
+        }
+        visitados.eliminar(visitados.longitud());                           //Se elimina el nodo "origen" de la lista de visitados, para poder recorrer otros caminos
+        return camino;
+    }
+    public Lista caminoMasLargo(Object origen, Object destino){
+        Lista camino = new Lista();
+        if(this.inicio != null) {
+            if (origen.equals(destino)) {
+                camino.insertar(origen, 1);
+            } else {
+                camino = caminoLargoAux(origen, destino, camino);
+            }
+        }
+        return camino;
     }
 
     public Lista listarEnProfundidad(){
@@ -382,8 +459,37 @@ public class Grafo {
 
     }
 
-    public String toString(){
 
+    private String toStringAux(NodoVert n, String resultado){
+        if (n != null){
+            resultado = resultado + n.getElem().toString() + "-> [";
+            NodoAdy adyN = n.getPrimerAdy();
+            while (adyN != null){
+                resultado += adyN.getVertice().getElem().toString();
+
+                adyN = adyN.getSigAdyacente();
+
+                if (adyN != null){
+                    resultado += ",";
+                }
+            }
+            resultado += "]";
+            if (n.getSigVertice() != null){
+                resultado += ",";
+            }
+            resultado += "\n";
+            resultado = toStringAux(n.getSigVertice(), resultado);
+        }
+
+        return resultado;
+    }
+    public String toString(){
+        String res = "[";
+        if (this.inicio != null){
+            res = toStringAux(this.inicio, res);
+        }
+        res += "]";
+        return res;
     }
 
 }
