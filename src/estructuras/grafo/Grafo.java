@@ -12,10 +12,10 @@ public class Grafo {
     }
 
     public boolean insertarVertice(Object vertice){
-        return insertarAux(inicio, vertice);
+        return insertarVerticeAux(inicio, vertice);
     }
 
-    private boolean insertarAux(NodoVert nodo, Object buscado){
+    private boolean insertarVerticeAux(NodoVert nodo, Object buscado){
         boolean insertado = true;
         NodoVert aux;
         if(nodo != null){
@@ -124,8 +124,26 @@ public class Grafo {
     }
 
     public boolean insertarArco(Object origen, Object destino, int nuevaEtiqueta){
+        boolean insertado = true;
 
+        NodoVert nodoOrigen = ubicarVertice(origen);
+        NodoVert nodoDestino = ubicarVertice(destino);
 
+        if(nodoOrigen != null && nodoDestino != null){
+            NodoAdy nuevoArco = new NodoAdy(nodoDestino, nuevaEtiqueta);
+            if (nodoOrigen.getPrimerAdy() != null){
+                NodoAdy aux = nodoOrigen.getPrimerAdy();
+                while (aux.getSigAdyacente() != null){
+                    aux = aux.getSigAdyacente();
+                }
+                aux.setSigAdyacente(nuevoArco);
+            }else {
+                nodoOrigen.setPrimerAdy(nuevoArco);
+            }
+        }else {
+            insertado = false;
+        }
+        return insertado;
     }
 
     //este modulo disuelve el arco de un solo lado
