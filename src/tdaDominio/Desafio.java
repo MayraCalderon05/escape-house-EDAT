@@ -1,4 +1,4 @@
-package estructuras;
+package tdaDominio;
 
 public class Desafio {
     private int puntaje;
