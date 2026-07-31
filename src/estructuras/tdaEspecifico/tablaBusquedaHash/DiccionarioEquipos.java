@@ -164,7 +164,44 @@ public class DiccionarioEquipos {
         }
     }
 
+    /* mi idea es
+    0:
+        obj1,
+        obj2
+    1:
+        / /
+    2:
+        obj3,
+        obj4,
+        obj5
+    */
+    private String toStringAux(NodoHashDicc n){
+        StringBuilder cadena = new StringBuilder();
+        while (n != null){
+            cadena.append(n.toString());
+            n = n.getEnlace();
+
+            if (n != null){
+                cadena.append(",\n   ");
+            }
+        }
+
+        return cadena.toString();
+    }
+
     public String toString(){
-        //may
+        StringBuilder res = new StringBuilder("[\n");
+        for (int i = 0; i < this.TAM; i++) {
+            res.append(i).append("\n   ");
+            NodoHashDicc actual = tabla[i];
+            if (actual != null){
+                res.append(toStringAux(actual));
+            } else {
+                res.append("//");
+            }
+            res.append("\n");
+        }
+        res.append("\n]");
+        return res.toString();
     }
 }
