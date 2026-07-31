@@ -3,23 +3,23 @@ package estructuras.tdaEspecifico.tablaBusquedaHash;
 import tdaDominio.Equipo;
 
 public class NodoHashDicc {
-    private String nombreEquipo;
-    private Equipo info;
+    private Object clave;
+    private Object info;
     private NodoHashDicc enlace;
 
     //Constructores
-    public NodoHashDicc(String clave, Equipo info, NodoHashDicc enlace){
-        this.nombreEquipo = clave;
+    public NodoHashDicc(Object clave, Object info, NodoHashDicc enlace){
+        this.clave = clave;
         this.info = info;
         this.enlace = enlace;
     }
 
     //Observadores
-    public String getNombreEquipo(){
-        return this.nombreEquipo;
+    public Object getClave(){
+        return this.clave;
     }
 
-    public Equipo getDato(){
+    public Object getInfo(){
         return this.info;
     }
 

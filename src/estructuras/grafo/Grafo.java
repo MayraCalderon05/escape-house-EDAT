@@ -460,36 +460,32 @@ public class Grafo {
     }
 
 
-    private String toStringAux(NodoVert n, String resultado){
+    private void toStringAux(NodoVert n, StringBuilder resultado){
         if (n != null){
-            resultado = resultado + n.getElem().toString() + "-> [";
+            resultado.append(n.getElem().toString()).append("-> [");
             NodoAdy adyN = n.getPrimerAdy();
             while (adyN != null){
-                resultado += adyN.getVertice().getElem().toString();
-
+                resultado.append(adyN.getVertice().getElem().toString());
                 adyN = adyN.getSigAdyacente();
-
                 if (adyN != null){
-                    resultado += ",";
+                    resultado.append(",");
                 }
             }
-            resultado += "]";
+            resultado.append("]");
             if (n.getSigVertice() != null){
-                resultado += ",";
+                resultado.append(",");
             }
-            resultado += "\n";
-            resultado = toStringAux(n.getSigVertice(), resultado);
+            resultado.append("\n");
+            toStringAux(n.getSigVertice(), resultado);
         }
-
-        return resultado;
     }
     public String toString(){
-        String res = "[";
+        StringBuilder res = new StringBuilder("[");
         if (this.inicio != null){
-            res = toStringAux(this.inicio, res);
+            toStringAux(this.inicio, res);
         }
-        res += "]";
-        return res;
+        res.append("]");
+        return res.toString();
     }
 
 }
