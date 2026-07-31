@@ -105,12 +105,32 @@ public class DiccionarioEquipos {
         return exito;
     }
 
-    public Equipo obtenerInfo(String clave){
+    public Object obtenerInfo(Object clave){
         //Sacha puto
+        NodoHashDicc aux = this.tabla[calcularPos(clave)];  //Busca el nodo cabecera en la tabla hash
+        Object buscado = null;
+        while (aux != null){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
+            if(clave.equals(aux.getNombreEquipo())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
+                buscado = aux.getDato();                    //Si lo encuentra devuelve el dato (Equipo) del nodo encontrado
+            }else{
+                aux = aux.getEnlace();                      //Pasa al siguiente nodo
+            }
+        }
+        return buscado;
     }
 
-    public boolean existeClave(String clave){
+    public boolean existeClave(Object clave){
         //sacha puto
+        NodoHashDicc aux = this.tabla[calcularPos(clave)];  //Busca el nodo cabecera en la tabla hash
+        boolean encontrado = false;
+        while (aux != null){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
+            if(clave.equals(aux.getNombreEquipo())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
+                encontrado = true;                          //Si lo encuentra devuelve true
+            }else{
+                aux = aux.getEnlace();                      //Pasa al siguiente nodo
+            }
+        }
+        return encontrado;
     }
 
     public Lista listarClaves(){
