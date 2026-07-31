@@ -125,8 +125,37 @@ public class DiccionarioEquipos {
         return this.cant == 0;
     }
 
+    private void clonarColisiones(DiccionarioEquipos copia, int i){
+        NodoHashDicc auxOriginal = this.tabla[i];
+        NodoHashDicc auxCopia = new NodoHashDicc(auxOriginal.getNombreEquipo(), auxOriginal.getDato(), null);
+        copia.tabla[i] = auxCopia;
+
+        auxOriginal = auxOriginal.getEnlace();
+
+        while (auxOriginal != null){
+            NodoHashDicc nuevo = new NodoHashDicc(auxOriginal.getNombreEquipo(), auxOriginal.getDato(), null);
+            auxCopia.setEnlace(nuevo);
+
+            auxOriginal = auxOriginal.getEnlace();
+            auxCopia = nuevo;
+        }
+    }
+    private void clonarArr(DiccionarioEquipos copia){
+
+        for (int i = 0; i < this.TAM; i++){
+            if (this.tabla[i] != null){
+                clonarColisiones(copia, i);
+            }
+        }
+    }
     public DiccionarioEquipos clone(){
         //may
+        DiccionarioEquipos copia = new DiccionarioEquipos(this.TAM);
+        if (this.cant > 0){
+            copia.cant = this.cant;
+            clonarArr(copia);
+        }
+        return copia;
     }
 
     public void vaciar(){
