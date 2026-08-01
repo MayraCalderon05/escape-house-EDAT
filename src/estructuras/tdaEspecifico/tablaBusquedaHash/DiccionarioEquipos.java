@@ -18,7 +18,22 @@ public class DiccionarioEquipos {
     }
 
     public boolean insertar(String clave, Equipo info){
-        //more
+        //busco la posicion del elemento
+        int pos = calcularPos(clave);
+        //me posiciono en la tabla
+        NodoHashDicc aux = tabla[pos];
+        boolean encontrado = false;
+        //recorro la lista para comprobar que el elemento no existe en la tabla
+        while (!encontrado && aux != null){
+            encontrado = aux.getClave().equals(clave);
+            aux = aux.getEnlace();
+        }
+        //si no lo encontró, lo crea y lo inserta al principio de la lista
+        if (!encontrado){
+            this.tabla[pos] = new NodoHashDicc(clave, info,this.tabla[pos]);
+            this.cant++;
+        }
+        return !encontrado;
     }
 
     private boolean esPrimo(int n){
@@ -115,11 +130,43 @@ public class DiccionarioEquipos {
     }
 
     public Lista listarClaves(){
-        //more
+        Lista lista = new Lista();
+        if (this.cant > 0){
+            for (int i = 0; i < this.tabla.length; i++){
+                if (this.tabla[i] != null){
+                    NodoHashDicc aux = this.tabla[i];
+                    while (aux != null){
+                        lista.insertar(aux.getClave(), lista.longitud()+1);
+                        aux = aux.getEnlace();
+                    }
+                }
+            }
+
+        }
+        return lista;
     }
 
     public Lista listarDatos(){
-        //more
+        Lista lista = new Lista();
+        //si el diccionario no esta vacio
+        if (this.cant > 0){
+            //recorre toda la tabla
+            for (int i = 0; i < this.tabla.length; i++){
+                //si  en esa posicion hay un elemento
+                if (this.tabla[i] != null){
+                    NodoHashDicc aux = this.tabla[i];
+                    //recorre la lista hasta que no haya mas elementos
+                    while (aux != null){
+                        //inserta el elemento a la lista
+                        lista.insertar(aux.getInfo(), lista.longitud()+1);
+                        //busca el siguiente elemento de la lista
+                        aux = aux.getEnlace();
+                    }
+                }
+            }
+
+        }
+        return lista;
     }
 
     public boolean esVacio(){
