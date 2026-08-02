@@ -123,18 +123,19 @@ public class Lista {
     @Override
 
     public String toString(){
-        String resultado = "[";
+        StringBuilder resultado = new StringBuilder("[");
         if (this.cabecera != null){
             Nodo aux = this.cabecera;
             while (aux != null){
-                resultado += aux.getElem().toString();
+                resultado.append(aux.getElem().toString());
                 aux = aux.getEnlace();
                 if (aux != null){
-                    resultado += ",";
+                    resultado.append(",");
                 }
             }
         }
-        return resultado + "]";
+        resultado.append("]");
+        return resultado.toString();
     }
 
 }

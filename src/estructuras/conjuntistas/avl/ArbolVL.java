@@ -3,24 +3,21 @@ package estructuras.conjuntistas.avl;
 public class ArbolVL extends ArbolBB{
 
     @Override
-    public boolean insertar (Comparable elem) {
-        boolean exito = true;
-        if (this.raiz == null){
+    public boolean insertar(Comparable elem) {
+        boolean exito = false;
+        if (this.raiz == null) {
             this.raiz = new NodoAVL(elem);
-        } else {
-            NodoAVL rta = insertarAux((NodoAVL) this.raiz, elem);
-            if (rta != null){
-                this.raiz = rta;
-            } else {
-                exito = false;
-            }
+            exito = true;
+        } else if (encontrarNodo(elem, (NodoAVL) this.raiz) == null) {
+            this.raiz = insertarAux((NodoAVL) this.raiz, elem);
+            exito = true;
         }
         return exito;
     }
-    private NodoAVL insertarAux (NodoAVL n, Comparable elem) {
-        if ((elem.compareTo(n.getElem())) == 0) {
-            n = null; // repetido
-        } else if (elem.compareTo(n.getElem()) < 0) {
+
+    private NodoAVL insertarAux(NodoAVL n, Comparable elem) {
+        // precondicion: elem no está en el árbol entonces con el encontrar nodo lo aseguras
+        if (elem.compareTo(n.getElem()) < 0) {
             if (n.getIzquierdo() != null) {
                 NodoAVL hijo = insertarAux(n.getIzquierdo(), elem);
                 n.setIzquierdo(hijo);
@@ -28,17 +25,15 @@ public class ArbolVL extends ArbolBB{
                 n.setIzquierdo(new NodoAVL(elem));
             }
         } else {
-            if (n.getDerecho() != null){
+            if (n.getDerecho() != null) {
                 NodoAVL hijo = insertarAux(n.getDerecho(), elem);
                 n.setDerecho(hijo);
             } else {
                 n.setDerecho(new NodoAVL(elem));
             }
         }
-        if (n != null){
-            n.recalcularAltura();
-            n = balancear(n);
-        }
+        n.recalcularAltura();
+        n = balancear(n);
         return n;
     }
     private NodoAVL encontrarNodo (Comparable buscado, NodoAVL n) {

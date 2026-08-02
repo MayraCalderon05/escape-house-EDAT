@@ -49,11 +49,12 @@ public class DiccionarioEquipos {
         }
         return num;
     }
-    private int calcularPos(String clave){
+    private int calcularPos(Object clave){
         char caracter;
         int pos = 0;
-        for (int i = 0; i < clave.length(); i++){
-            caracter = clave.charAt(i);
+        String claveAux = (String) clave;
+        for (int i = 0; i < claveAux.length(); i++){
+            caracter = claveAux.charAt(i);
             pos += caracter;
         }
         pos = pos % this.numPrimo;
@@ -64,7 +65,7 @@ public class DiccionarioEquipos {
         //compruebo que el n no sea nulo porque CAPAZ justo en esa posicion no hay nada
         if (n != null){
             NodoHashDicc anterior = null;
-            while (n != null && !clave.equals(n.getNombreEquipo())){
+            while (n != null && !clave.equals(n.getClave())){
                 anterior = n;
                 n = n.getEnlace();
             }
@@ -143,8 +144,37 @@ public class DiccionarioEquipos {
         return this.cant == 0;
     }
 
+    private void clonarColisiones(DiccionarioEquipos copia, int i){
+        NodoHashDicc auxOriginal = this.tabla[i];
+        NodoHashDicc auxCopia = new NodoHashDicc(auxOriginal.getClave(), auxOriginal.getInfo(), null);
+        copia.tabla[i] = auxCopia;
+
+        auxOriginal = auxOriginal.getEnlace();
+
+        while (auxOriginal != null){
+            NodoHashDicc nuevo = new NodoHashDicc(auxOriginal.getClave(), auxOriginal.getInfo(), null);
+            auxCopia.setEnlace(nuevo);
+
+            auxOriginal = auxOriginal.getEnlace();
+            auxCopia = nuevo;
+        }
+    }
+    private void clonarArr(DiccionarioEquipos copia){
+
+        for (int i = 0; i < this.TAM; i++){
+            if (this.tabla[i] != null){
+                clonarColisiones(copia, i);
+            }
+        }
+    }
     public DiccionarioEquipos clone(){
         //may
+        DiccionarioEquipos copia = new DiccionarioEquipos(this.TAM);
+        if (this.cant > 0){
+            copia.cant = this.cant;
+            clonarArr(copia);
+        }
+        return copia;
     }
 
     public void vaciar(){
@@ -153,7 +183,43 @@ public class DiccionarioEquipos {
         }
     }
 
+    /* mi idea es
+    0:
+        obj1,
+        obj2
+    1:
+        / /
+    2:
+        obj3,
+        obj4,
+        obj5
+    */
+    private String toStringAux(NodoHashDicc n){
+        StringBuilder cadena = new StringBuilder();
+        while (n != null){
+            cadena.append(n.toString());
+            n = n.getEnlace();
+
+            if (n != null){
+                cadena.append(",\n   ");
+            }
+        }
+
+        return cadena.toString();
+    }
     public String toString(){
-        //may
+        StringBuilder res = new StringBuilder("[\n");
+        for (int i = 0; i < this.TAM; i++) {
+            res.append(i).append("\n   ");
+            NodoHashDicc actual = tabla[i];
+            if (actual != null){
+                res.append(toStringAux(actual));
+            } else {
+                res.append("//");
+            }
+            res.append("\n");
+        }
+        res.append("\n]");
+        return res.toString();
     }
 }

@@ -78,23 +78,24 @@ public class Cola {
     }
 
     public String toString(){
-        String res = "";
+        StringBuilder res = new StringBuilder();
         if(this.frente != null){
-            res = "[";
+            res.append("[");
             Nodo aux = this.frente;
             while (aux != null){
-                res += aux.getElem();
+                res.append(aux.getElem());
                 aux = aux.getEnlace();
                 if (aux != null){
-                    res += ",";
+                    res.append(",");
                 }
 
             }
 
         }else{
-            res = "[";
+            res.append("[");
         }
-        return res + "]";
+        res.append("]");
+        return res.toString();
     }
 
 
