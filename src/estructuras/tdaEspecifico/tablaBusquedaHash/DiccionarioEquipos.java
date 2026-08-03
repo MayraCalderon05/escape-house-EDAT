@@ -17,7 +17,7 @@ public class DiccionarioEquipos {
         this.numPrimo = calcularNumeroPrimo();
     }
 
-    public boolean insertar(String clave, Equipo info){
+    public boolean insertar(Object clave, Object info){
         //busco la posicion del elemento
         int pos = calcularPos(clave);
         //me posiciono en la tabla
@@ -75,7 +75,7 @@ public class DiccionarioEquipos {
         pos = pos % this.numPrimo;
         return pos;
     }
-    private boolean eliminarAux(String clave, NodoHashDicc n, int pos){
+    private boolean eliminarAux(Object clave, NodoHashDicc n, int pos){
         boolean exito = true;
         //compruebo que el n no sea nulo porque CAPAZ justo en esa posicion no hay nada
         if (n != null){
@@ -102,7 +102,7 @@ public class DiccionarioEquipos {
         return exito;
 
     }
-    public boolean eliminar(String clave){
+    public boolean eliminar(Object clave){
         //may
         boolean exito = false;
         if (this.cant > 0){
@@ -125,8 +125,8 @@ public class DiccionarioEquipos {
         NodoHashDicc aux = this.tabla[calcularPos(clave)];  //Busca el nodo cabecera en la tabla hash
         Object buscado = null;                              //Si no encuentra el nodo devuelve null
         while (aux != null){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
-            if(clave.equals(aux.getNombreEquipo())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
-                buscado = aux.getDato();                    //Si lo encuentra devuelve el dato (Equipo) del nodo encontrado
+            if(clave.equals(aux.getClave())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
+                buscado = aux.getInfo();                    //Si lo encuentra devuelve el dato (Equipo) del nodo encontrado
             }else{
                 aux = aux.getEnlace();                      //Pasa al siguiente nodo
             }
@@ -138,7 +138,7 @@ public class DiccionarioEquipos {
         NodoHashDicc aux = this.tabla[calcularPos(clave)];  //Busca el nodo cabecera en la tabla hash
         boolean encontrado = false;                         //Devuelve false si no encuentra un nodo con la clave
         while (aux != null){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
-            if(clave.equals(aux.getNombreEquipo())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
+            if(clave.equals(aux.getClave())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
                 encontrado = true;                          //Si lo encuentra devuelve true
             }else{
                 aux = aux.getEnlace();                      //Pasa al siguiente nodo
