@@ -3,7 +3,9 @@ package estructuras.tdaEspecifico.tablaBusquedaAVL;
 import estructuras.conjuntistas.avl.NodoAVL;
 
 public class NodoAVLDicc {
+    //la clave del desafío era el puntaje
     private Comparable clave;
+    //el desafio supongo yo
     private Object info;
     private int altura;
     private NodoAVLDicc hijoIzquierdo;
@@ -15,6 +17,14 @@ public class NodoAVLDicc {
         this.altura = 0;
         this.hijoIzquierdo = hijoIzquierdo;
         this.hijoDerecho = hijoIzquierdo;
+    }
+
+    public NodoAVLDicc(Comparable clave, Object info){
+        this.clave = clave;
+        this.info = info;
+        this.altura = 0;
+        this.hijoIzquierdo = null;
+        this.hijoDerecho = null;
     }
 
     //Observadores

@@ -31,13 +31,15 @@ public class Grafo {
         return insertado;
     }
 
-    private boolean eliminarArcosAux(NodoVert origen, Object destino){
+    NodoVert eliminarArcosAux(NodoVert origen, Object destino){
         boolean borrado = false;
         NodoAdy aux = origen.getPrimerAdy();
         NodoAdy anterior = null;
+        NodoVert vecinoAux = null;
 
         while (aux != null && !borrado){
             if (aux.getVertice().getElem().equals(destino)){
+                vecinoAux = aux.getVertice();
                 //si es el primer adyacente
                 if (anterior == null){
                     origen.setPrimerAdy(aux.getSigAdyacente());
@@ -53,7 +55,7 @@ public class Grafo {
             }
         }
 
-        return borrado;
+        return vecinoAux;
     }
     // ya casi lo tengo no me lo toquen que estoy por conectar las neuronas
     private void limpiarAdyacencias(Object vertice, NodoAdy n){
@@ -155,18 +157,24 @@ public class Grafo {
     //este modulo disuelve el arco de un solo lado
     private boolean disolverArco(Object origen, Object destino){
         boolean eliminado = false;
+        NodoVert aux;
         NodoVert origenNodo = ubicarVertice(origen);
         //si existe el vertice que busca
-        if (origen != null){
-            eliminado = eliminarArcosAux(origenNodo, destino);
+        if (origenNodo != null){
+            aux = eliminarArcosAux(origenNodo, destino);
+            if (aux != null) {
+                aux = eliminarArcosAux(aux, origen);
+                if (aux != null){
+                    eliminado = true;
+                }
+            }
         }
         return eliminado;
     }
     public boolean eliminarArco(Object origen, Object destino){
-        boolean eliminado = disolverArco(origen, destino);
-        if (eliminado) {
-            //por eso aca lo llamo 2 veces, porque el arco esta en ambas listas de adyacencia
-            eliminado = disolverArco(destino, origen);
+        boolean eliminado = false;
+        if (this.inicio != null){
+            eliminado = disolverArco(origen, destino);
         }
         return eliminado;
     }
