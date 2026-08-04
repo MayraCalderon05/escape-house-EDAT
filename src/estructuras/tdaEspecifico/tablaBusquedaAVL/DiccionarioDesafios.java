@@ -110,6 +110,10 @@ public class DiccionarioDesafios {
         StringBuilder res = new StringBuilder();
 
         if (n != null){
+            //primero el subárbol izquierdo
+            res.append(toStringAux(n.getHijoIzquierdo()));
+
+            //despues el nodo actual
             res.append("Padre: ").append(n.getInfo().toString()).append(System.lineSeparator());
 
             //hijo izq
@@ -132,7 +136,7 @@ public class DiccionarioDesafios {
             res.append(System.lineSeparator());
             res.append("------------------------").append(System.lineSeparator());
 
-            res.append(toStringAux(n.getHijoIzquierdo()));
+            //despues el subárbol derecho
             res.append(toStringAux(n.getHijoDerecho()));
         }
 
