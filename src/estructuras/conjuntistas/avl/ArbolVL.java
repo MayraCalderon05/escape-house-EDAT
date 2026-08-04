@@ -4,13 +4,13 @@ public class ArbolVL extends ArbolBB{
 
     @Override
     public boolean insertar(Comparable elem) {
-        boolean exito = false;
+        boolean exito = true;
         if (this.raiz == null) {
             this.raiz = new NodoAVL(elem);
-            exito = true;
         } else if (encontrarNodo(elem, (NodoAVL) this.raiz) == null) {
             this.raiz = insertarAux((NodoAVL) this.raiz, elem);
-            exito = true;
+        } else {
+            exito = false; //ya existe el elemento
         }
         return exito;
     }
