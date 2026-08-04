@@ -49,11 +49,12 @@ public class DiccionarioEquipos {
         }
         return num;
     }
-    private int calcularPos(String clave){
+    private int calcularPos(Object clave){
         char caracter;
         int pos = 0;
-        for (int i = 0; i < clave.length(); i++){
-            caracter = clave.charAt(i);
+        String claveAux = (String) clave;
+        for (int i = 0; i < claveAux.length(); i++){
+            caracter = claveAux.charAt(i);
             pos += caracter;
         }
         pos = pos % this.numPrimo;
@@ -64,7 +65,7 @@ public class DiccionarioEquipos {
         //compruebo que el n no sea nulo porque CAPAZ justo en esa posicion no hay nada
         if (n != null){
             NodoHashDicc anterior = null;
-            while (n != null && !clave.equals(n.getNombreEquipo())){
+            while (n != null && !clave.equals(n.getClave())){
                 anterior = n;
                 n = n.getEnlace();
             }
@@ -105,12 +106,30 @@ public class DiccionarioEquipos {
         return exito;
     }
 
-    public Equipo obtenerInfo(String clave){
-        //Sacha puto
+    public Object obtenerInfo(Object clave){
+        NodoHashDicc aux = this.tabla[calcularPos(clave)];  //Busca el nodo cabecera en la tabla hash
+        Object buscado = null;                              //Si no encuentra el nodo devuelve null
+        while (aux != null){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
+            if(clave.equals(aux.getNombreEquipo())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
+                buscado = aux.getDato();                    //Si lo encuentra devuelve el dato (Equipo) del nodo encontrado
+            }else{
+                aux = aux.getEnlace();                      //Pasa al siguiente nodo
+            }
+        }
+        return buscado;
     }
 
-    public boolean existeClave(String clave){
-        //sacha puto
+    public boolean existeClave(Object clave){
+        NodoHashDicc aux = this.tabla[calcularPos(clave)];  //Busca el nodo cabecera en la tabla hash
+        boolean encontrado = false;                         //Devuelve false si no encuentra un nodo con la clave
+        while (aux != null){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
+            if(clave.equals(aux.getNombreEquipo())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
+                encontrado = true;                          //Si lo encuentra devuelve true
+            }else{
+                aux = aux.getEnlace();                      //Pasa al siguiente nodo
+            }
+        }
+        return encontrado;
     }
 
     public Lista listarClaves(){
@@ -127,13 +146,13 @@ public class DiccionarioEquipos {
 
     private void clonarColisiones(DiccionarioEquipos copia, int i){
         NodoHashDicc auxOriginal = this.tabla[i];
-        NodoHashDicc auxCopia = new NodoHashDicc(auxOriginal.getNombreEquipo(), auxOriginal.getDato(), null);
+        NodoHashDicc auxCopia = new NodoHashDicc(auxOriginal.getClave(), auxOriginal.getInfo(), null);
         copia.tabla[i] = auxCopia;
 
         auxOriginal = auxOriginal.getEnlace();
 
         while (auxOriginal != null){
-            NodoHashDicc nuevo = new NodoHashDicc(auxOriginal.getNombreEquipo(), auxOriginal.getDato(), null);
+            NodoHashDicc nuevo = new NodoHashDicc(auxOriginal.getClave(), auxOriginal.getInfo(), null);
             auxCopia.setEnlace(nuevo);
 
             auxOriginal = auxOriginal.getEnlace();
@@ -188,7 +207,6 @@ public class DiccionarioEquipos {
 
         return cadena.toString();
     }
-
     public String toString(){
         StringBuilder res = new StringBuilder("[\n");
         for (int i = 0; i < this.TAM; i++) {
