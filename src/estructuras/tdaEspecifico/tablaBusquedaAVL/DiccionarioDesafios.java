@@ -97,8 +97,48 @@ public class DiccionarioDesafios {
     }
 
     public String toString(){
-        //may
+        StringBuilder res = new StringBuilder("[");
+
+        if (this.raiz != null){
+            res.append(System.lineSeparator()).append(toStringAux(this.raiz));
+        }
+        res.append("]");
+
+        return res.toString();
     }
+    private String toStringAux(NodoAVLDicc n){
+        StringBuilder res = new StringBuilder();
+
+        if (n != null){
+            res.append("Padre: ").append(n.getInfo().toString()).append(System.lineSeparator());
+
+            //hijo izq
+            res.append("Hijo izquierdo: ");
+            if (n.getHijoIzquierdo() != null){
+                res.append(n.getHijoIzquierdo().getInfo().toString());
+            } else {
+                res.append("nulo");
+            }
+            res.append(System.lineSeparator());
+
+            //hijo der
+            res.append("Hijo derecho: ");
+            if (n.getHijoDerecho() != null){
+                res.append(n.getHijoDerecho().getInfo().toString());
+            } else {
+                res.append("nulo");
+            }
+
+            res.append(System.lineSeparator());
+            res.append("------------------------").append(System.lineSeparator());
+
+            res.append(toStringAux(n.getHijoIzquierdo()));
+            res.append(toStringAux(n.getHijoDerecho()));
+        }
+
+        return res.toString();
+    }
+
 
     private int balance(NodoAVLDicc n){
         int balance;
