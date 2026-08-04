@@ -56,50 +56,56 @@ public class Grafo {
         return borrado;
     }
     // ya casi lo tengo no me lo toquen que estoy por conectar las neuronas
-    private void limpiarAdyacencias(Object vertice, NodoVert n){
-        //recorro la lista de adyacentes
+    private void limpiarAdyacencias(Object vertice, NodoAdy n){
+        //recorro la lista de adyacentes de 1 vertice
 
         while (n != null){
-            eliminarArcosAux(n, vertice);
-            n = n.getSigVertice();
+            eliminarArcosAux(n.getVertice(), vertice);
+            n = n.getSigAdyacente();
         }
 
     }
-    private boolean eliminarVerticeAux(Object vertice){
-        boolean eliminado = true;
-        if (this.inicio != null){
-            NodoVert nodo = this.inicio;
-            NodoVert anterior = null;
-            while (nodo != null && !nodo.getElem().equals(vertice)){
-                anterior = nodo;
-                nodo = nodo.getSigVertice();
-            }
 
-            //en ambos casos si setea con un nulo no pasa nada, podría ser el ultimo y el set igual mandaría un nulo
-            //si el anterior es nulo es porque el que encontró era el primero
-            if (anterior == null){
-                this.inicio = this.inicio.getSigVertice();
-            } else {
-                //si realmente encontró al nodo que estaba buscando
-                if (nodo != null){
-                    anterior.setSigVertice(nodo.getSigVertice());
-                } else {
-                    //si largo falso es porque el nodo era nulo entonces no lo encontró
-                    eliminado = false;
-                }
-            }
-        } else {
-            //no tiene vertices, no hace nada y tira falsp
-            eliminado = false;
+    private boolean eliminarVerticeAux(Object vertice){
+        NodoAdy adyacencias = null;
+        boolean eliminado = true;
+
+        NodoVert nodo = this.inicio;
+        NodoVert anterior = null;
+        while (nodo != null && !nodo.getElem().equals(vertice)){
+            anterior = nodo;
+            nodo = nodo.getSigVertice();
         }
+
+        //en ambos casos si setea con un nulo no pasa nada, podría ser el ultimo y el set igual mandaría un nulo
+        //si el anterior es nulo es porque el que encontró era el primero
+        if (anterior == null){
+            adyacencias = this.inicio.getPrimerAdy();
+            this.inicio = this.inicio.getSigVertice();
+        } else {
+            //si realmente encontró al nodo que estaba buscando
+            if (nodo != null){
+                adyacencias = nodo.getPrimerAdy();
+                anterior.setSigVertice(nodo.getSigVertice());
+            } else {
+                //si largo falso es porque el nodo era nulo entonces no lo encontró
+                eliminado = false;
+            }
+        }
+
+        if (adyacencias != null){
+            limpiarAdyacencias(vertice, adyacencias);
+        }
+
 
         return eliminado;
     }
     public boolean eliminarVertice(Object vertice){
-        boolean exito = eliminarVerticeAux(vertice);
-        if (exito){
-            limpiarAdyacencias(vertice, this.inicio);
+        boolean exito = false;
+        if (this.inicio != null){
+            exito = eliminarVerticeAux(vertice);
         }
+
         return exito;
     }
 

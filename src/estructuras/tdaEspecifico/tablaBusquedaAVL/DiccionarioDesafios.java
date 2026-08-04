@@ -13,6 +13,7 @@ public class DiccionarioDesafios {
     //metodos
     public boolean insertar(Comparable clave, Object info){
         //may
+
     }
 
     public boolean eliminar(Comparable clave){
