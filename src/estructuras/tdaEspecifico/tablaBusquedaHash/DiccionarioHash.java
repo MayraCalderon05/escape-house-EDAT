@@ -22,7 +22,7 @@ public class DiccionarioHash {
         //me posiciono en la tabla
         NodoHashDicc aux = tabla[pos];
         boolean encontrado = false;
-        //recorro la lista para comprobar que el elemento no existe en la tabla
+        //recorro la lista de esa posicion para comprobar que el elemento no existe en la tabla
         while (!encontrado && aux != null){
             encontrado = aux.getClave().equals(clave);
             aux = aux.getEnlace();
