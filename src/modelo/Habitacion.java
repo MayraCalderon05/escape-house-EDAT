@@ -60,7 +60,7 @@ public class Habitacion {
                 "Nombre: " + this.nombre + "\n"+
                 "Planta: " + this.planta + "\n"+
                 "Metros Cuadrados: " + this.metrosCuadrados + "\n"+
-                "Salida al exterior: " + this.nombre + "\n";
+                "Salida al exterior: " + rta + "\n";
     }
 
     public boolean equals(Habitacion habitacion) {

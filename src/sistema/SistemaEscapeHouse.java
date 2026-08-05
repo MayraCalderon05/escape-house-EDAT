@@ -70,7 +70,7 @@ public class SistemaEscapeHouse {
         //primero compruebo que la habitacion existe
         if (habitacion != null){
             //luego compruebo que no sea de salida ni de entrada
-            if (!habitacion.getSalidaAlExterior() && habitacionDeEntrada.getCodigo != codigoHabitacion){
+            if (!habitacion.getSalidaAlExterior() && entrada.getCodigo() != codigoHabitacion){
                 //luego recorro toda la lista de equipos para comprobar que no hay ningun equipo en esa habiracion
                 while (habitacion != null && !todosLosEquipos.esVacia()){
                     Equipo equipo = (Equipo) todosLosEquipos.recuperar(1);
