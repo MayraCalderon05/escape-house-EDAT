@@ -70,6 +70,70 @@ public class DiccionarioDesafios {
 
     public boolean eliminar(Comparable clave){
         //sacha
+        boolean exito = false;
+        if(this.raiz != null){
+            this.raiz = eliminarAux(this.raiz, clave);
+            exito = true;
+        }
+        return exito;
+    }
+    private NodoAVLDicc eliminarAux(NodoAVLDicc n, Comparable clave){
+        Comparable claveAux = n.getClave();
+        if (n != null){
+            if(claveAux.compareTo(clave) < 0){
+                n.setHijoIzquierdo(eliminarAux(n.getHijoIzquierdo(), clave));
+            } else if (claveAux.compareTo(clave) > 0) {
+                n.setHijoDerecho(eliminarAux(n.getHijoDerecho(), clave));
+            }else{
+                if(n.getHijoDerecho() == null && n.getHijoIzquierdo() == null){
+                    n = null;
+                }else if(n.getHijoIzquierdo() != null||n.getHijoDerecho() != null){
+                    n = eliminarCasoDos(n);
+                }else{
+                    n = eliminarCasoTres(n);
+                }
+
+                if(n != null){
+                    n.recalcularAltura();
+                    n = balancear(n);
+                }
+            }
+
+        }
+        return n;
+    }
+    private NodoAVLDicc eliminarCasoDos(NodoAVLDicc n){
+        NodoAVLDicc aux;
+        if(n.getHijoIzquierdo() != null){
+            aux = n.getHijoIzquierdo();
+        }else{
+            aux = n.getHijoDerecho();
+        }
+        return aux;
+    }
+    private NodoAVLDicc eliminarCasoTres(NodoAVLDicc n){
+        NodoAVLDicc candidato = mayorRamaIzquierda(n);
+        if(candidato.equals(n.getHijoIzquierdo())){
+            candidato.setHijoDerecho(n.getHijoDerecho());
+        }else {
+            candidato.setHijoDerecho(n.getHijoDerecho());
+            candidato.setHijoIzquierdo(n.getHijoIzquierdo());
+        }
+        return candidato;
+    }
+    private NodoAVLDicc mayorRamaIzquierda(NodoAVLDicc n){
+        NodoAVLDicc padre = n.getHijoIzquierdo();
+        NodoAVLDicc hijo = padre.getHijoDerecho();
+        if(hijo != null){
+            while(hijo.getHijoDerecho() != null){
+                padre = hijo;
+                hijo = hijo.getHijoDerecho();
+            }
+            padre.setHijoDerecho(null);
+        }else{
+            hijo = padre;
+        }
+        return hijo;
     }
 
     public Object obtenerInfo(Comparable clave){
