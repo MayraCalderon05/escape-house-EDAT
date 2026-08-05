@@ -32,6 +32,16 @@ public class SistemaEscapeHouse {
     // CRUD Equipos
 
     // consultas sobre habitaciones
+    public String mostrarHabitacion(int codigo){
+        Habitacion aux = (Habitacion) this.habitaciones.obtenerInfo(codigo);
+        return aux.toString();
+    }
+
+    public String minimoPuntaje(int cod1, int cod2){
+        Habitacion hab1 = (Habitacion) this.habitaciones.obtenerInfo(cod1);
+        Habitacion hab2 = (Habitacion) this.habitaciones.obtenerInfo(cod2);
+        return this.planoCasa.caminoMasCorto(hab1,hab2).toString() + "\n El puntaje requerido para pasar de la habitacion: "+hab1.getNombre()+" a la habitacion: "+hab2.getNombre()+ "es de: ";
+    }
 
     //consultas sobre desafíos
 
