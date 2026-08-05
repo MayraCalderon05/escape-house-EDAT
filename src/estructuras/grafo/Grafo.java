@@ -383,18 +383,27 @@ public class Grafo {
     public Lista listarEnAnchura(){
         Lista visitados = new Lista();
         NodoVert origen = this.inicio;
-
+        //si el grafo no esta vacio continua
         if(origen != null){
             Cola aux = new Cola();
             aux.poner(origen.getElem());
+            //inserta ya el primer nodo visitado
             visitados.insertar(origen.getElem(), visitados.longitud()+1);
+            //va a seguir listando hasta que la cola no este vacia
             while (!aux.esVacia()){
+                //obtiene el frente de la cola
                 NodoVert elem = (NodoVert) aux.obtenerFrente();
+                //lo saca de la cola
                 aux.sacar();
+                //busca el primer adyancente del nodo
                 NodoAdy ady = elem.getPrimerAdy();
+                //recorre mientras haya adyacentes
                 while (ady != null){
+                    //si no encontro ese nodo adyacente en la lista de visitados
                     if (visitados.localizar(ady.getVertice().getElem()) < 0){
+                        //lo agrega a la cola
                         aux.poner(ady.getVertice().getElem());
+                        //lo agrega a la lista de visitados
                         visitados.insertar(ady.getVertice().getElem(), visitados.longitud()+1);
                     }
                     ady = ady.getSigAdyacente();
