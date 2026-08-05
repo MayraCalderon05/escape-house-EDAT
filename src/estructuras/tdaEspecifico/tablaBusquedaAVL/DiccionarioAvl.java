@@ -71,6 +71,70 @@ public class DiccionarioAvl {
 
     public boolean eliminar(Comparable clave){
         //sacha
+        boolean exito = false;
+        if(this.raiz != null){
+            this.raiz = eliminarAux(this.raiz, clave);
+            exito = true;
+        }
+        return exito;
+    }
+    private NodoAVLDicc eliminarAux(NodoAVLDicc n, Comparable clave){
+        Comparable claveAux = n.getClave();
+        if (n != null){
+            if(claveAux.compareTo(clave) < 0){
+                n.setHijoIzquierdo(eliminarAux(n.getHijoIzquierdo(), clave));
+            } else if (claveAux.compareTo(clave) > 0) {
+                n.setHijoDerecho(eliminarAux(n.getHijoDerecho(), clave));
+            }else{
+                if(n.getHijoDerecho() == null && n.getHijoIzquierdo() == null){
+                    n = null;
+                }else if(n.getHijoIzquierdo() != null||n.getHijoDerecho() != null){
+                    n = eliminarCasoDos(n);
+                }else{
+                    n = eliminarCasoTres(n);
+                }
+
+                if(n != null){
+                    n.recalcularAltura();
+                    n = balancear(n);
+                }
+            }
+
+        }
+        return n;
+    }
+    private NodoAVLDicc eliminarCasoDos(NodoAVLDicc n){
+        NodoAVLDicc aux;
+        if(n.getHijoIzquierdo() != null){
+            aux = n.getHijoIzquierdo();
+        }else{
+            aux = n.getHijoDerecho();
+        }
+        return aux;
+    }
+    private NodoAVLDicc eliminarCasoTres(NodoAVLDicc n){
+        NodoAVLDicc candidato = mayorRamaIzquierda(n);
+        if(candidato.equals(n.getHijoIzquierdo())){
+            candidato.setHijoDerecho(n.getHijoDerecho());
+        }else {
+            candidato.setHijoDerecho(n.getHijoDerecho());
+            candidato.setHijoIzquierdo(n.getHijoIzquierdo());
+        }
+        return candidato;
+    }
+    private NodoAVLDicc mayorRamaIzquierda(NodoAVLDicc n){
+        NodoAVLDicc padre = n.getHijoIzquierdo();
+        NodoAVLDicc hijo = padre.getHijoDerecho();
+        if(hijo != null){
+            while(hijo.getHijoDerecho() != null){
+                padre = hijo;
+                hijo = hijo.getHijoDerecho();
+            }
+            padre.setHijoDerecho(null);
+        }else{
+            hijo = padre;
+        }
+        return hijo;
     }
 
     public Object obtenerInfo(Comparable clave){
@@ -85,10 +149,40 @@ public class DiccionarioAvl {
 
     public boolean existeClave(Comparable clave){
         //sacha
+        boolean existe = false;
+        if (this.raiz != null){
+            existe = buscarClave(this.raiz, clave);
+        }
+        return existe;
+    }
+    private boolean buscarClave(NodoAVLDicc n, Comparable clave) {
+        boolean existe = false;
+        if (n != null) {
+            if (clave.compareTo(n.getClave()) == 0) {       //Se compara la clave buscada con la del nodo
+                existe = true;                              //Si es igual termina de recorrer y devuelve true
+            }else{
+                if (clave.compareTo(n.getClave()) < 0) {
+                    existe = buscarClave(n.getHijoIzquierdo(), clave);  //Si la clave es menor a la clave del nodo, se llama recursivamente para recorrer el subarbol izquierdo
+                }else{
+                    existe = buscarClave(n.getHijoDerecho(), clave);    //Si la clave es mayor a la clave del nodo, se llama recursivamente para recorrer el subarbol derecho
+                }
+            }
+        }
+        return existe;
     }
 
     public Lista listarClaves(){
         //sacha
+        Lista lista = new Lista();
+        listarClavesAux(this.raiz, lista);
+        return lista;
+    }
+    private void listarClavesAux(NodoAVLDicc n, Lista lista) {
+        if(n != null){                                          //Se recorre el arbol avl en inorden para listar las claves en orden ascendente
+            listarClavesAux(n.getHijoIzquierdo(), lista);       //Se llama recursivamente al subarbol izquierdo
+            lista.insertar(n.getClave(), lista.longitud()+1);   //Cuando termine de recorrer los subarboles izquierdos, inserta en la lista
+            listarClavesAux(n.getHijoDerecho(), lista);         //Por ultimo, se llama recursivamente para recorrer el subarbol derecho en inorden
+        }
     }
 
     public Lista listarDatos(){
