@@ -1,6 +1,7 @@
 package estructuras.grafo;
 
 public class NodoVert {
+    //habitacion es elem
     private Object elem;
     private NodoVert sigVertice;
     private NodoAdy primerAdy;
