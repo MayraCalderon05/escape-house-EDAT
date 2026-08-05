@@ -28,16 +28,17 @@ public class DiccionarioAvl {
 
     public boolean insertar(Comparable clave, Object info){
         //may
-        boolean exito = false;
+        boolean exito = true;
         if (this.raiz == null){
             this.raiz = new NodoAVLDicc(clave, info);
-            exito = true;
         } else if (encontrarNodo(clave, this.raiz) == null){
             //el insertar cuando complete la inserción del nodo va a balancearse y devolver la raiz que quedo, por eso se setea
             this.raiz = insertarAux(this.raiz, clave, info);
+        } else {
+            exito = false;
+        }
 
-        };
-
+        return exito;
     }
     private NodoAVLDicc insertarAux(NodoAVLDicc n, Comparable clave, Object info){
         //se verifica que el desafio no exista previamente
@@ -77,27 +78,7 @@ public class DiccionarioAvl {
         //si la raiz es nula no busca nada
         if (this.raiz != null){
             //llama a un metodo recursivo para encontrar la info
-            info = buscarNodo(clave, this.raiz);
-        }
-        return info;
-    }
-
-    private Object buscarNodo(Comparable clave,  NodoAVLDicc n) {
-        Object info = null;
-        if (n != null) {
-            //si la clave es la misma devuelve la info del nodo
-            if (clave.compareTo(n.getClave()) == 0) {
-                info = n.getInfo();
-            }else {
-                //si no es igual la clave y es menor, busca al nodo por su hijo izq
-                if (clave.compareTo(n.getClave()) < 0) {
-                    buscarNodo(clave, n.getHijoIzquierdo());
-                }else {
-                    //si no es igual la clave y es mayor, busca al nodo por su hijo der
-                    buscarNodo(clave, n.getHijoDerecho());
-                }
-
-            }
+            info = (encontrarNodo(clave, this.raiz)).getInfo();
         }
         return info;
     }

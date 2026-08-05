@@ -57,9 +57,10 @@ public class Equipo {
     public void descontarPuntaje(int puntaje) {
         this.puntajeAcumulado -= puntaje;
     }
-    public void setHabitacionActual(Habitacion hab) {
+    public void cambiarHabitacionActual(Habitacion hab) {
         this.habitacionActual = hab;
     }
+
     public void acumularPuntajeEnHabitacion(int puntaje) {
         this.puntajeAcumuladoEnHabitacion += puntaje;
     }
