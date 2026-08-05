@@ -35,9 +35,9 @@ public class DiccionarioAvl {
         } else if (encontrarNodo(clave, this.raiz) == null){
             //el insertar cuando complete la inserción del nodo va a balancearse y devolver la raiz que quedo, por eso se setea
             this.raiz = insertarAux(this.raiz, clave, info);
-
-        };
-
+            exito = true;
+        }
+        return exito;
     }
     private NodoAVLDicc insertarAux(NodoAVLDicc n, Comparable clave, Object info){
         //se verifica que el desafio no exista previamente
@@ -168,10 +168,40 @@ public class DiccionarioAvl {
 
     public boolean existeClave(Comparable clave){
         //sacha
+        boolean existe = false;
+        if (this.raiz != null){
+            existe = buscarClave(this.raiz, clave);
+        }
+        return existe;
+    }
+    private boolean buscarClave(NodoAVLDicc n, Comparable clave) {
+        boolean existe = false;
+        if (n != null) {
+            if (clave.compareTo(n.getClave()) == 0) {       //Se compara la clave buscada con la del nodo
+                existe = true;                              //Si es igual termina de recorrer y devuelve true
+            }else{
+                if (clave.compareTo(n.getClave()) < 0) {
+                    existe = buscarClave(n.getHijoIzquierdo(), clave);  //Si la clave es menor a la clave del nodo, se llama recursivamente para recorrer el subarbol izquierdo
+                }else{
+                    existe = buscarClave(n.getHijoDerecho(), clave);    //Si la clave es mayor a la clave del nodo, se llama recursivamente para recorrer el subarbol derecho
+                }
+            }
+        }
+        return existe;
     }
 
     public Lista listarClaves(){
         //sacha
+        Lista lista = new Lista();
+        listarClavesAux(this.raiz, lista);
+        return lista;
+    }
+    private void listarClavesAux(NodoAVLDicc n, Lista lista) {
+        if(n != null){                                          //Se recorre el arbol avl en inorden para listar las claves en orden ascendente
+            listarClavesAux(n.getHijoIzquierdo(), lista);       //Se llama recursivamente al subarbol izquierdo
+            lista.insertar(n.getClave(), lista.longitud()+1);   //Cuando termine de recorrer los subarboles izquierdos, inserta en la lista
+            listarClavesAux(n.getHijoDerecho(), lista);         //Por ultimo, se llama recursivamente para recorrer el subarbol derecho en inorden
+        }
     }
 
     public Lista listarDatos(){
