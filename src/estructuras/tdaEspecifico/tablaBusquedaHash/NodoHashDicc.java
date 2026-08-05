@@ -1,6 +1,6 @@
 package estructuras.tdaEspecifico.tablaBusquedaHash;
 
-import tdaDominio.Equipo;
+import modelo.Equipo;
 
 public class NodoHashDicc {
     private Object clave;
