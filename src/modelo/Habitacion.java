@@ -12,11 +12,12 @@ public class Habitacion {
     private DiccionarioAvl desafios;
 
     //Constructores
-    public Habitacion(int codigo, String nombre, int planta, int metrosCuadrados) {
+    public Habitacion(int codigo, String nombre, int planta, int metrosCuadrados, boolean salidaAlExterior) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.planta = planta;
         this.metrosCuadrados = metrosCuadrados;
+        this.salidaAlExterior = salidaAlExterior;
         this.desafios = new DiccionarioAvl();
     }
 
@@ -33,7 +34,7 @@ public class Habitacion {
     public int getMetrosCuadrados() {
         return metrosCuadrados;
     }
-    public boolean isSalidaAlExterior() {
+    public boolean getSalidaAlExterior() {
         return salidaAlExterior;
     }
 
@@ -57,7 +58,7 @@ public class Habitacion {
                 "Nombre: " + this.nombre + "\n"+
                 "Planta: " + this.planta + "\n"+
                 "Metros Cuadrados: " + this.metrosCuadrados + "\n"+
-                "Salida al exterior: " + this.nombre + "\n";
+                "Salida al exterior: " + this.salidaAlExterior + "\n";
     }
 
     public boolean equals(Habitacion habitacion) {

@@ -91,10 +91,10 @@ public class DiccionarioAvl {
             }else {
                 //si no es igual la clave y es menor, busca al nodo por su hijo izq
                 if (clave.compareTo(n.getClave()) < 0) {
-                    buscarNodo(clave, n.getHijoIzquierdo());
+                    info = buscarNodo(clave, n.getHijoIzquierdo());
                 }else {
                     //si no es igual la clave y es mayor, busca al nodo por su hijo der
-                    buscarNodo(clave, n.getHijoDerecho());
+                    info = buscarNodo(clave, n.getHijoDerecho());
                 }
 
             }
