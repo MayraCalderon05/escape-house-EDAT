@@ -1,11 +1,11 @@
 package sistema;
 
+import estructuras.auxiliares.Vecino;
 import estructuras.grafo.Grafo;
 import estructuras.lineales.Lista;
 import estructuras.tdaEspecifico.tablaBusquedaAVL.DiccionarioAvl;
 import estructuras.tdaEspecifico.tablaBusquedaHash.DiccionarioHash;
 import modelo.*;
-import persistencia.*;
 
 import java.util.HashMap;
 
@@ -36,11 +36,11 @@ public class SistemaEscapeHouse {
         this.entrada = asignarPrimerHabitacion();
     }
 
+    //asignaciones principales
     //el metodo no puede ser static porque usa una variable de instancia
     private Habitacion asignarPrimerHabitacion(){
         return (Habitacion) this.habitaciones.obtenerInfo(0);
     }
-    //asignaciones principales
     private int calcularPuntajeExigido(int dificultad){
         int puntaje;
 
@@ -78,6 +78,9 @@ public class SistemaEscapeHouse {
     private Equipo obtenerEquipo(String nombre){
         return (Equipo) this.equipos.obtenerInfo(nombre);
     }
+    public String mostrarInfoEquipo(String nombre){
+        return (obtenerEquipo(nombre)).toString();
+    }
     //UPDATE
     public boolean actualizarEquipo(String nombre, int nuevaDificultad){
         boolean exito = false;
@@ -97,6 +100,36 @@ public class SistemaEscapeHouse {
 
 
     // consultas sobre habitaciones
+    public Lista habitacionesContiguas(int codigoHabitacion){
+
+        //lista que se va a devolver
+        Lista habitacionesConSusPuntajes = new Lista();
+        //nodos adyacentes de la habitación
+        Lista vecinos = planoCasa.obtenerVecinos(codigoHabitacion);
+        Habitacion habitacion;
+        int puntaje;
+
+
+        while (!vecinos.esVacia()){
+            StringBuilder info = new StringBuilder();
+
+            //voy recuperando la posición 1 para recuperar el nombre y codigo de la habitacion
+            Vecino adyacente = (Vecino) vecinos.recuperar(1);
+            habitacion = (Habitacion) adyacente.getElemento();
+            puntaje = adyacente.getEtiqueta();
+
+            info.append(habitacion.getCodigo()).append(" - ").append(habitacion.getNombre());
+            info.append(" (Se necesitan: ").append(puntaje).append(" puntos).");
+
+            //agrego la información a la lista
+            habitacionesConSusPuntajes.insertar(info.toString(), habitacionesConSusPuntajes.longitud()+1);
+            //saco el elemento de la lista original
+            vecinos.eliminar(1);
+        }
+
+        return habitacionesConSusPuntajes;
+
+    }
 
     //consultas sobre desafíos
 

@@ -53,11 +53,13 @@ public class Habitacion {
 
     //propios del tipo
     public String toString() {
+        String rta = "No";
+        if (this.salidaAlExterior) rta = "Si";
         return "Codigo: " + this.codigo + "\n"+
                 "Nombre: " + this.nombre + "\n"+
                 "Planta: " + this.planta + "\n"+
                 "Metros Cuadrados: " + this.metrosCuadrados + "\n"+
-                "Salida al exterior: " + this.nombre + "\n";
+                "Salida al exterior: " + rta + "\n";
     }
 
     public boolean equals(Habitacion habitacion) {

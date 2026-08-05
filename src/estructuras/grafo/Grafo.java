@@ -1,4 +1,5 @@
 package estructuras.grafo;
+import estructuras.auxiliares.Vecino;
 import estructuras.lineales.*;
 /// grafo etiquetado no dirigido
 //! si A--B entonces:
@@ -524,4 +525,24 @@ public class Grafo {
         return res.toString();
     }
 
+    //obtengo los adyacentes de un nodo con su respectiva etiqueta
+    public Lista obtenerVecinos(Object buscado) {
+        Lista vecinos = new Lista();
+        NodoVert buscadoNodo = ubicarVertice(buscado);
+
+        if (buscadoNodo != null) {
+            NodoAdy adyActual = buscadoNodo.getPrimerAdy();
+            //para que guarde el nodo - etiqueta
+            Vecino elemento;
+
+            while (adyActual != null) {
+                //guardo el elemento nodo y la etiqueta
+                elemento = new Vecino(adyActual.getVertice().getElem(), adyActual.getEtiqueta());
+                vecinos.insertar(elemento, vecinos.longitud()+1);
+
+                adyActual = adyActual.getSigAdyacente();
+            }
+        }
+        return vecinos;
+    }
 }
