@@ -255,6 +255,19 @@ public class Grafo {
         }
         return existe;
     }
+    public boolean existeCaminoSinPasarPor(Object origen, Object destino, Object nodo){
+        boolean existe = false;
+        NodoVert origenNodo;
+        if(!(nodo.equals(origen)) && !(nodo.equals(destino))){
+            origenNodo = existenNodos(origen, destino);
+            if (origenNodo != null) {
+                Lista visitados = new Lista();
+                visitados.insertar(nodo, 1);
+                existe = encontrarCamino(origenNodo, destino, visitados);
+            }
+        }
+        return existe;
+    }
 
     private Lista caminoCortoAux(Object origen, Object destino, Lista camino){
         Lista visitados = new Lista();

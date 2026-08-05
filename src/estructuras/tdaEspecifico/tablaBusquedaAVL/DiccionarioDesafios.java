@@ -114,10 +114,10 @@ public class DiccionarioDesafios {
             res.append(toStringAux(n.getHijoIzquierdo()));
 
             //despues el nodo actual
-            res.append("Padre: ").append(n.getInfo().toString()).append(System.lineSeparator());
+            res.append("1: ").append(n.getInfo().toString()).append(System.lineSeparator());
 
             //hijo izq
-            res.append("Hijo izquierdo: ");
+            res.append("1.1: ");
             if (n.getHijoIzquierdo() != null){
                 res.append(n.getHijoIzquierdo().getInfo().toString());
             } else {
@@ -126,7 +126,7 @@ public class DiccionarioDesafios {
             res.append(System.lineSeparator());
 
             //hijo der
-            res.append("Hijo derecho: ");
+            res.append("1.2: ");
             if (n.getHijoDerecho() != null){
                 res.append(n.getHijoDerecho().getInfo().toString());
             } else {
