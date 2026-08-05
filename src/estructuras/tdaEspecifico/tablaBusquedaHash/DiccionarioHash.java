@@ -1,16 +1,15 @@
 package estructuras.tdaEspecifico.tablaBusquedaHash;
 
 import estructuras.lineales.Lista;
-import tdaDominio.Equipo;
 
-public class DiccionarioEquipos {
+public class DiccionarioHash {
     private int TAM;
     private NodoHashDicc[] tabla;
     private int cant;
     //numero primo mas cercano al tamaño pero menor o igual a el
     private int numPrimo;
 
-    public DiccionarioEquipos(int tamanio){
+    public DiccionarioHash(int tamanio){
         this.TAM = tamanio;
         this.tabla = new NodoHashDicc[TAM];
         this.cant = 0;
@@ -191,7 +190,7 @@ public class DiccionarioEquipos {
         return this.cant == 0;
     }
 
-    private void clonarColisiones(DiccionarioEquipos copia, int i){
+    private void clonarColisiones(DiccionarioHash copia, int i){
         NodoHashDicc auxOriginal = this.tabla[i];
         NodoHashDicc auxCopia = new NodoHashDicc(auxOriginal.getClave(), auxOriginal.getInfo(), null);
         copia.tabla[i] = auxCopia;
@@ -206,7 +205,7 @@ public class DiccionarioEquipos {
             auxCopia = nuevo;
         }
     }
-    private void clonarArr(DiccionarioEquipos copia){
+    private void clonarArr(DiccionarioHash copia){
 
         for (int i = 0; i < this.TAM; i++){
             if (this.tabla[i] != null){
@@ -214,9 +213,9 @@ public class DiccionarioEquipos {
             }
         }
     }
-    public DiccionarioEquipos clone(){
+    public DiccionarioHash clone(){
         //may
-        DiccionarioEquipos copia = new DiccionarioEquipos(this.TAM);
+        DiccionarioHash copia = new DiccionarioHash(this.TAM);
         if (this.cant > 0){
             copia.cant = this.cant;
             clonarArr(copia);

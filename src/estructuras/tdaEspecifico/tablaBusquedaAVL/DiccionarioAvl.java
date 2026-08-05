@@ -2,11 +2,11 @@ package estructuras.tdaEspecifico.tablaBusquedaAVL;
 
 import estructuras.lineales.Lista;
 
-public class DiccionarioDesafios {
+public class DiccionarioAvl {
     private NodoAVLDicc raiz;
 
     //constructor
-    public DiccionarioDesafios(){
+    public DiccionarioAvl(){
         this.raiz = null;
     }
 
@@ -102,7 +102,7 @@ public class DiccionarioDesafios {
         return info;
     }
 
-    public boolean existeClave(Comparable clace){
+    public boolean existeClave(Comparable clave){
         //sacha
     }
 
@@ -130,8 +130,8 @@ public class DiccionarioDesafios {
         }
     }
 
-    public DiccionarioDesafios clone(){
-        DiccionarioDesafios clone = new DiccionarioDesafios();
+    public DiccionarioAvl clone(){
+        DiccionarioAvl clone = new DiccionarioAvl();
         //si el arbol original tiene raiz, hay algo que copiar
         if (this.raiz != null){
             //clona recursivamente todo el arbol a partir de la raiz

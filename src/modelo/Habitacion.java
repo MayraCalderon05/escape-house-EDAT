@@ -1,5 +1,7 @@
-package tdaDominio;
+package modelo;
 
+import estructuras.tdaEspecifico.tablaBusquedaAVL.DiccionarioAvl;
+//pendiente: CRUD de desafíos
 public class Habitacion {
 
     private int codigo;
@@ -7,6 +9,7 @@ public class Habitacion {
     private int planta;
     private int metrosCuadrados;
     private boolean salidaAlExterior;
+    private DiccionarioAvl desafios;
 
     //Constructores
     public Habitacion(int codigo, String nombre, int planta, int metrosCuadrados) {
@@ -14,6 +17,7 @@ public class Habitacion {
         this.nombre = nombre;
         this.planta = planta;
         this.metrosCuadrados = metrosCuadrados;
+        this.desafios = new DiccionarioAvl();
     }
 
     //Observadores
@@ -37,7 +41,6 @@ public class Habitacion {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     public void setPlanta(int planta) {
         this.planta = planta;
     }
