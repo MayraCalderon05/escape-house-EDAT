@@ -1,5 +1,6 @@
 package modelo;
 
+import estructuras.lineales.Lista;
 import estructuras.tdaEspecifico.tablaBusquedaAVL.DiccionarioAvl;
 //pendiente: CRUD de desafíos
 public class Habitacion {
@@ -113,6 +114,12 @@ public class Habitacion {
     }
     public Desafio getDesafio(int puntaje){
         return (Desafio) this.desafios.obtenerInfo(puntaje);
+    }
+    public Lista getListaClaves(){
+        return this.desafios.listarClaves();
+    }
+    public Lista getListaDatos(){
+        return this.desafios.listarDatos();
     }
     //Update
     public boolean cambiarNombreDesafio(int puntaje, String nombreDesafio) {
