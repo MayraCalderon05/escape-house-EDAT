@@ -299,6 +299,7 @@ public class SistemaEscapeHouse {
             vecinos = planoCasa.obtenerVecinos(hab);
 
         }
+        //devuelve habitacion - puntaje, es un par
         return vecinos;
     }
 
@@ -399,6 +400,45 @@ public class SistemaEscapeHouse {
             }
         }
         return exito;
+    }
+
+    public boolean cambiarDeHabitación(String nombreEquipo, int codigoHab){
+        boolean exito = false;
+        //verifico que exista el equipo
+        Equipo equipo = (Equipo) equipos.obtenerInfo(nombreEquipo);
+        if (equipo != null){
+            //verifico que exista la habitación
+            Habitacion habitacion = (Habitacion) habitaciones.obtenerInfo(codigoHab);
+
+            if (habitacion != null){
+                Lista posiblesHabitaciones = habitacionesContiguasAux(equipo.getHabitacionActual().getCodigo());
+
+                boolean encontrada = false;
+                //si la coleccion no esta vacia y encuentra la habitacion entre los adyacentes
+                while(!encontrada && !posiblesHabitaciones.esVacia()){
+                    ParAuxiliar elem = (ParAuxiliar) posiblesHabitaciones.recuperar(1);
+
+                    Habitacion actual = (Habitacion) elem.getElemento();
+                    if (habitacion.equals(actual)){
+                        encontrada = true;
+                        int puntaje = elem.getEtiqueta();
+
+                        //si el equipo tiene el suficiente puntaje
+                        if (equipo.getPuntajeAcumulado() >= puntaje){
+                            equipo.cambiarHabitacionActual(habitacion);
+                            equipo.reiniciarPuntajeEnHabitacion();
+                            exito = true;
+                        }
+
+
+                    } else {
+                        posiblesHabitaciones.eliminar(1);
+                    }
+                }
+            }
+        }
+        return exito;
+
     }
 
     //consultas generales

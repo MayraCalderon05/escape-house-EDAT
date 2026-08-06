@@ -502,12 +502,12 @@ public class Grafo {
             Lista nodosVisitados = new Lista();
             nodosVisitados.insertar(excluido, 1);
 
-            caminoSinPasarPorConEtiquetaMenorAAux(origen, fin, excluido, valorMaxEtiqueta, 0, nodosVisitados, caminos);
+            caminoSinPasarPorConEtiquetaMenorAAux(origen, fin, valorMaxEtiqueta, 0, nodosVisitados, caminos);
         }
         return caminos;
     }
 
-    private void caminoSinPasarPorConEtiquetaMenorAAux(NodoVert inicio, Object fin, Object excluido, int puntajeMax, int valorEtiquetaAcumulado, Lista visitados, Lista guardados){
+    private void caminoSinPasarPorConEtiquetaMenorAAux(NodoVert inicio, Object fin, int etiquetaLimite, int valorEtiquetaAcumulado, Lista visitados, Lista guardados){
 
         if (inicio != null){
             //si estoy parada en el nodo, es un nodo visitado
@@ -529,13 +529,13 @@ public class Grafo {
             } else {
                 //si no lo encontré
                 NodoAdy aux = inicio.getPrimerAdy();
-                while (aux != null && valorEtiquetaAcumulado <= puntajeMax){
+                while (aux != null && valorEtiquetaAcumulado <= etiquetaLimite){
                     int proxPuntaje = valorEtiquetaAcumulado+ aux.getEtiqueta();
 
                     //si aux no ha sido visitado y su puntaje alcanza para seguir
-                    if (((visitados.localizar(aux.getVertice().getElem())) < 0) && (proxPuntaje <= puntajeMax)){
+                    if (((visitados.localizar(aux.getVertice().getElem())) < 0) && (proxPuntaje <= etiquetaLimite)){
 
-                        caminoSinPasarPorConEtiquetaMenorAAux(aux.getVertice(), fin, excluido, puntajeMax, proxPuntaje, visitados, guardados);
+                        caminoSinPasarPorConEtiquetaMenorAAux(aux.getVertice(), fin, etiquetaLimite, proxPuntaje, visitados, guardados);
                         //cuando termina el llamado recursivo, sigue con el proximo adyacente, me garantiza que cuando retroceda, siga por otro lado
 
                     }
