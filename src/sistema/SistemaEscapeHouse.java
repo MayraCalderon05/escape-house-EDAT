@@ -171,7 +171,7 @@ public class SistemaEscapeHouse {
         return cadena != null && !cadena.isEmpty();
     }
     private boolean verificarCodigo(int codigo){
-        return codigo > 0 && codigo <= this.cantHabitaciones;
+        return codigo > 0 && codigo <= this.numHabitacion;
     }
     //Create
     public boolean agregarDesafio(int codigoHab, int puntaje, String nombre, String tipo) {
