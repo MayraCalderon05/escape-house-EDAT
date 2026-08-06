@@ -319,12 +319,14 @@ public class SistemaEscapeHouse {
             if(habitacion != null){
                 desafio = habitacion.getDesafio(puntaje);
                 if(desafio != null){
-                    equipo.acumularPuntaje(puntaje);
-                    equipo.acumularPuntajeEnHabitacion(puntaje);
                     aux = this.desafiosResueltosPorEquipo.get(nombreEquipo);
-                    aux.insertar(desafio, aux.longitud()+1);
-                    this.desafiosResueltosPorEquipo.put(nombreEquipo,aux);
-                    exito = true;
+                    if(aux.localizar(desafio)<0) {
+                        equipo.acumularPuntaje(puntaje);
+                        equipo.acumularPuntajeEnHabitacion(puntaje);
+                        aux.insertar(desafio, aux.longitud() + 1);
+                        this.desafiosResueltosPorEquipo.put(nombreEquipo, aux);
+                        exito = true;
+                    }
                 }
             }
         }
