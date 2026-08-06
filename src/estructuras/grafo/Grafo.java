@@ -1,5 +1,5 @@
 package estructuras.grafo;
-import estructuras.auxiliares.Vecino;
+import estructuras.auxiliares.ParAuxiliar;
 import estructuras.lineales.*;
 /// grafo etiquetado no dirigido
 //! si A--B entonces:
@@ -519,7 +519,7 @@ public class Grafo {
                 Lista copia = visitados.clone();
                 //pero elimino el primer nodo que era el excluido
                 copia.eliminar(1);
-                Vecino elem = new Vecino(copia, valorEtiquetaAcumulado);
+                ParAuxiliar elem = new ParAuxiliar(copia, valorEtiquetaAcumulado);
                 //guardo esa copia
                 guardados.insertar(elem, guardados.longitud()+1);
 
@@ -656,11 +656,11 @@ public class Grafo {
         if (buscadoNodo != null) {
             NodoAdy adyActual = buscadoNodo.getPrimerAdy();
             //para que guarde el nodo - etiqueta
-            Vecino elemento;
+            ParAuxiliar elemento;
 
             while (adyActual != null) {
                 //guardo el elemento nodo y la etiqueta
-                elemento = new Vecino(adyActual.getVertice().getElem(), adyActual.getEtiqueta());
+                elemento = new ParAuxiliar(adyActual.getVertice().getElem(), adyActual.getEtiqueta());
                 vecinos.insertar(elemento, vecinos.longitud()+1);
 
                 adyActual = adyActual.getSigAdyacente();

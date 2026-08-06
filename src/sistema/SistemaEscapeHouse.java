@@ -1,6 +1,6 @@
 package sistema;
 
-import estructuras.auxiliares.Vecino;
+import estructuras.auxiliares.ParAuxiliar;
 import estructuras.grafo.Grafo;
 import estructuras.lineales.Lista;
 import estructuras.tdaEspecifico.tablaBusquedaAVL.DiccionarioAvl;
@@ -279,7 +279,7 @@ public class SistemaEscapeHouse {
                 StringBuilder info = new StringBuilder();
 
                 //voy recuperando la posición 1 para recuperar el nombre y codigo de la habitacion
-                Vecino adyacente = (Vecino) vecinos.recuperar(1);
+                ParAuxiliar adyacente = (ParAuxiliar) vecinos.recuperar(1);
                 habitacion = (Habitacion) adyacente.getElemento();
                 puntaje = adyacente.getEtiqueta();
 
@@ -302,7 +302,7 @@ public class SistemaEscapeHouse {
 
         //por cada elemento "vecino"
         while (!l.esVacia()){
-            Vecino elem = (Vecino) l.recuperar(1);
+            ParAuxiliar elem = (ParAuxiliar) l.recuperar(1);
             Lista camino = (Lista) elem.getElemento();
             StringBuilder resVecino = new StringBuilder("Puntaje alcanzado con el siguiente camino: ");
             resVecino.append(elem.getEtiqueta()).append(System.lineSeparator());
@@ -349,6 +349,7 @@ public class SistemaEscapeHouse {
         }
         return resueltos;
     }
+
 
     //consultas sobre equipos
     public boolean jugarDesafio(String nombreEquipo, int codigoHab, int puntaje){
