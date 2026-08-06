@@ -18,6 +18,7 @@ public class SistemaEscapeHouse {
     private final Habitacion entrada;
     //el primer tipo de parametro corresponde a la clave del equipo
     private HashMap<String, Lista> desafiosResueltosPorEquipo;
+    private int numHabitacion;
 
     //definicion de puntajes como reglas para nuestro juego
     private static int PUNTAJE_FACIL = 200;
@@ -61,7 +62,7 @@ public class SistemaEscapeHouse {
 
     //CRUD Habitaciones
 
-    private Habitacion esPosibleModificar(int codigoHabitacion){
+    private Habitacion validarHabitacionEditable(int codigoHabitacion){
         //recupero la lista de todos los equipos en el juego
         Lista todosLosEquipos = this.equipos.listarDatos();
         //obtengo el objeto Habitacion a partir de su clave
@@ -70,7 +71,7 @@ public class SistemaEscapeHouse {
         //primero compruebo que la habitacion existe
         if (habitacion != null){
             //luego compruebo que no sea de salida ni de entrada
-            if (!habitacion.getSalidaAlExterior() && habitacionDeEntrada.getCodigo != codigoHabitacion){
+            if (!habitacion.getSalidaAlExterior() && entrada.getCodigo() != codigoHabitacion){
                 //luego recorro toda la lista de equipos para comprobar que no hay ningun equipo en esa habiracion
                 while (habitacion != null && !todosLosEquipos.esVacia()){
                     Equipo equipo = (Equipo) todosLosEquipos.recuperar(1);
@@ -85,14 +86,64 @@ public class SistemaEscapeHouse {
             }
         }
 
-
         return habitacion;
     }
 
+    //CREAD
+    public boolean crearHabitacion( String nombre, int planta, int metrosCuadrados){
+            boolean exito = false;
+            numHabitacion = numHabitacion + 1;
+            Habitacion nuevaHabitacion = new Habitacion(numHabitacion, nombre, planta, metrosCuadrados);
+            boolean insertoDicc = habitaciones.insertar(numHabitacion, nuevaHabitacion);
+            boolean insertoGrafo = planoCasa.insertarVertice(nuevaHabitacion);
+            exito = insertoGrafo && insertoDicc;
+
+            return exito;
+    }
+
+    //READ
+    public Habitacion obtenerHabitacion(int codigoHabitacion){
+        return (Habitacion)  this.habitaciones.obtenerInfo(codigoHabitacion);
+    }
+
+    //UPDATE
+    public boolean actualizarNombreHab(int codigoHabitacion, String nuevoNombre){
+        //busco el objeto de habitacion y valido si se puede editar
+        Habitacion hab =  validarHabitacionEditable(codigoHabitacion);
+        boolean exito = false;
+        //si no es nula, se puede editar
+        if (hab != null){
+            hab.setNombre(nuevoNombre);
+            exito = true;
+        }
+        return exito;
+    }
+
+    public boolean actualizarPlantaHab(int codigoHabitacion, int nuevaPlanta){
+        Habitacion hab =  validarHabitacionEditable(codigoHabitacion);
+        boolean exito = false;
+        if (hab != null){
+            hab.setPlanta(nuevaPlanta);
+            exito = true;
+        }
+        return exito;
+    }
+
+    public boolean actualizarMtsCuadrHab(int codigoHabitacion, int nuevosMts){
+        Habitacion hab =  validarHabitacionEditable(codigoHabitacion);
+        boolean exito = false;
+        if (hab != null){
+            hab.setMetrosCuadrados(nuevosMts);
+            exito = true;
+        }
+        return exito;
+    }
+
+    //DELETE
     public boolean eliminarHabitacion(int codigoHabitacion) {
         boolean exito = false;
         //obtengo el objeto Habitacion
-        Habitacion habitacion = esPosibleModificar(codigoHabitacion);
+        Habitacion habitacion = validarHabitacionEditable(codigoHabitacion);
         //si la habitacion es distinta de null, quiere decir que es posible eliminar la habitacion;
         if (habitacion != null){
             //elimino la habitacion del diccionario
@@ -104,9 +155,8 @@ public class SistemaEscapeHouse {
             return exito;
     }
 
-    public boolean ModificarHabitacion(int codigoHabitacion, Habitacion aux){
 
-    }
+
 
     //CRUD Desafíos
 
