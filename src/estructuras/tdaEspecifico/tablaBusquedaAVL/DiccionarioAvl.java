@@ -193,7 +193,7 @@ public class DiccionarioAvl {
     }
 
     private void listarAux(NodoAVLDicc n, Lista lista){
-        //si el nodo no es nulo, es decir tiene algo que listar
+        //si el nodo no es nulo, es decir tiene alg que listar
         if (n != null) {
             //como el listado para que quede ordenado es en inorden
             //primero llama recursivamente a su subarbol izquierdo
