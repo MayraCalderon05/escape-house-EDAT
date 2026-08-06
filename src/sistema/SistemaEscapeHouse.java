@@ -31,6 +31,7 @@ public class SistemaEscapeHouse {
         this.habitaciones = new DiccionarioAvl();
         this.equipos = new DiccionarioHash(17);
         this.desafiosResueltosPorEquipo = new HashMap<>();
+
         //* PENDIENTE  cargar las habitaciones, plano y desafíos antes de asignar la primera habitación
 
 
@@ -171,25 +172,42 @@ public class SistemaEscapeHouse {
         return cadena != null && !cadena.isEmpty();
     }
     private boolean verificarCodigo(int codigo){
-        return codigo >= 0 && codigo <= 25;
+        return codigo > 0 && codigo <= this.numHabitacion;
     }
     //Create
-    public String agregarDesafio(int codigoHab, int puntaje, String nombre, String tipo) {
-        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+    public boolean agregarDesafio(int codigoHab, int puntaje, String nombre, String tipo) {
+        boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(nombre)&&verificarString(tipo)) {
+            Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
+            if (habitacion != null) {
+                exito = habitacion.agregarDesafio(puntaje, nombre, tipo);
+            }
+        }
+        return exito;
+    }
+    //Read
+    public String listarPuntajesDesafios(int codigoHab){
+        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+        if(verificarCodigo(codigoHab)){
             cadena = "Habitacion no encontrada";
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
-                if (habitacion.agregarDesafio(puntaje, nombre, tipo)) {
-                    cadena = "Desafio agregado correctamente";
-                } else {
-                    cadena = "No se ha podido agregar el desafio";
-                }
+                cadena = habitacion.getListaClaves().toString();
             }
         }
         return cadena;
     }
-    //Read
+    public String listarDesafios(int codigoHab){
+        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+        if(verificarCodigo(codigoHab)){
+            cadena = "Habitacion no encontrada";
+            Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
+            if (habitacion != null) {
+                cadena = habitacion.getListaDatos().toString();
+            }
+        }
+        return cadena;
+    }
     public String obtenerNombreDesafio(int codigoHab, int puntaje){
         String cadena = "Los datos ingresados no cumplen con el formato deseado";
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)) {
@@ -213,51 +231,36 @@ public class SistemaEscapeHouse {
         return cadena;
     }
     //Update
-    public String cambiarNombreDesafio(int codigoHab, int puntaje, String nombreDesafio) {
-        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+    public boolean cambiarNombreDesafio(int codigoHab, int puntaje, String nombreDesafio) {
+        boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(nombreDesafio)) {
-            cadena = "Habitacion no encontrada";
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
-                if (habitacion.cambiarNombreDesafio(puntaje, nombreDesafio)) {
-                    cadena = "Se ha cambiado exitosamente el nombre del desafio";
-                } else {
-                    cadena = "No se ha podido cambiar el nombre del desafio";
-                }
+                exito = habitacion.cambiarNombreDesafio(puntaje, nombreDesafio);
             }
         }
-        return cadena;
+        return exito;
     }
-    public String cambiarTipoDesafio(int codigoHab, int puntaje, String tipoDesafio) {
-        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+    public boolean cambiarTipoDesafio(int codigoHab, int puntaje, String tipoDesafio) {
+        boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(tipoDesafio)) {
-            cadena = "Habitacion no encontrada";
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
-                if (habitacion.cambiarTipoDesafio(puntaje, tipoDesafio)) {
-                    cadena = "Se ha cambiado exitosamente el tipo del desafio";
-                } else {
-                    cadena = "No se ha podido cambiar el tipo del desafio";
-                }
+                exito = habitacion.cambiarTipoDesafio(puntaje, tipoDesafio);
             }
         }
-        return cadena;
+        return exito;
     }
     //Delete
-    public String sacarDesafio(int codigoHab, int puntaje) {
-        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+    public boolean sacarDesafio(int codigoHab, int puntaje) {
+        boolean exito = false;
         if (verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)) {
-            cadena = "Habitacion no encontrada";
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
-                if (habitacion.sacarDesafio(puntaje)) {
-                    cadena = "Se ha sacado exitosamente el desafio";
-                }else{
-                    cadena = "No se ha podido sacar el desafio";
-                }
+                exito = habitacion.sacarDesafio(puntaje);
             }
         }
-        return cadena;
+        return exito;
     }
 
     // CRUD Equipos
@@ -435,8 +438,10 @@ public class SistemaEscapeHouse {
     public String mostrarDesafiosResueltos(String nombreEquipo){
         String resueltos = "Equipo no encontrado";
         Equipo buscado = (Equipo) this.equipos.obtenerInfo(nombreEquipo);
+        Lista aux;
         if(buscado != null){
-            //resueltos = buscado.listarDesafios().toString();
+            aux = this.desafiosResueltosPorEquipo.get(nombreEquipo);
+            resueltos = aux.toString();
         }
         return resueltos;
     }
@@ -502,12 +507,14 @@ public class SistemaEscapeHouse {
             if(habitacion != null){
                 desafio = habitacion.getDesafio(puntaje);
                 if(desafio != null){
-                    equipo.acumularPuntaje(puntaje);
-                    equipo.acumularPuntajeEnHabitacion(puntaje);
                     aux = this.desafiosResueltosPorEquipo.get(nombreEquipo);
-                    aux.insertar(desafio, aux.longitud()+1);
-                    this.desafiosResueltosPorEquipo.put(nombreEquipo,aux);
-                    exito = true;
+                    if(aux.localizar(desafio)<0) {
+                        equipo.acumularPuntaje(puntaje);
+                        equipo.acumularPuntajeEnHabitacion(puntaje);
+                        aux.insertar(desafio, aux.longitud() + 1);
+                        this.desafiosResueltosPorEquipo.put(nombreEquipo, aux);
+                        exito = true;
+                    }
                 }
             }
         }
@@ -558,20 +565,54 @@ public class SistemaEscapeHouse {
         }
         return par;
     }
-    public Lista posiblesDesafios(String nombreEquipo, int numHabitacion){
-        Lista desafios = new Lista();
 
+    public StringBuilder posiblesDesafios(String nombreEquipo, int numHabitacion){
+        StringBuilder resultado = new StringBuilder();
         Equipo equipo =  (Equipo) this.equipos.obtenerInfo(nombreEquipo);
+        //me fijo que el equipo exista
         if (equipo != null){
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(numHabitacion);
+            //me fijo que la habitacion exista
             if (habitacion != null){
+                //recupero la habitacion donde esta el equipo
                 Habitacion habitacionActual = equipo.getHabitacionActual();
-                    if (planoCasa.existeArco(habitacion, habitacionActual)){
-                        //int puntosNecesarios
+                //recupero una lista de los adyacentes a esa habitacion
+                Lista vecinos = habitacionesContiguasAux(habitacionActual.getCodigo());
+                //luego busco si la habitacion enviada por parametro esta en la lista de adyacentes
+                ParAuxiliar par = buscarParPorHabitacion(vecinos, habitacion);
+                //si el par no es nulo la habitacion es adyacente y si es nulo no es adyacente
+                if (par != null){
+                    //recupera los puntos para pasar a la habitacion
+                    int puntosNecesarios = par.getEtiqueta();
+                    //recupera los desafios de esa habitacion
+                    Lista desafiosHab = habitacionActual.getDesafios().listarDatos();
+                    Desafio desafioActual;
+                    //recorre hasta que el avl esta vacio
+                    while (!desafiosHab.esVacia()){
+                        //recupera el desafio actual
+                        desafioActual = (Desafio) desafiosHab.recuperar(1);
+                        //si los puntos del desafio actual son mayores o iguales a los puntos que le falta
+                        //al equipo para pasar a la habitacion, se agrega al resultado
+                        if ((desafioActual.getPuntaje() + equipo.getPuntajeAcumulado()) >= puntosNecesarios){
+                            resultado.append(desafioActual.toString()).append("\n");
+                        }
+                        desafiosHab.eliminar(1);
                     }
+
+                    if (resultado.length() == 0){
+                        resultado.append("No se encontraron posibles resultados");
+                    }
+                }else {
+                    resultado.append("La habitacion no es adyacente");
+                }
+            }else {
+                resultado.append("No se encontraron posibles resultados");
             }
+        }else {
+            resultado.append("No se encontraron posibles resultados");
         }
 
+        return resultado;
     }
 
     public boolean puedeSalir(String nombreEquipo){

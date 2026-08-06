@@ -29,6 +29,13 @@ public class Equipo {
         this.habitacionActual = actual;
         this.puntajeAcumuladoEnHabitacion = 0;
     }
+    public Equipo(String nombre, int puntParaSalir, int puntAcum, Habitacion habActual, int puntActual){
+        this.nombreEquipo = nombre;
+        this.puntajeParaSalida = puntParaSalir;
+        this.puntajeAcumulado = puntAcum;
+        this.habitacionActual = habActual;
+        this.puntajeAcumuladoEnHabitacion = puntActual;
+    }
 
     //getters
     public String getNombreEquipo() {
