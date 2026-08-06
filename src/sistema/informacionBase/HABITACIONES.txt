@@ -1,0 +1,25 @@
+H;11;Despensa;0;8;false
+H;8;Quincho;0;22;false
+H;9;Bodega;-1;15;false
+H;17;Biblioteca;0;24;false
+H;19;Baño;0;6;true
+H;24;Escalera secreta;-1;5;false
+H;20;Dormitorio principal;0;20;false
+H;23;Dormitorio de huespedes;0;18;false
+H;13;Sala de Juego;0;18;true
+H;12;Deposito;0;12;false
+H;3;Cochera;0;30;false
+H;7;Lavadero;0;10;false
+H;5;Invernadero;0;20;false
+H;4;Jardin;0;50;true
+H;10;Comedor;0;20;false
+H;18;Sotano;-1;35;false
+H;14;Gimnasio;0;25;false
+H;1;Recibidor;0;14;false
+H;16;Oficina;0;16;false
+H;6;Cocina;0;18;false
+H;22;Sala de Musica;0;16;true
+H;2;Natatorio;-1;40;true
+H;21;Pasillo;0;10;false
+H;15;Sala de Estar;0;22;false
+H;25;Altillo;1;20;false

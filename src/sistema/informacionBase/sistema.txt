@@ -1,0 +1,639 @@
+Habitaciones
+H;11;Despensa;0;8;false
+H;8;Quincho;0;22;false
+H;9;Bodega;-1;15;false
+H;17;Biblioteca;0;24;false
+H;19;Baño;0;6;true
+H;24;Escalera secreta;-1;5;false
+H;20;Dormitorio principal;0;20;false
+H;23;Dormitorio de huespedes;0;18;false
+H;13;Sala de Juego;0;18;true
+H;12;Deposito;0;12;false
+H;3;Cochera;0;30;false
+H;7;Lavadero;0;10;false
+H;5;Invernadero;0;20;false
+H;4;Jardin;0;50;true
+H;10;Comedor;0;20;false
+H;18;Sotano;-1;35;false
+H;14;Gimnasio;0;25;false
+H;1;Recibidor;0;14;false
+H;16;Oficina;0;16;false
+H;6;Cocina;0;18;false
+H;22;Sala de Musica;0;16;true
+H;2;Natatorio;-1;40;true
+H;21;Pasillo;0;10;false
+H;15;Sala de Estar;0;22;false
+H;25;Altillo;1;20;false
+
+
+Equipos
+E;Los Bytes;200;170;6;30
+E;Los Algoritmos;400;280;10;20
+E;Root Squad;600;510;17;60
+E;Los Vectores;200;310;14;10
+E;Binary Kings;400;360;8;40
+E;Los Pixeles;200;60;21;0
+E;Los Compiladores;600;470;18;80
+E;Matriz Cuadrada;400;220;15;15
+E;Los Fractales;600;580;9;20
+E;Ctrl Z;200;40;1;40
+E;Los Bugs;400;310;7;10
+E;Pi Team;600;320;24;50
+
+Puertas del grafo
+P:14;2;50
+P:14;3;100
+P:3;6;60
+P:4;5;70
+P:4;8;150
+P:6;7;50
+P:6;10;70
+P:6;11;70
+P:7;8;130
+P:7;12;100
+P:8;9;140
+P:9;18;150
+P:11;12;80
+P:10;1;50
+P:10;15;60
+P:1;15;50
+P:1;21;50
+P:15;19;50
+P:15;16;100
+P:16;17;200
+P:19;20;50
+P:21;20;70
+P:21;23;60
+P:17;22;80
+P:17;24;120
+P:22;23;80
+P:18;13;300
+P:18;25;200
+P:18;24;150
+
+
+Desafios
+D;5;1;El juicio final;Logico
+D;10;1;El reloj roto;Matematico
+D;15;1;El objeto invisible;Adivinanza
+D;20;1;Mensaje al reves;Cifrado
+D;100;1;El codigo binario;Matematico
+D;25;1;Receta desordenada;Secuenciacion
+D;95;1;Dos verdades y una mentira;Logico
+D;30;1;El problema del granjero;Ingenio
+D;90;1;El rio y los animales;Ingenio
+D;85;1;Receta desordenada;Secuenciacion
+D;80;1;El codigo binario oculto;Cifrado
+D;75;1;El objeto invisible;Adivinanza
+D;70;1;La combinacion del cajon;Matematico
+D;35;1;Dos verdades y una mentira;Logico
+D;65;1;El primer indicio;Logico
+D;40;1;La ultima cifra;Matematico
+D;60;1;El rio y los animales;Ingenio
+D;45;1;La llave sin cerradura;Adivinanza
+D;55;1;La cronologia perdida;Secuenciacion
+D;50;1;Mensaje al reves;Cifrado
+
+
+D;5;2;La coartada;Logico
+D;10;2;Cuenta rapida;Matematico
+D;15;2;La llave sin cerradura;Adivinanza
+D;20;2;Cesar basico;Cifrado
+D;85;2;Los pasos del ritual;Secuenciacion
+D;90;2;El puente y la linterna;Ingenio
+D;95;2;Pistas cruzadas;Logico
+D;100;2;La combinacion del cajon;Matematico
+D;25;2;El plano de la mansion;Secuenciacion
+D;30;2;Las tres cajas;Ingenio
+D;80;2;Vigenere express;Cifrado
+D;70;2;El cedigo binario;Matematico
+D;75;2;Acertijo del viajero;Adivinanza
+D;35;2;El primer indicio;Logico
+D;65;2;El primer indicio;Logico
+D;40;2;La suma imposible;Matematico
+D;60;2;El rio y los animales;Ingenio
+D;45;2;La llave sin cerradura;Adivinanza
+D;55;2;Antes y despues;Secuenciacion
+D;50;2;El codigo binario oculto;Cifrado
+
+
+D;85;3;El orden de las llaves;Secuenciacion
+D;90;3;El problema del granjero;Ingenio
+D;95;3;La coartada;Logico
+D;100;3;La ultima cifra;Matematico
+D;5;3;El culpable oculto;Logico
+D;80;3;Morse escondido;Cifrado
+D;25;3;Receta desordenada;Secuenciacion
+D;75;3;La llave sin cerradura;Adivinanza
+D;30;3;Las tres cajas;Ingenio
+D;35;3;El culpable oculto;Logico
+D;40;3;Ecuacion de la cerradura;Matematico
+D;50;3;Cesar basico;Cifrado
+D;55;3;La cronologia perdida;Secuenciacion
+D;60;3;La balanza;Ingenio
+D;65;3;El culpable oculto;Logico
+D;70;3;Cuenta rapida;Matematico
+D;45;3;El secreto de la casa;Adivinanza
+D;10;3;La formula perdida;Matematico
+D;15;3;El espejo que no refleja;Adivinanza
+D;20;3;Sustitucion simple;Cifrado
+
+
+D;5;4;El interrogatorio;Logico
+D;10;4;La suma imposible;Matematico
+D;15;4;La voz sin cuerpo;Adivinanza
+D;20;4;El mensaje del fundador;Cifrado
+D;80;4;Vigenere express;Cifrado
+D;75;4;La voz sin cuerpo;Adivinanza
+D;70;4;La ultima cifra;Matematico
+D;65;4;El interrogatorio;Logico
+D;45;4;Sombra en la pared;Adivinanza
+D;50;4;El mensaje en espejo;Cifrado
+D;55;4;El arbol genealogico;Secuenciacion
+D;60;4;El problema del granjero;Ingenio
+D;85;4;El recorrido del mayordomo;Secuenciacion
+D;25;4;El arbol genealogico;Secuenciacion
+D;30;4;El rio y los animales;Ingenio
+D;90;4;La balanza;Ingenio
+D;35;4;Los tres sospechosos;Logico
+D;100;4;El codigo binario;Matematico
+D;95;4;Dos verdades y una mentira;Logico
+D;40;4;Ecuacion de la cerradura;Matematico
+
+
+D;100;5;La formula perdida;Matematico
+D;95;5,Dos verdades y una mentira;Logico
+D;90;5;La balanza;Ingenio
+D;85;5;El orden de las llaves;Secuenciacion
+D;5;5;La coartada;Logico
+D;10;5;El reloj roto;Matematico
+D;15;5;El secreto de la casa;Adivinanza
+D;20;5;Sustitucion simple;Cifrado
+D;25;5;El orden de las llaves;Secuenciacion
+D;80;5;El mensaje en espejo;Cifrado
+D;75;5;La voz sin cuerpo;Adivinanza
+D;30;5;El acertijo del carcelero;Ingenio
+D;35;5;El primer indicio;Logico
+D;70;5;La suma imposible;Matematico
+D;65;5;El juicio final;Logico
+D;40;5;La combinacion del cajon;Matematico
+D;45;5;El espejo que no refleja;Adivinanza
+D;50;5;El mensaje en espejo;Cifrado
+D;55;5;El ultimo recorrido;Secuenciacion
+D;60;5;La sala de espejos;Ingenio
+
+
+D;5;6;El interrogatorio;Logico
+D;10;6;La combinacion del cajon;Matematico
+D;15;6;¿Que sere?;Adivinanza
+D;20;6;Vigenere express;Cifrado
+D;100;6;El reloj roto;Matematico
+D;95;6;El testamento;Logico
+D;90;6;El rio y los animales;Ingenio
+D;85;6;Antes y despues;Secuenciacion
+D;25;6;El recorrido del mayordomo;Secuenciacion
+D;80;6;La clave rotada;Cifrado
+D;30;6;Los sombreros de colores;Ingenio
+D;75;6;Sombra en la pared;Adivinanza
+D;35;6;El testamento;Logico
+D;70;6;La suma imposible;Matematico
+D;40;6;El numero secreto;Matematico
+D;65;6;Los tres sospechosos;Logico
+D;45;6;El secreto de la casa;Adivinanza
+D;50;6;Mensaje al reves;Cifrado
+D;60;6;La sala de espejos;Ingenio
+D;55;6;El orden de las llaves;Secuenciacion
+
+
+D;100;7;La combinacion del cajon;Matematico
+D;95;7;Los tres sospechosos;Logico
+D;90;7;El rio y los animales;Ingenio
+D;85;7;Los pasos del ritual;Secuenciacion
+D;5;7;La cena de los cuatro;Logico
+D;10;7;El numero secreto;Matematico
+D;80;7;El mensaje del fundador;Cifrado
+D;15;7;El objeto invisible;Adivinanza
+D;20;7;La clave rotada;Cifrado
+D;25;7;Receta desordenada;Secuenciacion
+D;30;7;El puente y la linterna;Ingenio
+D;35;7;El interrogatorio;Logico
+D;40;7;El numero secreto;Matematico
+D;75;7;El objeto invisible;Adivinanza
+D;70;7;La formula perdida;Matematico
+D;65;7;Pistas cruzadas;Logico
+D;45;7;El espejo que no refleja;Adivinanza
+D;50;7;Vigenere express;Cifrado
+D;60;7;El acertijo del carcelero;Ingenio
+D;55;7;Linea de tiempo;Secuenciacion
+
+
+D;5;8;Los tres sospechosos;Logico
+D;10;8;El reloj roto;Matematico
+D;15;8;El acertijo del fantasma;Adivinanza
+D;20;8;Morse escondido;Cifrado
+D;25;8;Antes y despues;Secuenciacion
+D;100;8;El codigo binario;Matematico
+D;95;8;Los tres sospechosos;Logico
+D;90;8;La sala de espejos;Ingenio
+D;85;8;El recorrido del mayordomo;Secuenciacion
+D;30;8;Los sombreros de colores;Ingenio
+D;80;8;El mensaje en espejo;Cifrado
+D;35;8;El culpable oculto;Logico
+D;75;8;El secreto de la casa;Adivinanza
+D;40;8;El reloj roto;Matematico
+D;75;8;El secreto de la casa;Adivinanza
+D;45;8;El enigma del atico;Adivinanza
+D;70;8;El codigo binario;Matematico
+D;50;8;Vigenere express;Cifrado
+D;55;8;Antes y despues;Secuenciacion
+D;60;8;El puente y la linterna;Ingenio
+D;65;8;La coartada;Logico
+
+
+D;5;9;El culpable oculto;Logico
+D;10;9;Cuenta rapida;Matematico
+D;100;9;La suma imposible;Matematico
+D;95;9;El juicio final;Logico
+D;15;9;La voz sin cuerpo;Adivinanza
+D;20;9;El alfabeto invertido;Cifrado
+D;90;9;La balanza;Ingenio
+D;85;9;Linea de tiempo;Secuenciacion
+D;25;9;Los pasos del ritual;Secuenciacion
+D;30;9;El acertijo del carcelero;Ingenio
+D;35;9;La coartada;Logico
+D;80;9;La clave rotada;Cifrado
+D;75;9;El acertijo del fantasma;Adivinanza
+D;70;9;La combinacion del cajon;Matematico
+D;40;9;El numero secreto;Matematico
+D;65;9;La cena de los cuatro;Logico
+D;45;9;Sombra en la pared;Adivinanza
+D;60;9;Truco visual;Ingenio
+D;50;9;La clave rotada;Cifrado
+D;55;9;Los pasos del ritual;Secuenciacion
+
+
+D;15;10;¿Que sere?;Adivinanza
+D;10;10;La combinacion del cajon;Matematico
+D;5;10;El primer indicio;Logico
+D;45;10;La llave sin cerradura;Adivinanza
+D;35;10;Dos verdades y una mentira;Logico
+D;40;10;La ultima cifra;Matematico
+D;20;10;El mensaje en espejo;Cifrado
+D;25;10;Linea de tiempo;Secuenciacion
+D;30;10;El problema del granjero;Ingenio
+D;50;10;Mensaje al reves;Cifrado
+D;60;10;El rio y los animales;Ingenio
+D;55;10;Receta desordenada;Secuenciacion
+D;65;10;El culpable oculto;Logico
+D;70;10;La formula perdida;Matematico
+D;75;10;¿Que sere?;Adivinanza
+D;80;10;Vigenere express;Cifrado
+D;85;10;Antes y despues;Secuenciacion
+D;90;10;El problema del granjero;Ingenio
+D;95;10;Pistas cruzadas;Logico
+D;100;10;Ecuacion de la cerradura;Matematico
+
+
+D;20;11;La clave rotada;Cifrado
+D;25;11;El orden de las llaves;Secuenciacion
+D;30;11;Los sombreros de colores;Ingenio
+D;15;11;La voz sin cuerpo;Adivinanza
+D;10;11;La combinacion del cajon;Matematico
+D;5;11;Dos verdades y una mentira;Logico
+D;50;11;Cesar basico;Cifrado
+D;60;11;Las monedas falsas;Ingenio
+D;55;11;El ultimo recorrido;Secuenciacion
+D;45;11;Acertijo del viajero;Adivinanza
+D;35;11;El testamento;Logico
+D;40;11;La combinacion del cajon;Matematico
+D;65;11;El interrogatorio;Logico
+D;70;11;El reloj roto;Matematico
+D;75;11;El espejo que no refleja;Adivinanza
+D;80;11,Mensaje al reves;Cifrado
+D;85;11,El plano de la mansion;Secuenciacion
+D;90;11;El problema del granjero;Ingenio
+D;95;11;El juicio final;Logico
+D;100;11;El reloj roto;Matematico
+
+
+D;45;12;Acertijo del viajero;Adivinanza
+D;35;12;Pistas cruzadas;Logico
+D;40;12;La ultima cifra;Matematico
+D;15;12;El espejo que no refleja;Adivinanza
+D;10;12;Cuenta rapida;Matematico
+D;5;12;Pistas cruzadas;Logico
+D;50;12;El mensaje del fundador;Cifrado
+D;60;12;El problema del granjero;Ingenio
+D;55;12;El plano de la mansion;Secuenciacion
+D;20;12;Vigenere express;Cifrado
+D;25;12;Receta desordenada;Secuenciacion
+D;30;12;Las monedas falsas;Ingenio
+D;65;12;Pistas cruzadas;Logico
+D;70;12;El codigo binario;Matematico
+D;75;12;El secreto de la casa;Adivinanza
+D;80;12;Morse escondido;Cifrado
+D;85;12;El recorrido del mayordomo;Secuenciacion
+D;90;12;El rio y los animales;Ingenio
+D;95;12;La cena de los cuatro;Logico
+D;100;12;El numero secreto;Matematico
+
+
+D;15;13;El espejo que no refleja;Adivinanza
+D;10;13;Ecuacion de la cerradura;Matematico
+D;5;13;La cena de los cuatro;Logico
+D;50;13;Vigenere express;Cifrado
+D;60;13;Las tres cajas;Ingenio
+D;55;13;El plano de la mansion;Secuenciacion
+D;20;13;La clave rotada;Cifrado
+D;25;13;El ultimo recorrido;Secuenciacion
+D;30;13;Truco visual;Ingenio
+D;45;13;La voz sin cuerpo;Adivinanza
+D;35;13;El primer indicio;Logico
+D;40;13;La formula perdida;Matematico
+D;65;13;El juicio final;Logico
+D;70;13;La balanza dorada;Matematico
+D;75;13;El secreto de la casa;Adivinanza
+D;80;13;El mensaje del fundador;Cifrado
+D;85;13;Receta desordenada;Secuenciacion
+D;90;13;El rio y los animales;Ingenio
+D;95;13;Dos verdades y una mentira;Logico
+D;100;13;Ecuacion de la cerradura;Matematico
+
+
+D;45;14;La voz sin cuerpo;Adivinanza
+D;35;14;El culpable oculto;Logico
+D;40;14;Cuenta rapida;Matematico
+D;20;14;Morse escondido;Cifrado
+D;25;14;El orden de las llaves;Secuenciacion
+D;30;14;Las tres cajas;Ingenio
+D;15;14;El secreto de la casa;Adivinanza
+D;10;14;Ecuacion de la cerradura;Matematico
+D;5;14;El interrogatorio;Logico
+D;50;14;El mensaje del fundador;Cifrado
+D;60;14;La balanza;Ingenio
+D;55;14;Receta desordenada;Secuenciacion
+D;65;14;La coartada;Logico
+D;70;14;Ecuacion de la cerradura;Matematico
+D;75;14;La voz sin cuerpo;Adivinanza
+D;80;14;Sustitucion simple;Cifrado
+D;85;14;Los pasos del ritual;Secuenciacion
+D;90;14;La sala de espejos;Ingenio
+D;95;14;Dos verdades y una mentira;Logico
+D;100;14;El numero secreto;Matematico
+
+
+D;15;15;Sombra en la pared;Adivinanza
+D;10;15;El numero secreto;Matematico
+D;5;15;El interrogatorio;Logico
+D;45;15;La llave sin cerradura;Adivinanza
+D;35;15;El primer indicio;Logico
+D;40;15;El reloj roto;Matematico
+D;50;15;La clave rotada;Cifrado
+D;60;15;Las tres cajas;Ingenio
+D;55;15;Linea de tiempo;Secuenciacion
+D;20;15;Sustitucion simple;Cifrado
+D;25;15;Linea de tiempo;Secuenciacion
+D;30;15;El puente y la linterna;Ingenio
+D;65;15;El culpable oculto;Logico
+D;70;15;La balanza dorada;Matematico
+D;75;15;El secreto de la casa;Adivinanza
+D;80;15;Sustitucion simple;Cifrado
+D;85;15;La cronologia perdida;Secuenciacion
+D;90;15;El problema del granjero;Ingenio
+D;95;15;Los tres sospechosos;Logico
+D;100;15;Cuenta rapida;Matematico
+
+
+D;20;16;Sustitucion simple;Cifrado
+D;25;16;Los pasos del ritual;Secuenciacion
+D;30;16;El rio y los animales;Ingenio
+D;45;16;El enigma del atico;Adivinanza
+D;35;16;La cena de los cuatro;Logico
+D;40;16;Cuenta rapida;Matematico
+D;15;16;El espejo que no refleja;Adivinanza
+D;10;16;La combinacion del cajon;Matematico
+D;5;16;El primer indicio;Logico
+D;50;16;Morse escondido;Cifrado
+D;60;16;El problema del granjero;Ingenio
+D;55;16;El arbol genealogico;Secuenciacion
+D;65;16;La cena de los cuatro;Logico
+D;70;16;La suma imposible;Matematico
+D;75;16;El secreto de la casa;Adivinanza
+D;80;16;Vigenere express;Cifrado
+D;85;16;La cronologia perdida;Secuenciacion
+D;90;16;El acertijo del carcelero;Ingenio
+D;95;16;Los tres sospechosos;Logico
+D;100;16;Cuenta rapida;Matematico
+
+
+D;15;17;La llave sin cerradura;Adivinanza
+D;10;17;La balanza dorada;Matematico
+D;5;17;El juicio final;Logico
+D;50;17;El alfabeto invertido;Cifrado
+D;60;17;Truco visual;Ingenio
+D;55;17;La cronologia perdida;Secuenciacion
+D;45;17;Acertijo del viajero;Adivinanza
+D;35;17;Los tres sospechosos;Logico
+D;40;17;El codigo binario;Matematico
+D;20;17;El alfabeto invertido;Cifrado
+D;25;17;Los pasos del ritual;Secuenciacion
+D;30;17;El problema del granjero;Ingenio
+D;65;17;El interrogatorio;Logico
+D;70;17;El reloj roto;Matematico
+D;75;17;La llave sin cerradura;Adivinanza
+D;80;17;Mensaje al reves;Cifrado
+D;85;17;Linea de tiempo;Secuenciacion
+D;90;17;El puente y la linterna;Ingenio
+D;95;17;Los tres sospechosos;Logico
+D;100;17;La balanza dorada;Matematico
+
+
+D;45;18;La voz sin cuerpo;Adivinanza
+D;35;18;Pistas cruzadas;Logico
+D;40;18;El codigo binario;Matematico
+D;20;18;Mensaje al reves;Cifrado
+D;25;18;El ultimo recorrido;Secuenciacion
+D;30;18;El problema del granjero;Ingenio
+D;50;18;Cesar basico;Cifrado
+D;60;18;Truco visual;Ingenio
+D;55;18;La cronologia perdida;Secuenciacion
+D;15;18;El espejo que no refleja;Adivinanza
+D;10;18;La combinacion del cajon;Matematico
+D;5;18;El culpable oculto;Logico
+D;65;18;La cena de los cuatro;Logico
+D;70;18;Ecuacion de la cerradura;Matematico
+D;75;18;El enigma del atico;Adivinanza
+D;80;18;Mensaje al reves;Cifrado
+D;85;18;Receta desordenada;Secuenciacion
+D;90;18;El problema del granjero;Ingenio
+D;95;18;El interrogatorio;Logico
+D;100;18;El codigo binario;Matematico
+
+
+D;15;19;La voz sin cuerpo;Adivinanza
+D;10;19;La combinacion del cajon;Matematico
+D;5;19;El primer indicio;Logico
+D;45;19;El acertijo del fantasma;Adivinanza
+D;35;19;El culpable oculto;Logico
+D;40;19;El codigo binario;Matematico
+D;20;19;El mensaje del fundador;Cifrado
+D;25;19;El recorrido del mayordomo;Secuenciacion
+D;30;19;El problema del granjero;Ingenio
+D;50;19;Vigenere express;Cifrado
+D;60;19;El problema del granjero;Ingenio
+D;55;19;El orden de las llaves;Secuenciacion
+D;65;19;Pistas cruzadas;Logico
+D;70;19;La balanza dorada;Matematico
+D;75;19;El espejo que no refleja;Adivinanza
+D;80;19;Morse escondido;Cifrado
+D;85;19;La cronologia perdida;Secuenciacion
+D;90;19;Las monedas falsas;Ingenio
+D;95;19;Pistas cruzadas;Logico
+D;100;19;Ecuacion de la cerradura;Matematico
+
+
+D;20;20;Cesar basico;Cifrado
+D;25;20;Los pasos del ritual;Secuenciacion
+D;30;20;Los sombreros de colores;Ingenio
+D;15;20;El objeto invisible;Adivinanza
+D;10;20;El reloj roto;Matematico
+D;5;20;El interrogatorio;Logico
+D;50;20;El codigo binario oculto;Cifrado
+D;60;20;El rio y los animales;Ingenio
+D;55;20;Receta desordenada;Secuenciacion
+D;45;20;El acertijo del fantasma;Adivinanza
+D;35;20;El juicio final;Logico
+D;40;20;La combinacion del cajon;Matematico
+D;65;20;El testamento;Logico
+D;70;20;La combinacion del cajon;Matematico
+D;75;20;Acertijo del viajero;Adivinanza
+D;80;20;El mensaje del fundador;Cifrado
+D;85;20;Linea de tiempo;Secuenciacion
+D;90;20;Las monedas falsas;Ingenio
+D;95;20;Los tres sospechosos;Logico
+D;100;20;La balanza dorada;Matematico
+
+
+D;45;21;El espejo que no refleja;Adivinanza
+D;35;21;Los tres sospechosos;Logico
+D;40;21;El numero secreto;Matematico
+D;15;21;El objeto invisible;Adivinanza
+D;10;21;La combinacion del cajon;Matematico
+D;5;21;La cena de los cuatro;Logico
+D;20;21;La clave rotada;Cifrado
+D;25;21;El ultimo recorrido;Secuenciacion
+D;30;21;El rio y los animales;Ingenio
+D;50;21;El codigo binario oculto;Cifrado
+D;60;21;El acertijo del carcelero;Ingenio
+D;55;21;El ultimo recorrido;Secuenciacion
+D;65;21;La cena de los cuatro;Logico
+D;70;21;La ultima cifra;Matematico
+D;75;21;El secreto de la casa;Adivinanza
+D;80;21;Cesar basico;Cifrado
+D;85;21;El ultimo recorrido;Secuenciacion
+D;90;21;Truco visual;Ingenio
+D;95;21;El juicio final;Logico
+D;100;21;El codigo binario;Matematico
+
+
+D;15;22;¿Que sere?;Adivinanza
+D;10;22;La balanza dorada;Matematico
+D;5;22;El interrogatorio;Logico
+D;20;22;El codigo binario oculto;Cifrado
+D;25;22;El ultimo recorrido;Secuenciacion
+D;30;22;El problema del granjero;Ingenio
+D;50;22;Cesar basico;Cifrado
+D;60;22;El rio y los animales;Ingenio
+D;55;22;Receta desordenada;Secuenciacion
+D;45;22;El espejo que no refleja;Adivinanza
+D;35;22;El culpable oculto;Logico
+D;40;22;La formula perdida;Matematico
+D;65;22;Dos verdades y una mentira;Logico
+D;70;22;La combinacion del cajon;Matematico
+D;75;22;El enigma del atico;Adivinanza
+D;80;22;Vigenere express;Cifrado
+D;85;22;Antes y despues;Secuenciacion
+D;90;22;El puente y la linterna;Ingenio
+D;95;22;El testamento;Logico
+D;100;22;El reloj roto;Matematico
+
+
+D;45;23;El secreto de la casa;Adivinanza
+D;35;23;El culpable oculto;Logico
+D;40;23;La balanza dorada;Matematico
+D;50;23;Cesar basico;Cifrado
+D;60;Truco visual;Ingenio
+D;55;23;El arbol genealogico;Secuenciacion
+D;15;23;El objeto invisible;Adivinanza
+D;10;23;La formula perdida;Matematico
+D;5;23;La coartada;Logico
+D;20;23;Sustitucion simple;Cifrado
+D;25;23;La cronologia perdida;Secuenciacion
+D;30;23;El problema del granjero;Ingenio
+D;65;23;Los tres sospechosos;Logico
+D;70;23;El numero secreto;Matematico
+D;75;23;Sombra en la pared;Adivinanza
+D;80;23;Vigenere express;Cifrado
+D;85;23;Antes y despues;Secuenciacion
+D;90;23;La balanza;Ingenio
+D;95;23;El testamento;Logico
+D;100;23;La combinacion del cajon;Matematico
+
+
+D;15;24;Sombra en la pared;Adivinanza
+D;10;24;Ecuacion de la cerradura;Matematico
+D;5;24;El culpable oculto;Logico
+D;45;24;El espejo que no refleja;Adivinanza
+D;35;24;El primer indicio;Logico
+D;40;24;La ultima cifra;Matematico
+D;20;24;Vigenere express;Cifrado
+D;25;24;Receta desordenada;Secuenciacion
+D;30;24;Los sombreros de colores;Ingenio
+D;50;24;El codigo binario oculto;Cifrado
+D;60;24;Las tres cajas;Ingenio
+D;55;24;El arbol genealogico;Secuenciacion
+D;65;24;Los tres sospechosos;Logico
+D;70;24;Cuenta rapida;Matematico
+D;75;24;El espejo que no refleja;Adivinanza
+D;80;24;Morse escondido;Cifrado
+D;85;24;Receta desordenada;Secuenciacion
+D;90;24;El puente y la linterna;Ingenio
+D;95;24;El testamento;Logico
+D;100;24;Cuenta rapida;Matematico
+
+
+D;20;25;Vigenere express;Cifrado
+D;25;25;La cronologia perdida;Secuenciacion
+D;30;25;El rio y los animales;Ingenio
+D;45;25;El espejo que no refleja;Adivinanza
+D;35;25;El testamento;Logico
+D;40;25;La balanza dorada;Matematico
+D;15;25;El enigma del atico;Adivinanza
+D;10;25;Ecuacion de la cerradura;Matematico
+D;5;25;Los tres sospechosos;Logico
+D;50;25;Sustitucion simple;Cifrado
+D;60;25;La sala de espejos;Ingenio
+D;55;25;El arbol genealogico;Secuenciacion
+D;65;25;El primer indicio;Logico
+D;70;25;La formula perdida;Matematico
+D;75;25;¿Que sere?;Adivinanza
+D;80;25;Mensaje al reves;Cifrado
+D;85;25;Antes y despues;Secuenciacion
+D;90;25;El problema del granjero;Ingenio
+D;95;25;Pistas cruzadas;Logico
+D;100;25;Ecuacion de la cerradura;Matematico
+
+Desafios resueltos por equipo
+L;Los Bytes;(1:65,5)(10:45,25)(6:25,5)
+L;Los Algoritmos;(1:70)(10:20)
+L;Root Squad;(1:50)(21:60)(23:80)(22:80)(17:60)
+L;Los Vectores;(1:70)(10:70)(6:60)(3:100)(14:10)
+L;Binary Kings;(1:70)(10:70)(6:50)(7:70,60)(8:40)
+L;Los Pixeles;(1:30,20)
+L;Los Compiladores;(1:50)(21:60)(23:80)(22:80)(17:65,55)(18:80)
+L;Matriz Cuadrada;(1:35,15)(15:15)
+L;Los Fractales;(1:45,25)(10:70)(6:50)(7:70,60)(8:75,65)(9:20)
+L;Ctrl Z;(1:40)
+L;Los Bugs;(1:60,10)(10:40,30)(6:30,20)(7:10)
+L;Pi Team;(1:50)(21:60)(23:80)(22:80)(24:50)
+
