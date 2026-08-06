@@ -2,14 +2,14 @@ package modelo;
 
 public class Desafio {
     private int puntaje;
-    private String tipo;
     private String nombre;
+    private String tipo;
 
     //Constructores
-    public Desafio(int puntaje, String tipo, String nombre) {
+    public Desafio(int puntaje, String nombre, String tipo) {
         this.puntaje = puntaje;
-        this.tipo = tipo;
         this.nombre = nombre;
+        this.tipo = tipo;
     }
     public Desafio(int puntaje) {
         this.puntaje = puntaje;
