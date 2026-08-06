@@ -1,5 +1,5 @@
 package estructuras.grafo;
-import estructuras.auxiliares.Vecino;
+import estructuras.auxiliares.ParAuxiliar;
 import estructuras.lineales.*;
 /// grafo etiquetado no dirigido
 //! si A--B entonces:
@@ -58,7 +58,7 @@ public class Grafo {
 
         return vecinoAux;
     }
-    // ya casi lo tengo no me lo toquen que estoy por conectar las neuronas
+
     private void limpiarAdyacencias(Object vertice, NodoAdy n){
         //recorro la lista de adyacentes de 1 vertice
 
@@ -180,7 +180,6 @@ public class Grafo {
         return eliminado;
     }
 
-    //abierto a modificaciones
     private boolean existeArco(NodoVert origen, Object destino){
         boolean existe = false;
         NodoAdy aux = origen.getPrimerAdy();
@@ -259,7 +258,7 @@ public class Grafo {
     public boolean existeCaminoSinPasarPor(Object origen, Object destino, Object nodo){
         boolean existe = false;
         NodoVert origenNodo;
-        if(!(nodo.equals(origen)) && !(nodo.equals(destino))){
+        if(!(nodo.equals(origen)) && !(nodo.equals(destino))){ //si no es ni el origen o el destino
             origenNodo = existenNodos(origen, destino);
             if (origenNodo != null) {
                 Lista visitados = new Lista();
@@ -471,6 +470,86 @@ public class Grafo {
         return visitados;
     }
 
+    //este modulo existe para evitar búsquedas inválidas,en caso de que el excluido no exista en el grafo, trazaría todos los caminos
+    private NodoVert existenTodosLosNodos(Object inicio, Object fin, Object excluido){
+        NodoVert nodoOrigen = null;
+        //controlo que no le haya mandado el mismo nodo 3 veces
+        if (!(inicio.equals(fin)) && !(fin.equals(excluido))){
+            NodoVert auxOrigen = null;
+            NodoVert auxDestino = null;
+            NodoVert auxExcluido = null;
+            NodoVert puntero = this.inicio;
+
+            while ((auxOrigen == null || auxDestino == null || auxExcluido == null) && puntero != null){
+                if (puntero.getElem().equals(inicio)) auxOrigen = puntero;
+                if (puntero.getElem().equals(fin)) auxDestino = puntero;
+                if (puntero.getElem().equals(excluido)) auxExcluido = puntero;
+                puntero = puntero.getSigVertice();
+            }
+
+
+            if (auxOrigen != null && auxDestino !=null && auxExcluido != null){
+                nodoOrigen = auxOrigen;
+            }
+        }
+
+        return  nodoOrigen;
+    }
+    public Lista caminosSinPasarPorConEtiquetaMenorA(Object inicio, Object fin, int valorMaxEtiqueta, Object excluido){
+        Lista caminos = new Lista(); //lista de listas
+        NodoVert origen = existenTodosLosNodos(inicio, fin, excluido);
+        if (origen != null){ //si los tres nodos están en el grafo
+            Lista nodosVisitados = new Lista();
+            nodosVisitados.insertar(excluido, 1);
+
+            caminoSinPasarPorConEtiquetaMenorAAux(origen, fin, valorMaxEtiqueta, 0, nodosVisitados, caminos);
+        }
+        return caminos;
+    }
+
+    private void caminoSinPasarPorConEtiquetaMenorAAux(NodoVert inicio, Object fin, int etiquetaLimite, int valorEtiquetaAcumulado, Lista visitados, Lista guardados){
+
+        if (inicio != null){
+            //si estoy parada en el nodo, es un nodo visitado
+            visitados.insertar(inicio.getElem(), visitados.longitud()+1);
+
+            //si llega al final con el puntaje
+            if (inicio.getElem().equals(fin)){
+                //guardo el camino y el puntaje con  el que llegó
+                Lista copia = visitados.clone();
+                //pero elimino el primer nodo que era el excluido
+                copia.eliminar(1);
+                ParAuxiliar elem = new ParAuxiliar(copia, valorEtiquetaAcumulado);
+                //guardo esa copia
+                guardados.insertar(elem, guardados.longitud()+1);
+
+                //retrocedo en la recursión 1 nodo a la vez
+                visitados.eliminar(visitados.longitud());
+
+            } else {
+                //si no lo encontré
+                NodoAdy aux = inicio.getPrimerAdy();
+                while (aux != null && valorEtiquetaAcumulado <= etiquetaLimite){
+                    int proxPuntaje = valorEtiquetaAcumulado+ aux.getEtiqueta();
+
+                    //si aux no ha sido visitado y su puntaje alcanza para seguir
+                    if (((visitados.localizar(aux.getVertice().getElem())) < 0) && (proxPuntaje <= etiquetaLimite)){
+
+                        caminoSinPasarPorConEtiquetaMenorAAux(aux.getVertice(), fin, etiquetaLimite, proxPuntaje, visitados, guardados);
+                        //cuando termina el llamado recursivo, sigue con el proximo adyacente, me garantiza que cuando retroceda, siga por otro lado
+
+                    }
+
+                    aux = aux.getSigAdyacente();
+                }
+                //cuando ya no tenga más adyacentes, saco el nodo en el que estoy parada
+                visitados.eliminar(visitados.longitud());
+            }
+        }
+
+
+    }
+
     public boolean esVacio(){
         return this.inicio == null;
     }
@@ -577,11 +656,11 @@ public class Grafo {
         if (buscadoNodo != null) {
             NodoAdy adyActual = buscadoNodo.getPrimerAdy();
             //para que guarde el nodo - etiqueta
-            Vecino elemento;
+            ParAuxiliar elemento;
 
             while (adyActual != null) {
                 //guardo el elemento nodo y la etiqueta
-                elemento = new Vecino(adyActual.getVertice().getElem(), adyActual.getEtiqueta());
+                elemento = new ParAuxiliar(adyActual.getVertice().getElem(), adyActual.getEtiqueta());
                 vecinos.insertar(elemento, vecinos.longitud()+1);
 
                 adyActual = adyActual.getSigAdyacente();

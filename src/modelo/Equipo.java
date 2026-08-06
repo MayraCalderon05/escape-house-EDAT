@@ -64,8 +64,8 @@ public class Equipo {
     public void acumularPuntajeEnHabitacion(int puntaje) {
         this.puntajeAcumuladoEnHabitacion += puntaje;
     }
-    public void descontarPuntajeEnHabitacion(int puntaje) {
-        this.puntajeAcumuladoEnHabitacion -= puntaje;
+    public void reiniciarPuntajeEnHabitacion( ) {
+        this.puntajeAcumuladoEnHabitacion = 0;
     }
 
     public String toString() {
