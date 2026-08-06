@@ -31,6 +31,7 @@ public class SistemaEscapeHouse {
         this.habitaciones = new DiccionarioAvl();
         this.equipos = new DiccionarioHash(17);
         this.desafiosResueltosPorEquipo = new HashMap<>();
+
         //* PENDIENTE  cargar las habitaciones, plano y desafíos antes de asignar la primera habitación
 
 
