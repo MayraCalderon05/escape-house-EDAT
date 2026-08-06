@@ -1,11 +1,16 @@
 package modelo;
 
+import estructuras.lineales.Lista;
+
+import java.util.HashMap;
+
 public class Equipo {
     private String nombreEquipo;
     private int puntajeParaSalida;
     private int puntajeAcumulado;
     private Habitacion habitacionActual;
     private int puntajeAcumuladoEnHabitacion;
+    private HashMap<Integer, Lista> desafiosResueltos;
 
     //constructores
     public Equipo(String nombre){
@@ -14,6 +19,7 @@ public class Equipo {
         this.puntajeAcumulado = 0;
         this.habitacionActual = null;
         this.puntajeAcumuladoEnHabitacion = 0;
+        this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
     public Equipo(String nombre, int puntParaSalir){
         this.nombreEquipo = nombre;
@@ -21,6 +27,7 @@ public class Equipo {
         this.puntajeAcumulado = 0;
         this.habitacionActual = null;
         this.puntajeAcumuladoEnHabitacion = 0;
+        this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
     public Equipo(String nombre, int puntParaSalir, Habitacion actual){
         this.nombreEquipo = nombre;
@@ -28,6 +35,7 @@ public class Equipo {
         this.puntajeAcumulado = 0;
         this.habitacionActual = actual;
         this.puntajeAcumuladoEnHabitacion = 0;
+        this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
     public Equipo(String nombre, int puntParaSalir, int puntAcum, Habitacion habActual, int puntActual){
         this.nombreEquipo = nombre;
@@ -35,6 +43,7 @@ public class Equipo {
         this.puntajeAcumulado = puntAcum;
         this.habitacionActual = habActual;
         this.puntajeAcumuladoEnHabitacion = puntActual;
+        this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
 
     //getters
@@ -53,6 +62,7 @@ public class Equipo {
     public int getPuntajeAcumuladoEnHabitacion() {
         return this.puntajeAcumuladoEnHabitacion;
     }
+    public HashMap<Integer, Lista> getDesafiosResueltos(){ return this.desafiosResueltos }
 
     //setters
     public void setPuntajeParaSalida(int puntaje) {
@@ -66,6 +76,14 @@ public class Equipo {
     }
     public void cambiarHabitacionActual(Habitacion hab) {
         this.habitacionActual = hab;
+    }
+    public void agregarDesafioResuelto(int codigoHabitacion, Desafio unDesafio){
+        Lista desafios = this.desafiosResueltos.get(codigoHabitacion);
+        if (desafios == null){
+            desafios = new Lista();
+            this.desafiosResueltos.put(codigoHabitacion, desafios);
+        }
+        desafios.insertar(unDesafio, desafios.longitud()+1);
     }
 
     public void acumularPuntajeEnHabitacion(int puntaje) {

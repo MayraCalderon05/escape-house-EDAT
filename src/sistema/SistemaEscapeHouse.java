@@ -17,7 +17,7 @@ public class SistemaEscapeHouse {
     private DiccionarioHash equipos;
     private final Habitacion entrada;
     //el primer tipo de parametro corresponde a la clave del equipo
-    private HashMap<String, Lista> desafiosResueltosPorEquipo;
+    //private HashMap<String, Lista> desafiosResueltosPorEquipo;
     private int numHabitacion;
 
     //definicion de puntajes como reglas para nuestro juego
@@ -30,7 +30,7 @@ public class SistemaEscapeHouse {
         this.planoCasa = new Grafo();
         this.habitaciones = new DiccionarioAvl();
         this.equipos = new DiccionarioHash(17);
-        this.desafiosResueltosPorEquipo = new HashMap<>();
+        //this.desafiosResueltosPorEquipo = new HashMap<>();
 
         //* PENDIENTE  cargar las habitaciones, plano y desafíos antes de asignar la primera habitación
 

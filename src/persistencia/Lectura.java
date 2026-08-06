@@ -137,7 +137,9 @@ public class Lectura {
         StringTokenizer st = new StringTokenizer(linea, ";");
 
         //trim saca los espacio atras y adelante
+        //la clave del hash map
         String nombreEquipo = st.nextToken().trim();
+
         String listaDesafios = st.nextToken().trim();
 
         StringTokenizer stGrupos = new StringTokenizer(listaDesafios, "()");
@@ -148,7 +150,10 @@ public class Lectura {
             String habitacion = stGrupo.nextToken().trim();
             String desafiosString = stGrupo.nextToken().trim();
 
-            //StringTokenizer stDesafios = new StringTokenizer()
+            StringTokenizer stDesafios = new StringTokenizer(desafiosString, ",");
+            while (stDesafios.hasMoreTokens()) {
+                int puntaje = Integer.parseInt(stDesafios.nextToken().trim());
+            }
         }
 
         Habitacion hab = (Habitacion) this.habitaciones.obtenerInfo(Integer.parseInt(st.nextToken().trim()));
