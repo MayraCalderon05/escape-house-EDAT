@@ -413,32 +413,38 @@ public class SistemaEscapeHouse {
             if (habitacion != null){
                 Lista posiblesHabitaciones = habitacionesContiguasAux(equipo.getHabitacionActual().getCodigo());
 
-                boolean encontrada = false;
-                //si la coleccion no esta vacia y encuentra la habitacion entre los adyacentes
-                while(!encontrada && !posiblesHabitaciones.esVacia()){
-                    ParAuxiliar elem = (ParAuxiliar) posiblesHabitaciones.recuperar(1);
+                ParAuxiliar par = buscarParPorHabitacion(posiblesHabitaciones, habitacion);
 
-                    Habitacion actual = (Habitacion) elem.getElemento();
-                    if (habitacion.equals(actual)){
-                        encontrada = true;
-                        int puntaje = elem.getEtiqueta();
+                if (par != null){
+                    int puntajeExigido = par.getEtiqueta();
 
-                        //si el equipo tiene el suficiente puntaje
-                        if (equipo.getPuntajeAcumulado() >= puntaje){
-                            equipo.cambiarHabitacionActual(habitacion);
-                            equipo.reiniciarPuntajeEnHabitacion();
-                            exito = true;
-                        }
-
-
-                    } else {
-                        posiblesHabitaciones.eliminar(1);
+                    //si el equipo tiene el suficiente puntaje
+                    if (equipo.getPuntajeAcumulado() >= puntajeExigido){
+                        equipo.cambiarHabitacionActual(habitacion);
+                        equipo.reiniciarPuntajeEnHabitacion();
+                        exito = true;
                     }
                 }
             }
         }
         return exito;
 
+    }
+    private ParAuxiliar buscarParPorHabitacion(Lista posiblesHabitaciones, Habitacion buscada){
+        ParAuxiliar par = null;
+        boolean encontrada = false;
+
+        while (!encontrada && !posiblesHabitaciones.esVacia()){
+            ParAuxiliar actual = (ParAuxiliar) posiblesHabitaciones.recuperar(1);
+
+            if (actual != null && ((Habitacion) actual.getElemento()).equals(buscada)){
+                encontrada = true;
+                par = actual;
+            } else {
+                posiblesHabitaciones.eliminar(1);
+            }
+        }
+        return par;
     }
 
     //consultas generales
