@@ -116,25 +116,42 @@ public class SistemaEscapeHouse {
         return cadena != null && !cadena.isEmpty();
     }
     private boolean verificarCodigo(int codigo){
-        return codigo >= 0 && codigo <= 25;
+        return codigo > 0 && codigo <= this.cantHabitaciones;
     }
     //Create
-    public String agregarDesafio(int codigoHab, int puntaje, String nombre, String tipo) {
-        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+    public boolean agregarDesafio(int codigoHab, int puntaje, String nombre, String tipo) {
+        boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(nombre)&&verificarString(tipo)) {
+            Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
+            if (habitacion != null) {
+                exito = habitacion.agregarDesafio(puntaje, nombre, tipo);
+            }
+        }
+        return exito;
+    }
+    //Read
+    public String listarPuntajesDesafios(int codigoHab){
+        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+        if(verificarCodigo(codigoHab)){
             cadena = "Habitacion no encontrada";
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
-                if (habitacion.agregarDesafio(puntaje, nombre, tipo)) {
-                    cadena = "Desafio agregado correctamente";
-                } else {
-                    cadena = "No se ha podido agregar el desafio";
-                }
+                cadena = habitacion.getListaClaves().toString();
             }
         }
         return cadena;
     }
-    //Read
+    public String listarDesafios(int codigoHab){
+        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+        if(verificarCodigo(codigoHab)){
+            cadena = "Habitacion no encontrada";
+            Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
+            if (habitacion != null) {
+                cadena = habitacion.getListaDatos().toString();
+            }
+        }
+        return cadena;
+    }
     public String obtenerNombreDesafio(int codigoHab, int puntaje){
         String cadena = "Los datos ingresados no cumplen con el formato deseado";
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)) {
@@ -158,51 +175,36 @@ public class SistemaEscapeHouse {
         return cadena;
     }
     //Update
-    public String cambiarNombreDesafio(int codigoHab, int puntaje, String nombreDesafio) {
-        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+    public boolean cambiarNombreDesafio(int codigoHab, int puntaje, String nombreDesafio) {
+        boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(nombreDesafio)) {
-            cadena = "Habitacion no encontrada";
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
-                if (habitacion.cambiarNombreDesafio(puntaje, nombreDesafio)) {
-                    cadena = "Se ha cambiado exitosamente el nombre del desafio";
-                } else {
-                    cadena = "No se ha podido cambiar el nombre del desafio";
-                }
+                exito = habitacion.cambiarNombreDesafio(puntaje, nombreDesafio);
             }
         }
-        return cadena;
+        return exito;
     }
-    public String cambiarTipoDesafio(int codigoHab, int puntaje, String tipoDesafio) {
-        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+    public boolean cambiarTipoDesafio(int codigoHab, int puntaje, String tipoDesafio) {
+        boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(tipoDesafio)) {
-            cadena = "Habitacion no encontrada";
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
-                if (habitacion.cambiarTipoDesafio(puntaje, tipoDesafio)) {
-                    cadena = "Se ha cambiado exitosamente el tipo del desafio";
-                } else {
-                    cadena = "No se ha podido cambiar el tipo del desafio";
-                }
+                exito = habitacion.cambiarTipoDesafio(puntaje, tipoDesafio);
             }
         }
-        return cadena;
+        return exito;
     }
     //Delete
-    public String sacarDesafio(int codigoHab, int puntaje) {
-        String cadena = "Los datos ingresados no cumplen con el formato deseado";
+    public boolean sacarDesafio(int codigoHab, int puntaje) {
+        boolean exito = false;
         if (verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)) {
-            cadena = "Habitacion no encontrada";
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
-                if (habitacion.sacarDesafio(puntaje)) {
-                    cadena = "Se ha sacado exitosamente el desafio";
-                }else{
-                    cadena = "No se ha podido sacar el desafio";
-                }
+                exito = habitacion.sacarDesafio(puntaje);
             }
         }
-        return cadena;
+        return exito;
     }
 
     // CRUD Equipos
