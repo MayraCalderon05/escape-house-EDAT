@@ -102,8 +102,13 @@ public class SistemaEscapeHouse {
     }
 
     //READ
-    public Habitacion obtenerHabitacion(int codigoHabitacion){
-        return (Habitacion)  this.habitaciones.obtenerInfo(codigoHabitacion);
+    public String mostrarHabitacion(int codigo){
+        String cadena = "Habitación no encontrada";
+        Habitacion buscado = (Habitacion) this.habitaciones.obtenerInfo(codigo);
+        if(buscado != null){
+            cadena = buscado.toString();
+        }
+        return cadena;
     }
 
     //UPDATE
@@ -293,14 +298,7 @@ public class SistemaEscapeHouse {
 
 
     // consultas sobre habitaciones
-    public String mostrarHabitacion(int codigo){
-        String cadena = "Habitación no encontrada";
-        Habitacion buscado = (Habitacion) this.habitaciones.obtenerInfo(codigo);
-        if(buscado != null){
-            cadena = buscado.toString();
-        }
-        return cadena;
-    }
+
 
     public String minimoPuntaje(int cod1, int cod2){
         Habitacion hab1 = (Habitacion) this.habitaciones.obtenerInfo(cod1);
@@ -345,7 +343,46 @@ public class SistemaEscapeHouse {
 
     }
 
+    public boolean esPosibleLLegar(int codigoHab1, int codigoHab2, int puntos){
+        boolean esPosible = false;
+        //recupero los objetos de las habitaciones
+        Habitacion hab1 =  (Habitacion) this.habitaciones.obtenerInfo(codigoHab1);
+        Habitacion hab2 = (Habitacion) this.habitaciones.obtenerInfo(codigoHab2);
+        //si ambas habitaciones existen continuo
+        if (hab1 != null && hab2 != null){
+            //luego llamo al camino con menor costo
+            Lista caminoMasCorto = planoCasa.caminoMenorCosto(hab1,hab2);
+            //verifico que el camino no sea vacio, ya que si el camino es vacio es porque no existe un camino y no cumple la condicion
+            if (!caminoMasCorto.esVacia()){
+                //recupero la longituc del camino
+                int longitud = caminoMasCorto.longitud();
+                //recupero los puntos necesarios para ese camino, que estan guardados en la ultima posicion de la lista
+                int puntosMin = (int)  caminoMasCorto.recuperar(longitud);
+                //si los puntos que acumulo son mayores o iguales, al minimo de puntos que deberia tener para llegar a ese camino, devuelve true
+                if (puntosMin <= puntos){
+                    esPosible = true;
+                }
+            }
+
+        }
+        return esPosible;
+    }
+
     //consultas sobre desafíos
+    public String mostrarDesafio(int codigoDesafio, int numHabitacion){
+        String cadena = "No es posible mostrar el desafio";
+        Habitacion habitacion = (Habitacion) habitaciones.obtenerInfo(numHabitacion);
+        //me fijo que exista la habitacion
+        if (habitacion != null){
+            Desafio desafio = (Desafio) habitacion.getDesafios().obtenerInfo(codigoDesafio);
+            //me fijo que exista el desafio
+            if (desafio != null){
+                cadena = desafio.toString();
+            }
+        }
+        return cadena;
+    }
+
     public String mostrarDesafiosResueltos(String nombreEquipo){
         String resueltos = "Equipo no encontrado";
         Equipo buscado = (Equipo) this.equipos.obtenerInfo(nombreEquipo);
@@ -353,6 +390,31 @@ public class SistemaEscapeHouse {
             //resueltos = buscado.listarDesafios().toString();
         }
         return resueltos;
+    }
+
+    public Lista mostrarDesafiosTipo(int numHabitacion, int puntaje1, int puntaje2, String tipoDesafio){
+            Lista desafios = new Lista();
+            Habitacion habitacion = (Habitacion) habitaciones.obtenerInfo(numHabitacion);
+            //me fijo que la habitacion exista
+            if (habitacion != null){
+                //recupero una lista auxiliar con todos los desafios comprendidos en ese rango de puntaje
+                Lista desafiosAux = habitacion.getDesafios().listarRango(puntaje1, puntaje2);
+                //lo utilizo para contar cuantos elementos va teniendo la nueva lista
+                int pos = 0;
+                //recorre mientra la lista auxiliar temga algun elemento
+                while (!desafiosAux.esVacia()){
+                    //recupero el primer desafio de lista
+                    Desafio desafio =  (Desafio) desafiosAux.recuperar(1);
+                    //si el desafio es del mismo tipo que se pide, se agrega a la lista que se va retornar
+                    //esto va a ir filtrando solo los desafios del tipo pedido
+                    if (desafio.getTipo().equals(tipoDesafio)){
+                        desafios.insertar(desafio,pos+1);
+                    }
+                    //una vez chequeado si el desafio es o no del tipo pedido, se eliminar de la lista auxiliar
+                    desafiosAux.eliminar(1);
+                }
+            }
+            return desafios;
     }
 
     //consultas sobre equipos
@@ -374,6 +436,36 @@ public class SistemaEscapeHouse {
                     this.desafiosResueltosPorEquipo.put(nombreEquipo,aux);
                     exito = true;
                 }
+            }
+        }
+        return exito;
+    }
+
+    public Lista posiblesDesafios(String nombreEquipo, int numHabitacion){
+        Lista desafios = new Lista();
+
+        Equipo equipo =  (Equipo) this.equipos.obtenerInfo(nombreEquipo);
+        if (equipo != null){
+            Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(numHabitacion);
+            if (habitacion != null){
+                Habitacion habitacionActual = equipo.getHabitacionActual();
+                    if (planoCasa.existeArco(habitacion, habitacionActual)){
+                        //int puntosNecesarios
+                    }
+            }
+        }
+
+    }
+
+    public boolean puedeSalir(String nombreEquipo){
+        boolean exito = false;
+        Equipo equipo =  (Equipo) this.equipos.obtenerInfo(nombreEquipo);
+        //compruebo que el equipo exista
+        if (equipo != null){
+            //si el puntaje acumulado es mayor o igual a su puntaje para salida y se encuentra en una habitacion con salida
+            //al exterior, devuelve true
+            if (equipo.getPuntajeAcumulado() >= equipo.getPuntajeParaSalida() && equipo.getHabitacionActual().getSalidaAlExterior()){
+                exito = true;
             }
         }
         return exito;

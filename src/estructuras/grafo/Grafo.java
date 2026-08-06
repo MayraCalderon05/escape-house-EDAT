@@ -351,7 +351,7 @@ public class Grafo {
                 ady = nodo.getPrimerAdy();
                 while (ady != null) {
                     if(visitados.localizar(ady.getVertice().getElem()) < 0) {
-                        camino = menorCostoAux(ady.getVertice(), destino, camino, temporal, visitados, menorCosto, costo+ ady.getEtiqueta());
+                        camino = menorCostoAux(ady.getVertice(), destino, camino, temporal, visitados, menorCosto, Math.max(costo, ady.getEtiqueta()));
                     }
                     ady = ady.getSigAdyacente();
                 }
