@@ -60,7 +60,6 @@ public class SistemaEscapeHouse {
 
 
     //CRUD Habitaciones
-
     private Habitacion esPosibleModificar(int codigoHabitacion){
         //recupero la lista de todos los equipos en el juego
         Lista todosLosEquipos = this.equipos.listarDatos();
@@ -263,36 +262,82 @@ public class SistemaEscapeHouse {
         cadena.append(this.planoCasa.caminoMenorCosto(hab1,hab2));
         return cadena.toString();
     }
-  
+
     public Lista habitacionesContiguas(int codigoHabitacion){
 
         //lista que se va a devolver
         Lista habitacionesConSusPuntajes = new Lista();
-        //nodos adyacentes de la habitación
-        Lista vecinos = planoCasa.obtenerVecinos(codigoHabitacion);
-        Habitacion habitacion;
-        int puntaje;
+        Habitacion hab = (Habitacion) habitaciones.obtenerInfo(codigoHabitacion);
 
+        if (hab != null){
+            //nodos adyacentes de la habitación
+            Lista vecinos = planoCasa.obtenerVecinos(hab);
+            Habitacion habitacion;
+            int puntaje;
 
-        while (!vecinos.esVacia()){
-            StringBuilder info = new StringBuilder();
+            while (!vecinos.esVacia()){
+                StringBuilder info = new StringBuilder();
 
-            //voy recuperando la posición 1 para recuperar el nombre y codigo de la habitacion
-            Vecino adyacente = (Vecino) vecinos.recuperar(1);
-            habitacion = (Habitacion) adyacente.getElemento();
-            puntaje = adyacente.getEtiqueta();
+                //voy recuperando la posición 1 para recuperar el nombre y codigo de la habitacion
+                Vecino adyacente = (Vecino) vecinos.recuperar(1);
+                habitacion = (Habitacion) adyacente.getElemento();
+                puntaje = adyacente.getEtiqueta();
 
-            info.append(habitacion.getCodigo()).append(" - ").append(habitacion.getNombre());
-            info.append(" (Se necesitan: ").append(puntaje).append(" puntos).");
+                info.append(habitacion.getCodigo()).append(" - ").append(habitacion.getNombre());
+                info.append(" (Se necesitan: ").append(puntaje).append(" puntos).");
 
-            //agrego la información a la lista
-            habitacionesConSusPuntajes.insertar(info.toString(), habitacionesConSusPuntajes.longitud()+1);
-            //saco el elemento de la lista original
-            vecinos.eliminar(1);
+                //agrego la información a la lista
+                habitacionesConSusPuntajes.insertar(info.toString(), habitacionesConSusPuntajes.longitud()+1);
+                //saco el elemento de la lista original
+                vecinos.eliminar(1);
+            }
         }
 
         return habitacionesConSusPuntajes;
 
+    }
+
+    private Lista armarResultadoDeCaminos(Lista l){
+        Lista resultado = new Lista();
+
+        //por cada elemento "vecino"
+        while (!l.esVacia()){
+            Vecino elem = (Vecino) l.recuperar(1);
+            Lista camino = (Lista) elem.getElemento();
+            StringBuilder resVecino = new StringBuilder("Puntaje alcanzado con el siguiente camino: ");
+            resVecino.append(elem.getEtiqueta()).append(System.lineSeparator());
+
+            while (!camino.esVacia()){
+                Habitacion actual = (Habitacion) camino.recuperar(1);
+                resVecino.append("-").append(actual.getNombre()).append(System.lineSeparator());
+
+                camino.eliminar(1);
+            }
+
+            //como no importa el orden de los caminos
+            resultado.insertar(resVecino.toString(), 1);
+            l.eliminar(1);
+        }
+
+        return resultado;
+    }
+    public Lista sinPasarPor(int codigo1, int codigo2, int p, int codigoExcluido){
+        Lista caminos = new Lista();
+        //busco las habitaciones por codigo
+        Habitacion hab1 = (Habitacion) habitaciones.obtenerInfo(codigo1);
+        Habitacion hab2 = (Habitacion) habitaciones.obtenerInfo(codigo2);
+        Habitacion habExcluida = (Habitacion) habitaciones.obtenerInfo(codigoExcluido);
+
+        if (hab1 != null && hab2 != null && habExcluida != null){
+            caminos = planoCasa.caminosSinPasarPorConEtiquetaMenorA(hab1, hab2, p, habExcluida);
+
+            if (!caminos.esVacia()){
+                caminos = armarResultadoDeCaminos(caminos);
+            }
+        }
+
+
+        return caminos;
     }
 
     //consultas sobre desafíos
