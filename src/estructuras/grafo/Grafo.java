@@ -1,4 +1,5 @@
 package estructuras.grafo;
+import estructuras.auxiliares.Vecino;
 import estructuras.lineales.*;
 /// grafo etiquetado no dirigido
 //! si A--B entonces:
@@ -316,6 +317,50 @@ public class Grafo {
         }
         return camino;
     }
+    public Lista caminoMenorCosto(Object origen, Object destino){
+        Lista camino = new Lista();
+        Lista visitados = new Lista();
+        Lista temporal = new Lista();
+        int[] menorCosto = {0};
+        NodoVert origenNodo;
+        if(this.inicio != null) {
+            origenNodo = existenNodos(origen, destino);
+            if(origenNodo != null) {
+                if (origen.equals(destino)) {
+                    camino.insertar(origen, 1);
+                } else {
+                    camino = menorCostoAux(origenNodo, destino, camino, temporal, visitados, menorCosto, 0);
+                }
+            }
+        }
+        if(!camino.esVacia()){
+            camino.insertar(menorCosto[0],camino.longitud()+1);
+        }
+        return camino;
+    }
+    private Lista menorCostoAux(NodoVert nodo, Object destino, Lista camino, Lista temporal, Lista visitados, int[] menorCosto, int costo){
+        Object elem = nodo.getElem();
+        NodoAdy ady;
+        if(camino.esVacia() || costo < menorCosto[0]) {
+            visitados.insertar(elem, visitados.longitud() + 1);
+            temporal.insertar(elem, temporal.longitud() + 1);
+            if (elem.equals(destino)) {
+                camino = temporal.clone();
+                menorCosto[0] = costo;
+            } else {
+                ady = nodo.getPrimerAdy();
+                while (ady != null) {
+                    if(visitados.localizar(ady.getVertice().getElem()) < 0) {
+                        camino = menorCostoAux(ady.getVertice(), destino, camino, temporal, visitados, menorCosto, costo+ ady.getEtiqueta());
+                    }
+                    ady = ady.getSigAdyacente();
+                }
+            }
+            visitados.eliminar(visitados.longitud());
+            temporal.eliminar(temporal.longitud());
+        }
+        return camino;
+    }
 
     private Lista caminoLargoAux(Object origen, Object destino, Lista camino){
         Lista visitados = new Lista();
@@ -524,4 +569,24 @@ public class Grafo {
         return res.toString();
     }
 
+    //obtengo los adyacentes de un nodo con su respectiva etiqueta
+    public Lista obtenerVecinos(Object buscado) {
+        Lista vecinos = new Lista();
+        NodoVert buscadoNodo = ubicarVertice(buscado);
+
+        if (buscadoNodo != null) {
+            NodoAdy adyActual = buscadoNodo.getPrimerAdy();
+            //para que guarde el nodo - etiqueta
+            Vecino elemento;
+
+            while (adyActual != null) {
+                //guardo el elemento nodo y la etiqueta
+                elemento = new Vecino(adyActual.getVertice().getElem(), adyActual.getEtiqueta());
+                vecinos.insertar(elemento, vecinos.longitud()+1);
+
+                adyActual = adyActual.getSigAdyacente();
+            }
+        }
+        return vecinos;
+    }
 }
