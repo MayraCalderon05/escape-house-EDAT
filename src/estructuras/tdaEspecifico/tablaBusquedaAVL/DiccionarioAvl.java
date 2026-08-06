@@ -155,6 +155,7 @@ public class DiccionarioAvl {
         }
         return existe;
     }
+
     private boolean buscarClave(NodoAVLDicc n, Comparable clave) {
         boolean existe = false;
         if (n != null) {
@@ -193,7 +194,7 @@ public class DiccionarioAvl {
     }
 
     private void listarAux(NodoAVLDicc n, Lista lista){
-        //si el nodo no es nulo, es decir tiene algo que listar
+        //si el nodo no es nulo, es decir tiene alg que listar
         if (n != null) {
             //como el listado para que quede ordenado es en inorden
             //primero llama recursivamente a su subarbol izquierdo
@@ -203,6 +204,27 @@ public class DiccionarioAvl {
             //y por ultimo llama recursivamente a su subarbol derecho
             listarAux(n.getHijoDerecho(), lista);
         }
+    }
+
+    public Lista listarRango(Comparable elemMinimo, Comparable elemMaximo){
+        Lista lista = new Lista();
+        if (raiz != null || elemMaximo.compareTo(elemMinimo) > 0) {
+            listarRangoAux(this.raiz, lista, elemMinimo, elemMaximo);
+        }
+    }
+
+    private void listarRangoAux(NodoAVLDicc n, Lista lista, Comparable elemMin, Comparable elemMax){
+        if (n != null){
+            if(n.getClave().compareTo(elemMin) >= 0){
+                listarRangoAux(n.getHijoIzquierdo(), lista, elemMin, elemMax);
+                lista.insertar(n.getClave(), lista.longitud()+1);
+                if (n.getClave().compareTo(elemMax) <= 0) {
+                    listarRangoAux(n.getHijoDerecho(), lista, elemMin, elemMax);
+                }
+            }
+        }
+
+
     }
 
     public DiccionarioAvl clone(){

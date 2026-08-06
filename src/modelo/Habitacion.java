@@ -21,6 +21,22 @@ public class Habitacion {
         this.salidaAlExterior = salidaAlExterior;
         this.desafios = new DiccionarioAvl();
     }
+    public Habitacion(int codigo, String nombre, int planta, int metrosCuadrados, boolean salidaAlExterior, DiccionarioAvl desafios) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.planta = planta;
+        this.metrosCuadrados = metrosCuadrados;
+        this.salidaAlExterior = salidaAlExterior;
+        this.desafios = desafios;
+    }
+    public Habitacion(int codigo, String nombre, int planta, int metrosCuadrados) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.planta = planta;
+        this.metrosCuadrados = metrosCuadrados;
+        this.salidaAlExterior = false;
+        this.desafios = new DiccionarioAvl();
+    }
 
     //Observadores
     public int getCodigo() {
@@ -38,6 +54,9 @@ public class Habitacion {
     public boolean getSalidaAlExterior() {
         return salidaAlExterior;
     }
+    public DiccionarioAvl getDesafios() {
+        return desafios;
+    }
 
     //Modificadores
     public void setNombre(String nombre) {
@@ -51,6 +70,9 @@ public class Habitacion {
     }
     public void setSalidaAlExterior(boolean salidaAlExterior) {
         this.salidaAlExterior = salidaAlExterior;
+    }
+    public void setDesafios(DiccionarioAvl desafios){
+        this.desafios = desafios;
     }
 
     //propios del tipo
