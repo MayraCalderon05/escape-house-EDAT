@@ -564,20 +564,54 @@ public class SistemaEscapeHouse {
         }
         return par;
     }
-    public Lista posiblesDesafios(String nombreEquipo, int numHabitacion){
-        Lista desafios = new Lista();
 
+    public StringBuilder posiblesDesafios(String nombreEquipo, int numHabitacion){
+        StringBuilder resultado = new StringBuilder();
         Equipo equipo =  (Equipo) this.equipos.obtenerInfo(nombreEquipo);
+        //me fijo que el equipo exista
         if (equipo != null){
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(numHabitacion);
+            //me fijo que la habitacion exista
             if (habitacion != null){
+                //recupero la habitacion donde esta el equipo
                 Habitacion habitacionActual = equipo.getHabitacionActual();
-                    if (planoCasa.existeArco(habitacion, habitacionActual)){
-                        //int puntosNecesarios
+                //recupero una lista de los adyacentes a esa habitacion
+                Lista vecinos = habitacionesContiguasAux(habitacionActual.getCodigo());
+                //luego busco si la habitacion enviada por parametro esta en la lista de adyacentes
+                ParAuxiliar par = buscarParPorHabitacion(vecinos, habitacion);
+                //si el par no es nulo la habitacion es adyacente y si es nulo no es adyacente
+                if (par != null){
+                    //recupera los puntos para pasar a la habitacion
+                    int puntosNecesarios = par.getEtiqueta();
+                    //recupera los desafios de esa habitacion
+                    Lista desafiosHab = habitacionActual.getDesafios().listarDatos();
+                    Desafio desafioActual;
+                    //recorre hasta que el avl esta vacio
+                    while (!desafiosHab.esVacia()){
+                        //recupera el desafio actual
+                        desafioActual = (Desafio) desafiosHab.recuperar(1);
+                        //si los puntos del desafio actual son mayores o iguales a los puntos que le falta
+                        //al equipo para pasar a la habitacion, se agrega al resultado
+                        if ((desafioActual.getPuntaje() + equipo.getPuntajeAcumulado()) >= puntosNecesarios){
+                            resultado.append(desafioActual.toString()).append("\n");
+                        }
+                        desafiosHab.eliminar(1);
                     }
+
+                    if (resultado.length() == 0){
+                        resultado.append("No se encontraron posibles resultados");
+                    }
+                }else {
+                    resultado.append("La habitacion no es adyacente");
+                }
+            }else {
+                resultado.append("No se encontraron posibles resultados");
             }
+        }else {
+            resultado.append("No se encontraron posibles resultados");
         }
 
+        return resultado;
     }
 
     public boolean puedeSalir(String nombreEquipo){
