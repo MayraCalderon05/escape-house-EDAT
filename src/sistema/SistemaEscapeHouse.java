@@ -437,8 +437,10 @@ public class SistemaEscapeHouse {
     public String mostrarDesafiosResueltos(String nombreEquipo){
         String resueltos = "Equipo no encontrado";
         Equipo buscado = (Equipo) this.equipos.obtenerInfo(nombreEquipo);
+        Lista aux;
         if(buscado != null){
-            //resueltos = buscado.listarDesafios().toString();
+            aux = this.desafiosResueltosPorEquipo.get(nombreEquipo);
+            resueltos = aux.toString();
         }
         return resueltos;
     }
