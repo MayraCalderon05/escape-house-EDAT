@@ -79,19 +79,21 @@ public class DiccionarioAvl {
         //sacha
         boolean exito = false;
         if(this.raiz != null){
-            this.raiz = eliminarAux(this.raiz, clave);
-            exito = true;
+            if ((encontrarNodo(clave, this.raiz)) != null){
+                this.raiz = eliminarAux(this.raiz, clave);
+                exito = true;
+            }
         }
         return exito;
     }
     private NodoAVLDicc eliminarAux(NodoAVLDicc n, Comparable clave){
+            Comparable claveAux;
         if (n != null){
-            Comparable claveAux = n.getClave();
-
+            claveAux = n.getClave();
             if(claveAux.compareTo(clave) < 0){
-                n.setHijoIzquierdo(eliminarAux(n.getHijoIzquierdo(), clave));
-            } else if (claveAux.compareTo(clave) > 0) {
                 n.setHijoDerecho(eliminarAux(n.getHijoDerecho(), clave));
+            } else if (claveAux.compareTo(clave) > 0) {
+                n.setHijoIzquierdo(eliminarAux(n.getHijoIzquierdo(), clave));
             }else{
                 if(n.getHijoDerecho() == null && n.getHijoIzquierdo() == null){
                     n = null;

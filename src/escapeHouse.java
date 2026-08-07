@@ -15,7 +15,7 @@ public class escapeHouse {
         }
     }
 
-    public static void main() throws IOException{
+    static void main() throws IOException{
         Scanner sc = new Scanner(System.in);
         int opcion;
         boolean continuar;
@@ -96,24 +96,31 @@ public class escapeHouse {
                 System.out.println("Opcion no valida, por favor escriba 1 o 2");
                 break;
         }
-        return mensajeConfirmacion(enviarConfirmacion(sc,"Desea realizar otra operacion?"));
+        return mensajeConfirmacion(enviarConfirmacion(sc,"¿Desea realizar otra operacion en el menu jugar?"));
     }
     private static void menuJugarAux(Scanner sc, String nombreEquipo){
         int opcion;
-        System.out.println("Seleccione una opción:\n1. Consultar sobre habitaciones\n2. Consultar sobre desafios\n3. Consultar sobre Equipo\n");
-        System.out.print("\nIngrese su opción:\n");
-        opcion = sc.nextInt();
-        sc.nextLine();
+        boolean continuar;
         do {
+            System.out.println("Seleccione una opción:\n1. Consultar sobre habitaciones\n2. Consultar sobre desafios\n3. Consultar sobre Equipo\n");
+            System.out.print("\nIngrese su opción:\n");
+            opcion = sc.nextInt();
+            sc.nextLine();
             switch (opcion) {
                 case 1:
-                    menuConsultaHabitacion(sc, nombreEquipo);
+                    do{
+                        continuar = menuConsultaHabitacion(sc, nombreEquipo);
+                    }while(continuar);
                     break;
                 case 2:
-                    menuConsultaDesafio(sc, nombreEquipo);
+                    do{
+                        continuar = menuConsultaDesafio(sc, nombreEquipo);
+                    }while(continuar);
                     break;
                 case 3:
-                    menuConsultaEquipo(sc, nombreEquipo);
+                    do{
+                        continuar = menuConsultaEquipo(sc, nombreEquipo);
+                    }while(continuar);
                     break;
                 default:
                     System.out.println("Opcion no valida, por favor escriba 1, 2 o 3");
@@ -121,15 +128,16 @@ public class escapeHouse {
             }
         }while(mensajeConfirmacion(enviarConfirmacion(sc,"Desea realizar otra operacion?")));
     }
-    private static void menuConsultaHabitacion(Scanner sc, String nombreEquipo){
+    private static boolean menuConsultaHabitacion(Scanner sc, String nombreEquipo){
         int opcion;
         int codigoHabitacion;
         int codigoHabDestino;
         int codigoHabExcluir;
         int puntos;
+        boolean continuar;
         System.out.println("Seleccione una opción:" +
                 "\n1. Mostrar habitacion" +
-                "\n2. Mostrar todas las habitaciones contiguas y el puntaje necesario para pasar a ellas" +
+                "\n2. Mostrar todas las habitaciones contiguas, y el puntaje necesario para pasar a ellas" +
                 "\n3. Mostrar si es posible llegar desde una habitacion a otra" +
                 "\n4. Mostrar el puntaje minimo que se requiere acumular para ir de una habitacion a otra, y el camino a tomar para hacerlo" +
                 "\n5. Mostrar todas las formas de ir de una habitacion a otra, sin pasar por una habitacion en especifico, y que no requiera mas de una cantidad de puntos\n");
@@ -144,10 +152,9 @@ public class escapeHouse {
                 System.out.println(sistema.mostrarHabitacion(codigoHabitacion));
                 break;
             case 2:
-                System.out.println("Ingrese el numero de la habitacion la cual desea mostrar sus habitaciones contiguas: ");
-                codigoHabitacion = sc.nextInt();
-                sc.nextLine();
-                System.out.println(sistema.habitacionesContiguas(codigoHabitacion).toString());
+                System.out.println("Listado de habitaciones contiguas: ");
+                codigoHabitacion = sistema.obtenerCodigoHab(nombreEquipo);
+                System.out.println(sistema.habitacionesContiguas(codigoHabitacion));
                 break;
             case 3:
                 System.out.println("Ingrese el numero de la habitacion de la cual desea partir: ");
@@ -187,12 +194,147 @@ public class escapeHouse {
                 System.out.println("Ingrese el codigo de la habitacion por la cual no desea pasar:");
                 codigoHabExcluir = sc.nextInt();
                 sc.nextLine();
-                sistema.sinPasarPor(codigoHabitacion,codigoHabDestino,puntos,codigoHabExcluir);
+                System.out.println(sistema.sinPasarPor(codigoHabitacion,codigoHabDestino,puntos,codigoHabExcluir));
                 break;
             default:
                 System.out.println("Opcion no valida, por favor escriba 1, 2, 3, 4 o 5");
                 break;
         }
+        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion en el menu de consulta habitacion?");
+        continuar = mensajeConfirmacion(respuesta);
+        if (!continuar){
+            System.out.println("Operación cancelada");
+        }
+        return continuar;
+
+    }
+    private static boolean menuConsultaDesafio(Scanner sc, String nombreEquipo){
+        int opcion;
+        int codigoHabitacion;
+        int puntaje;
+        int puntajeMax;
+        boolean continuar;
+        String tipo;
+        System.out.println("Seleccione una opción:" +
+                "\n1. Mostrar desafio de una habitacion" +
+                "\n2. Mostrar desafios resueltos" +
+                "\n3. Verificar si ya se resolvio un desafio de una habitacion" +
+                "\n4. Mostrar los desafios de un tipo, y con un puntaje dentro un rango, de una habitacion\n");
+        System.out.print("\nIngrese su opción:\n");
+        opcion = sc.nextInt();
+        sc.nextLine();
+        switch (opcion) {
+            case 1:
+                System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
+                codigoHabitacion = sc.nextInt();
+                sc.nextLine();
+                System.out.println("Ingrese el puntaje del desafio del cual desea mostrar la informacion:");
+                puntaje = sc.nextInt();
+                sc.nextLine();
+                System.out.println(sistema.mostrarDesafio(puntaje, codigoHabitacion));
+                break;
+            case 2:
+                System.out.println(sistema.mostrarDesafiosResueltos(nombreEquipo));
+                break;
+            case 3:
+                System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
+                codigoHabitacion = sc.nextInt();
+                sc.nextLine();
+                System.out.println("Ingrese el puntaje del desafio del cual desea saber si ya resolvio su equipo:");
+                puntaje = sc.nextInt();
+                sc.nextLine();
+                if (sistema.verificarDesafioResuelto(nombreEquipo,puntaje,codigoHabitacion)){
+                    System.out.println("El desafio "+sistema.obtenerNombreDesafio(codigoHabitacion,puntaje) + " en la habitacion N°"+codigoHabitacion + " ya ha sido resuelto por el equipo " + nombreEquipo);
+                }else {
+                    System.out.println("El desafio "+sistema.obtenerNombreDesafio(codigoHabitacion,puntaje) + " en la habitacion N°"+codigoHabitacion + " aun no ha sido resuelto por el equipo " + nombreEquipo);
+                }
+                break;
+            case 4:
+                System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
+                codigoHabitacion = sc.nextInt();
+                sc.nextLine();
+                System.out.println("Ingrese el puntaje minimo (incluido):");
+                puntaje = sc.nextInt();
+                sc.nextLine();
+                System.out.println("Ingrese el puntaje maximo (incluido):");
+                puntajeMax = sc.nextInt();
+                sc.nextLine();
+                System.out.println("Ingrese el tipo de desafio que quiera buscar:");
+                tipo = sc.nextLine();
+                System.out.println(sistema.mostrarDesafiosTipo(codigoHabitacion,puntaje,puntajeMax, tipo));
+                break;
+            default:
+                System.out.println("Opcion no valida, por favor escriba 1, 2, 3 o 4");
+                break;
+        }
+        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion en el menu de consulta desafio?");
+        continuar = mensajeConfirmacion(respuesta);
+        if (!continuar){
+            System.out.println("Operación cancelada");
+        }
+        return continuar;
+    }
+    private static boolean menuConsultaEquipo(Scanner sc, String nombreEquipo){
+        int opcion;
+        int codigoHabitacion;
+        int puntaje;
+        boolean continuar;
+        System.out.println("Seleccione una opción:" +
+                "\n1. Mostrar la informacion del equipo" +
+                "\n2. Mostrar los desafios que se pueden resolver para pasar a una habitacion" +
+                "\n3. ¡¡Jugar un desafio!!" +
+                "\n4. Cambio de habitacion" +
+                "\n5. ¿El equipo puede salir?\n");
+        System.out.print("\nIngrese su opción:\n");
+        opcion = sc.nextInt();
+        sc.nextLine();
+        switch (opcion) {
+            case 1:
+                System.out.println(sistema.mostrarInfoEquipo(nombreEquipo));
+                break;
+            case 2:
+                System.out.println("Ingrese el numero de la habitacion la cual desea poder ingresar: ");
+                codigoHabitacion = sc.nextInt();
+                sc.nextLine();
+                System.out.println(sistema.posiblesDesafios(nombreEquipo,codigoHabitacion));
+                break;
+            case 3:
+                System.out.println("Ingrese el puntaje del desafio del cual desea jugar:");
+                puntaje = sc.nextInt();
+                sc.nextLine();
+                if (sistema.jugarDesafio(nombreEquipo,sistema.obtenerCodigoHab(nombreEquipo),puntaje)){
+                    System.out.println("!!Desafio completado¡¡");
+                }else {
+                    System.out.println("No se ha podido resolver el desafio");
+                }
+                break;
+            case 4:
+                System.out.println("Ingrese el numero de la habitacion a la cual desea moverse: ");
+                codigoHabitacion = sc.nextInt();
+                sc.nextLine();
+                if (sistema.cambiarDeHabitacion(nombreEquipo,codigoHabitacion)){
+                    System.out.println("¡¡Ha cambiado de habitacion!!");
+                }else {
+                    System.out.println("No fue posible cambiar de habitacion");
+                }
+                break;
+            case 5:
+                if (sistema.puedeSalir(nombreEquipo)){
+                    System.out.println("¡¡Si es posible salir!!");
+                }else{
+                    System.out.println("¡¡No se puede salir aun!!");
+                }
+                break;
+            default:
+                System.out.println("Opcion no valida, por favor escriba 1, 2, 3, 4 o 5");
+                break;
+        }
+        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion en el menu de consulta equipo?");
+        continuar = mensajeConfirmacion(respuesta);
+        if (!continuar){
+            System.out.println("Operación cancelada");
+        }
+        return continuar;
     }
 
     //menu Configuracion
@@ -279,127 +421,12 @@ public class escapeHouse {
         }
         return continuarConfHab;
     }
-    private static void menuConsultaDesafio(Scanner sc, String nombreEquipo){
-        int opcion;
-        int codigoHabitacion;
-        int puntaje;
-        int puntajeMax;
-        String tipo;
-        System.out.println("Seleccione una opción:" +
-                "\n1. Mostrar desafio de una habitacion" +
-                "\n2. Mostrar desafios resueltos" +
-                "\n3. Verificar si ya se resolvio un desafio de una habitacion" +
-                "\n4. Mostrar los desafios de un tipo, y con un puntaje dentro un rango, de una habitacion\n");
-        System.out.print("\nIngrese su opción:\n");
-        opcion = sc.nextInt();
-        sc.nextLine();
-        switch (opcion) {
-            case 1:
-                System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
-                codigoHabitacion = sc.nextInt();
-                sc.nextLine();
-                System.out.println("Ingrese el puntaje del desafio del cual desea mostrar la informacion:");
-                puntaje = sc.nextInt();
-                sc.nextLine();
-                System.out.println(sistema.mostrarDesafio(puntaje, codigoHabitacion));
-                break;
-            case 2:
-                System.out.println(sistema.mostrarDesafiosResueltos(nombreEquipo));
-                break;
-            case 3:
-                System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
-                codigoHabitacion = sc.nextInt();
-                sc.nextLine();
-                System.out.println("Ingrese el puntaje del desafio del cual desea saber si ya resolvio su equipo:");
-                puntaje = sc.nextInt();
-                sc.nextLine();
-                if (sistema.verificarDesafíoResuelto(nombreEquipo,puntaje,codigoHabitacion)){
-                    System.out.println("El desafio "+sistema.obtenerNombreDesafio(codigoHabitacion,puntaje) + " en la habitacion N°"+codigoHabitacion + " ya ha sido resuelto por el equipo " + nombreEquipo);
-                }else {
-                    System.out.println("El desafio "+sistema.obtenerNombreDesafio(codigoHabitacion,puntaje) + " en la habitacion N°"+codigoHabitacion + " aun no ha sido resuelto por el equipo " + nombreEquipo);
-                }
-                break;
-            case 4:
-                System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
-                codigoHabitacion = sc.nextInt();
-                sc.nextLine();
-                System.out.println("Ingrese el puntaje minimo (incluido):");
-                puntaje = sc.nextInt();
-                sc.nextLine();
-                System.out.println("Ingrese el puntaje maximo (incluido):");
-                puntajeMax = sc.nextInt();
-                sc.nextLine();
-                System.out.println("Ingrese el tipo de desafio que quiera buscar:");
-                tipo = sc.nextLine();
-                System.out.println(sistema.mostrarDesafiosTipo(codigoHabitacion,puntaje,puntajeMax, tipo).toString());
-                break;
-            default:
-                System.out.println("Opcion no valida, por favor escriba 1, 2, 3 o 4");
-                break;
-        }
-    }
-    private static void menuConsultaEquipo(Scanner sc, String nombreEquipo){
-        int opcion;
-        int codigoHabitacion;
-        int puntaje;
-        System.out.println("Seleccione una opción:" +
-                "\n1. Mostrar la informacion del equipo" +
-                "\n2. Mostrar los desafios que se pueden resolver para pasar a una habitacion" +
-                "\n3. ¡¡Jugar un desafio!!" +
-                "\n4. Cambio de habitacion" +
-                "\n5. ¿El equipo puede salir?\n");
-        System.out.print("\nIngrese su opción:\n");
-        opcion = sc.nextInt();
-        sc.nextLine();
-        switch (opcion) {
-            case 1:
-                System.out.println(sistema.mostrarInfoEquipo(nombreEquipo));
-                break;
-            case 2:
-                System.out.println("Ingrese el numero de la habitacion la cual desea poder ingresar: ");
-                codigoHabitacion = sc.nextInt();
-                sc.nextLine();
-                System.out.println(sistema.posiblesDesafios(nombreEquipo,codigoHabitacion));
-                break;
-            case 3:
-                System.out.println("Ingrese el puntaje del desafio del cual desea jugar:");
-                puntaje = sc.nextInt();
-                sc.nextLine();
-                if (sistema.jugarDesafio(nombreEquipo,sistema.obtenerCodigoHab(nombreEquipo),puntaje)){
-                    System.out.println("!!Desafio completado¡¡");
-                }else {
-                    System.out.println("No se ha podido resolver el desafio");
-                }
-                break;
-            case 4:
-                System.out.println("Ingrese el numero de la habitacion a la cual desea moverse: ");
-                codigoHabitacion = sc.nextInt();
-                sc.nextLine();
-                if (sistema.cambiarDeHabitación(nombreEquipo,codigoHabitacion)){
-                    System.out.println("¡¡Ha cambiado de habitacion!!");
-                }else {
-                    System.out.println("No fue posible cambiar de habitacion");
-                }
-                break;
-            case 5:
-                if (sistema.puedeSalir(nombreEquipo)){
-                    System.out.println("¡¡Si es posible salir!!");
-                }else{
-                    System.out.println("¡¡No se puede salir aun!!");
-                }
-                break;
-            default:
-                System.out.println("Opcion no valida, por favor escriba 1, 2, 3, 4 o 5");
-                break;
-        }
-    }
 
 
     public static boolean agregarHabitacion( Scanner sc) throws IOException {
         boolean continuar;
         String nombre, respuesta;
         int planta, mtsCuadrados;
-        boolean seCreo;
 
         System.out.println("Ingrese el nombre de la nueva habitacion:");
         nombre = sc.nextLine();
@@ -436,7 +463,7 @@ public class escapeHouse {
     }
 
     public static boolean modificarHabitacion( Scanner sc) throws IOException {
-        boolean continuar = true;
+        boolean continuar;
         String respuesta;
         String nombre;
         int planta, mtsCuadrados;
@@ -499,6 +526,7 @@ public class escapeHouse {
                         continuar =  mensajeConfirmacion(respuesta);
                     }
                 }while (continuar);
+                break;
             default:
                 System.out.println("Opcion no valida por favor escriba 1, 2 o 3");
                 break;
@@ -528,6 +556,9 @@ public class escapeHouse {
             respuesta = enviarConfirmacion(sc,"Desea intentarlo otra vez?");
         }
         continuar =  mensajeConfirmacion(respuesta);
+        if (!continuar){
+            System.out.println("Operación cancelada");
+        }
         return continuar;
     }
 
@@ -621,7 +652,9 @@ public class escapeHouse {
             respuesta = enviarConfirmacion(sc,"Desea intentarlo otra vez?");
         }
         continuar =  mensajeConfirmacion(respuesta);
-
+        if (!continuar){
+            System.out.println("Operación cancelada");
+        }
         return continuar;
     }
 
@@ -724,7 +757,7 @@ public class escapeHouse {
     }
 
     public static boolean modificarDesafio(Scanner sc) throws IOException {
-        boolean continuar = true;
+        boolean continuar;
         String respuesta;
         String nombre, tipo;
         System.out.println("\nQue desea modificar del desafio?\n" +
@@ -784,7 +817,6 @@ public class escapeHouse {
     }
 
     public static boolean borrarDesafio(Scanner sc) throws IOException {
-
         System.out.println("Ingrese el puntaje del desafio que desea eliminar:");
         int puntaje = sc.nextInt();
         sc.nextLine();
@@ -804,6 +836,9 @@ public class escapeHouse {
             respuesta = enviarConfirmacion(sc,"Desea intentarlo otra vez?");
         }
         continuar =  mensajeConfirmacion(respuesta);
+        if (!continuar){
+            System.out.println("Operación cancelada");
+        }
         return continuar;
     }
 
@@ -814,8 +849,7 @@ public class escapeHouse {
 
     // metodo para procesar la respuesta de confirmacion de seguir o no en el menu
     private static boolean mensajeConfirmacion(String rta) {
-        boolean confirmacion = rta.equalsIgnoreCase("S");
-        return confirmacion;
+        return rta.equalsIgnoreCase("S");
     }
 
     // metodo para enviar un mensaje de confirmacion de si seguir en el menu y

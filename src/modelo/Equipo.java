@@ -22,14 +22,6 @@ public class Equipo {
         this.puntajeAcumuladoEnHabitacion = 0;
         this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
-    public Equipo(String nombre, int puntParaSalir){
-        this.nombreEquipo = nombre;
-        this.puntajeParaSalida = puntParaSalir;
-        this.puntajeAcumulado = 0;
-        this.habitacionActual = null;
-        this.puntajeAcumuladoEnHabitacion = 0;
-        this.desafiosResueltos = new HashMap<Integer, Lista>();
-    }
     public Equipo(String nombre, int puntParaSalir, Habitacion actual){
         this.nombreEquipo = nombre;
         this.puntajeParaSalida = puntParaSalir;
@@ -111,8 +103,8 @@ public class Equipo {
         return "Nombre: "+this.nombreEquipo+"\n" +
                 "Puntaje para la salida: "+this.puntajeParaSalida+"\n"+
                 "Puntaje acumulado en total: "+this.puntajeAcumulado+"\n"+
-                "Habitacion actual: "+this.habitacionActual+"\n"+
-                "Puntaje aucmulado en la habitacion: "+this.puntajeAcumuladoEnHabitacion+"\n"+
+                "Habitacion actual: "+this.habitacionActual+
+                "Puntaje acumulado en la habitacion: "+this.puntajeAcumuladoEnHabitacion+"\n"+
                 toStringAux()+"\n";
     }
 

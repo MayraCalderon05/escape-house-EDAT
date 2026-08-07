@@ -342,7 +342,7 @@ public class SistemaEscapeHouse {
     // CRUD Equipos
     //CREATE
     public boolean crearEquipo(String nombre, int dificultad) throws IOException {
-        boolean exito = false;
+        boolean exito;
 
         int puntajeExigido = calcularPuntajeExigido(dificultad);
         Equipo nuevoEquipo = new Equipo(nombre, puntajeExigido, this.entrada);
@@ -365,8 +365,8 @@ public class SistemaEscapeHouse {
         }
         return cadena;
     }
-    public int obtenerCodigoHab(String nombre){
-        return (((Equipo) equipos.obtenerInfo(nombre)).getHabitacionActual()).getCodigo();
+    public int obtenerCodigoHab(String nombreEquipo){
+        return (((Equipo) equipos.obtenerInfo(nombreEquipo)).getHabitacionActual()).getCodigo();
     }
     //UPDATE
     public boolean actualizarEquipo(String nombre, int nuevaDificultad) throws IOException {
@@ -563,7 +563,7 @@ public class SistemaEscapeHouse {
 
     }
 
-    public boolean verificarDesafíoResuelto(String nombreEquipo, int puntajeDesafio, int codigoHabitacion){
+    public boolean verificarDesafioResuelto(String nombreEquipo, int puntajeDesafio, int codigoHabitacion){
         boolean verificado = false;
         Equipo equipo = (Equipo) equipos.obtenerInfo(nombreEquipo);
         if (equipo != null) {
@@ -629,7 +629,7 @@ public class SistemaEscapeHouse {
         return exito;
     }
 
-    public boolean cambiarDeHabitación(String nombreEquipo, int codigoHab){
+    public boolean cambiarDeHabitacion(String nombreEquipo, int codigoHab){
         boolean exito = false;
         //verifico que exista el equipo
         Equipo equipo = (Equipo) equipos.obtenerInfo(nombreEquipo);

@@ -1,6 +1,8 @@
 package estructuras.tdaEspecifico.tablaBusquedaAVL;
 
 
+import modelo.Equipo;
+
 public class NodoAVLDicc {
     //la clave del desafío era el puntaje
     private Comparable clave;
@@ -51,7 +53,9 @@ public class NodoAVLDicc {
     public void setHijoDerecho(NodoAVLDicc hijoDerecho){
         this.hijoDerecho = hijoDerecho;
     }
-
+    public void setInfo(Equipo laInfo){
+        this.info = laInfo;
+    }
     //Propios del Tipo
     public void recalcularAltura(){
         int altIzq = -1;

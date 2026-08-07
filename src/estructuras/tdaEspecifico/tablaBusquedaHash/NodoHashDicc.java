@@ -28,7 +28,7 @@ public class NodoHashDicc {
     }
 
     //Modificadores
-    public void setDato(Equipo laInfo){
+    public void setInfo(Equipo laInfo){
         this.info = laInfo;
     }
 

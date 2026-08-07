@@ -139,6 +139,7 @@ public class Grafo {
         NodoVert nodoDestino = ubicarVertice(destino);
 
         if(nodoOrigen != null && nodoDestino != null){
+            // Arco origen -> destino
             NodoAdy nuevoArco = new NodoAdy(nodoDestino, nuevaEtiqueta);
             if (nodoOrigen.getPrimerAdy() != null){
                 NodoAdy aux = nodoOrigen.getPrimerAdy();
@@ -148,6 +149,21 @@ public class Grafo {
                 aux.setSigAdyacente(nuevoArco);
             }else {
                 nodoOrigen.setPrimerAdy(nuevoArco);
+            }
+            // Arco destino -> origen
+            NodoAdy nuevoArco2 = new NodoAdy(nodoOrigen, nuevaEtiqueta);
+
+            if (nodoDestino.getPrimerAdy() != null) {
+                NodoAdy aux = nodoDestino.getPrimerAdy();
+
+                while (aux.getSigAdyacente() != null) {
+                    aux = aux.getSigAdyacente();
+                }
+
+                aux.setSigAdyacente(nuevoArco2);
+
+            } else {
+                nodoDestino.setPrimerAdy(nuevoArco2);
             }
         }else {
             insertado = false;
