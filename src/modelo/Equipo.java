@@ -3,6 +3,7 @@ package modelo;
 import estructuras.lineales.Lista;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Equipo {
     private String nombreEquipo;
@@ -93,12 +94,26 @@ public class Equipo {
         this.puntajeAcumuladoEnHabitacion = 0;
     }
 
+    private String toStringAux(){
+        StringBuilder sb = new StringBuilder("DESAFÍOS RESUELTOS POR "+this.nombreEquipo+" \n");
+        //por cada elemento del hash map
+        for (Map.Entry<Integer, Lista> entrada : this.desafiosResueltos.entrySet()){
+            sb.append("Habitación ");
+            sb.append(entrada.getKey());
+            sb.append(": ");
+            sb.append(entrada.getValue().toString()); // toString de lista
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
+    }
+    @Override
     public String toString() {
         return "Nombre: "+this.nombreEquipo+"\n" +
                 "Puntaje para la salida: "+this.puntajeParaSalida+"\n"+
                 "Puntaje acumulado en total: "+this.puntajeAcumulado+"\n"+
                 "Habitacion actual: "+this.habitacionActual+"\n"+
-                "Puntaje aucmulado en la habitacion: "+this.puntajeAcumuladoEnHabitacion+"\n";
+                "Puntaje aucmulado en la habitacion: "+this.puntajeAcumuladoEnHabitacion+"\n"+
+                toStringAux()+"\n";
     }
 
     public boolean equals(Equipo otroEquipo) {

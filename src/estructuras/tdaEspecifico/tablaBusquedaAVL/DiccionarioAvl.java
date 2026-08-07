@@ -258,52 +258,31 @@ public class DiccionarioAvl {
     }
 
     public String toString(){
-        StringBuilder res = new StringBuilder("[");
-
-        if (this.raiz != null){
-            res.append(System.lineSeparator()).append(toStringAux(this.raiz));
+        if (this.raiz == null){
+            return "El árbol está vacío.\n";
         }
-        res.append("]");
-
-        return res.toString();
+        return toStringAux(this.raiz, "1");
     }
-    private String toStringAux(NodoAVLDicc n){
+    private String toStringAux(NodoAVLDicc n, String ubicacion){
         StringBuilder res = new StringBuilder();
 
         if (n != null){
             //primero el subárbol izquierdo
-            res.append(toStringAux(n.getHijoIzquierdo()));
+            res.append(toStringAux(n.getHijoIzquierdo(), ubicacion + ".1"));
 
             //despues el nodo actual
-            res.append("1: ").append(n.getInfo().toString()).append(System.lineSeparator());
-
-            //hijo izq
-            res.append("1.1: ");
-            if (n.getHijoIzquierdo() != null){
-                res.append(n.getHijoIzquierdo().getInfo().toString());
-            } else {
-                res.append("nulo");
-            }
+            res.append(ubicacion).append(": ");
+            res.append("[Clave: ").append(n.getClave());
+            res.append(", Altura: ").append(n.getAltura());
+            res.append("] ").append(n.getInfo().toString());
             res.append(System.lineSeparator());
-
-            //hijo der
-            res.append("1.2: ");
-            if (n.getHijoDerecho() != null){
-                res.append(n.getHijoDerecho().getInfo().toString());
-            } else {
-                res.append("nulo");
-            }
-
-            res.append(System.lineSeparator());
-            res.append("------------------------").append(System.lineSeparator());
 
             //despues el subárbol derecho
-            res.append(toStringAux(n.getHijoDerecho()));
+            res.append(toStringAux(n.getHijoDerecho(), ubicacion + ".2"));
         }
 
         return res.toString();
     }
-
 
     private int balance(NodoAVLDicc n){
         int balance;
