@@ -23,7 +23,8 @@ public class escapeHouse {
             System.out.println("\nBIENVENIDO/A A ESCAPE HOUSE\n" +
                     "\nSeleccione una opción:\n" +
                     "1. Jugar\n" +
-                    "2. Configurar el juego\n");
+                    "2. Configurar el juego\n"+
+                    "3. Mostrar sistema\n");
             System.out.print("\nIngrese su opción:\n");
             opcion = sc.nextInt();
 
@@ -38,6 +39,8 @@ public class escapeHouse {
                         continuar = menuConfiguracion(sc);
                     } while (continuar);
                     break;
+                case 3:
+                    System.out.println(sistema.mostrarSistema());
                 default:
                     System.out.println("Opcion no valida, por favor escriba 1 o 2");
                     break;
@@ -51,6 +54,7 @@ public class escapeHouse {
             }
         } while (continuar);
     }
+
 
     //menu Jugar
     public static boolean menuJugar(Scanner sc) throws IOException {
