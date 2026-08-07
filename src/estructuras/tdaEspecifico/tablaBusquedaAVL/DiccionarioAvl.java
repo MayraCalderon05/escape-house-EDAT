@@ -211,6 +211,7 @@ public class DiccionarioAvl {
         if (raiz != null || elemMaximo.compareTo(elemMinimo) > 0) {
             listarRangoAux(this.raiz, lista, elemMinimo, elemMaximo);
         }
+        return lista;
     }
 
     private void listarRangoAux(NodoAVLDicc n, Lista lista, Comparable elemMin, Comparable elemMax){
@@ -365,14 +366,14 @@ public class DiccionarioAvl {
             } else if (balanceN == -2) {
                 int balanceH = balance(n.getHijoDerecho());
 
-                //si el hijo esta desbalanceado hacia la izq
+                //si el hijo esta desbalanceado hacia la izq (mismo sentido que n)
                 if ((balanceH == -1) || (balanceH == 0)) {
                     //roto a la izquierda
                     n = rotarIzquierda(n);
                 } else {
-                    //si el hijo esta desbalanceado hacia la der
+                    //si el hijo esta desbalanceado hacia la der (sentido contrario a n)
                     //rotacion doble der-izq
-                    n.setHijoDerecho(rotarIzquierda(n.getHijoIzquierdo()));
+                    n.setHijoDerecho(rotarDerecha(n.getHijoDerecho()));
                     n = rotarIzquierda(n);
                 }
             }

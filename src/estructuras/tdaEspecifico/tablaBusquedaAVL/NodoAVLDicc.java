@@ -1,6 +1,5 @@
 package estructuras.tdaEspecifico.tablaBusquedaAVL;
 
-import estructuras.conjuntistas.avl.NodoAVL;
 
 public class NodoAVLDicc {
     //la clave del desafío era el puntaje

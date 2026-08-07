@@ -1,7 +1,9 @@
+/*
 import sistema.SistemaEscapeHouse;
 import java.util.Scanner;
 
 public class escapeHouse {
+
 public static void main() {
 
 
@@ -76,3 +78,6 @@ public static void main() {
         return rta;
     }
 }
+
+*
+     */

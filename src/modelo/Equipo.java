@@ -62,7 +62,7 @@ public class Equipo {
     public int getPuntajeAcumuladoEnHabitacion() {
         return this.puntajeAcumuladoEnHabitacion;
     }
-    public HashMap<Integer, Lista> getDesafiosResueltos(){ return this.desafiosResueltos }
+    public HashMap<Integer, Lista> getDesafiosResueltos(){ return this.desafiosResueltos; }
 
     //setters
     public void setPuntajeParaSalida(int puntaje) {

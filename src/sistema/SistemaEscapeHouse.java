@@ -1,3 +1,4 @@
+/*
 package sistema;
 
 import estructuras.auxiliares.ParAuxiliar;
@@ -435,6 +436,7 @@ public class SistemaEscapeHouse {
         return cadena;
     }
 
+
     public String mostrarDesafiosResueltos(String nombreEquipo){
         String resueltos = "Equipo no encontrado";
         Equipo buscado = (Equipo) this.equipos.obtenerInfo(nombreEquipo);
@@ -631,3 +633,4 @@ public class SistemaEscapeHouse {
 
     //consultas generales
 }
+*/
