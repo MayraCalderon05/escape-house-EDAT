@@ -215,7 +215,7 @@ public class SistemaEscapeHouse {
         return codigo > 0 && codigo <= this.numHabitacion;
     }
     //Create
-    public boolean agregarDesafio(int codigoHab, int puntaje, String nombre, String tipo) throws IOException {
+    public boolean crearDesafio(int codigoHab, int puntaje, String nombre, String tipo) throws IOException {
         boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(nombre)&&verificarString(tipo)) {
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
@@ -325,7 +325,15 @@ public class SistemaEscapeHouse {
     }
     //READ
     public String mostrarInfoEquipo(String nombre){
-        return ((Equipo) this.equipos.obtenerInfo(nombre)).toString();
+        String cadena = "Equipo no encontrado";
+        Equipo buscado = obtenerEquipo(nombre);
+        if(buscado != null){
+            cadena = buscado.toString();
+        }
+        return cadena;
+    }
+    public int obtenerCodigoHab(String nombre){
+        return obtenerEquipo(nombre).getHabitacionActual().getCodigo();
     }
     //UPDATE
     public boolean actualizarEquipo(String nombre, int nuevaDificultad){
@@ -618,7 +626,7 @@ public class SistemaEscapeHouse {
         return par;
     }
 
-    public StringBuilder posiblesDesafios(String nombreEquipo, int numHabitacion){
+    public String posiblesDesafios(String nombreEquipo, int numHabitacion){
         StringBuilder resultado = new StringBuilder();
         Equipo equipo =  (Equipo) this.equipos.obtenerInfo(nombreEquipo);
         //me fijo que el equipo exista
@@ -664,7 +672,7 @@ public class SistemaEscapeHouse {
             resultado.append("No se encontraron posibles resultados");
         }
 
-        return resultado;
+        return resultado.toString();
     }
 
     public boolean puedeSalir(String nombreEquipo){
