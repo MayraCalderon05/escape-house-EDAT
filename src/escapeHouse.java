@@ -53,7 +53,7 @@ public class escapeHouse {
     }
 
     //menu Jugar
-    public static boolean menuJugar(Scanner sc) {
+    public static boolean menuJugar(Scanner sc) throws IOException {
         int opcion;
         String nombre;
         System.out.println(
@@ -497,7 +497,7 @@ public class escapeHouse {
     }
 
     //configuracion de Equipo
-    public static boolean configuracionEquipo( Scanner sc){
+    public static boolean configuracionEquipo( Scanner sc) throws IOException {
         System.out.println("\nBIENVENIDA/O A LA CONFIGURACION DE EQUIPO\n" +
                 "\nSeleccione una opción:\n" +
                 "1. Ver equipo\n" +
@@ -549,7 +549,7 @@ public class escapeHouse {
 
     }
 
-    public static  boolean modificarEquipo( Scanner sc){
+    public static  boolean modificarEquipo( Scanner sc) throws IOException {
         String respuesta;
         boolean continuar;
 
@@ -570,7 +570,7 @@ public class escapeHouse {
         return continuar;
     }
 
-    public static boolean borrarEquipo( Scanner sc){
+    public static boolean borrarEquipo( Scanner sc) throws IOException {
         String respuesta;
         boolean continuar;
         System.out.println("Ingrese el nombre del equipo");
@@ -681,7 +681,7 @@ public class escapeHouse {
         return continuar;
     }
 
-    public static boolean modificarDesafio(Scanner sc){
+    public static boolean modificarDesafio(Scanner sc) throws IOException {
         boolean continuar = true;
         String respuesta;
         String nombre, tipo;
@@ -738,7 +738,7 @@ public class escapeHouse {
         return continuar;
     }
 
-    public static boolean borrarDesafio(Scanner sc){
+    public static boolean borrarDesafio(Scanner sc) throws IOException {
 
         System.out.println("Ingrese el puntaje del desafio que desea eliminar:");
         int puntaje = sc.nextInt();

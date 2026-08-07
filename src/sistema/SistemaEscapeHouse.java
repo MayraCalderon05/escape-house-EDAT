@@ -278,7 +278,7 @@ public class SistemaEscapeHouse {
         return cadena;
     }
     //Update
-    public boolean cambiarNombreDesafio(int codigoHab, int puntaje, String nombreDesafio) {
+    public boolean cambiarNombreDesafio(int codigoHab, int puntaje, String nombreDesafio) throws IOException {
         boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(nombreDesafio)) {
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
@@ -287,9 +287,16 @@ public class SistemaEscapeHouse {
             }
         }
 
+        if (exito){
+            escribir.escribirTxt(("Se modificó en la habitación "+(codigoHab)+ " el desafío de "+puntaje+ " puntos, nuevo nombre: "+nombreDesafio), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al modificar en la habitación "+(codigoHab)+ " el desafío de "+puntaje+ " puntos"), urlAvanceDeSistema);
+        }
+
         return exito;
     }
-    public boolean cambiarTipoDesafio(int codigoHab, int puntaje, String tipoDesafio) {
+    public boolean cambiarTipoDesafio(int codigoHab, int puntaje, String tipoDesafio) throws IOException {
         boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(tipoDesafio)) {
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
@@ -297,10 +304,16 @@ public class SistemaEscapeHouse {
                 exito = habitacion.cambiarTipoDesafio(puntaje, tipoDesafio);
             }
         }
+        if (exito){
+            escribir.escribirTxt(("Se modificó en la habitación "+(codigoHab)+ " el desafío de "+puntaje+ " puntos, nuevo tipo: "+tipoDesafio), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al modificar en la habitación "+(codigoHab)+ " el desafío de "+puntaje+ " puntos"), urlAvanceDeSistema);
+        }
         return exito;
     }
     //Delete
-    public boolean sacarDesafio(int codigoHab, int puntaje) {
+    public boolean sacarDesafio(int codigoHab, int puntaje) throws IOException {
         boolean exito = false;
         if (verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)) {
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
@@ -308,48 +321,74 @@ public class SistemaEscapeHouse {
                 exito = habitacion.sacarDesafio(puntaje);
             }
         }
+        if (exito){
+            escribir.escribirTxt(("Se eliminó en la habitación "+(codigoHab)+ " el desafío de "+puntaje+ " puntos"), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al eliminar en la habitación "+(codigoHab)+ " el desafío de "+puntaje+ " puntos"), urlAvanceDeSistema);
+        }
         return exito;
     }
 
     // CRUD Equipos
     //CREATE
-    public boolean crearEquipo(String nombre, int dificultad){
+    public boolean crearEquipo(String nombre, int dificultad) throws IOException {
         boolean exito = false;
 
         int puntajeExigido = calcularPuntajeExigido(dificultad);
         Equipo nuevoEquipo = new Equipo(nombre, puntajeExigido, this.entrada);
         exito = this.equipos.insertar(nombre, nuevoEquipo);
 
+        if (exito){
+            escribir.escribirTxt(("Se agregó el equipo "+nombre), urlAvanceDeSistema);
 
+        }else{
+            escribir.escribirTxt(("Hubo un problema al agregar el equipo "+nombre), urlAvanceDeSistema);
+        }
         return exito;
     }
     //READ
     public String mostrarInfoEquipo(String nombre){
         String cadena = "Equipo no encontrado";
-        Equipo buscado = obtenerEquipo(nombre);
+        Equipo buscado = (Equipo) equipos.obtenerInfo(nombre);
         if(buscado != null){
             cadena = buscado.toString();
         }
         return cadena;
     }
     public int obtenerCodigoHab(String nombre){
-        return obtenerEquipo(nombre).getHabitacionActual().getCodigo();
+        return (((Equipo) equipos.obtenerInfo(nombre)).getHabitacionActual()).getCodigo();
     }
     //UPDATE
-    public boolean actualizarEquipo(String nombre, int nuevaDificultad){
+    public boolean actualizarEquipo(String nombre, int nuevaDificultad) throws IOException {
         boolean exito = false;
         Equipo encontrado = (Equipo) equipos.obtenerInfo(nombre);
+        int nuevoPuntajeExigido = 0;
 
         if (encontrado != null){
-            int nuevoPuntajeExigido = calcularPuntajeExigido(nuevaDificultad);
+            nuevoPuntajeExigido = calcularPuntajeExigido(nuevaDificultad);
             encontrado.setPuntajeParaSalida(nuevoPuntajeExigido);
             exito = true;
+        }
+        if (exito){
+            escribir.escribirTxt(("Se modificó el puntaje exigido para salir de la casa:"+nuevoPuntajeExigido+" del equipo "+nombre), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al modificar el equipo "+nombre), urlAvanceDeSistema);
         }
         return exito;
     }
     //DELETE
-    public boolean eliminarEquipo(String nombre){
-        return equipos.eliminar(nombre);
+    public boolean eliminarEquipo(String nombre) throws IOException {
+        boolean exito = equipos.eliminar(nombre);
+        if (exito){
+            escribir.escribirTxt(("Se eliminó al equipo "+nombre), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al eliminar el equipo "+nombre), urlAvanceDeSistema);
+        }
+
+        return exito;
     }
 
 
