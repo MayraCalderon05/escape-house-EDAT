@@ -1,10 +1,12 @@
-/*
+
 import sistema.SistemaEscapeHouse;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class escapeHouse {
 
-public static void main() {
+public static void main() throws IOException {
 
 
     SistemaEscapeHouse sistema = new SistemaEscapeHouse();
@@ -79,5 +81,3 @@ public static void main() {
     }
 }
 
-*
-     */

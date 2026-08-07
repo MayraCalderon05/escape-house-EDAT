@@ -15,22 +15,19 @@ public class Lectura {
     private Grafo plano;
     private DiccionarioAvl habitaciones;
     private DiccionarioHash equipos;
-    private HashMap<String, Lista> desafiosResueltosPorEquipo;
     private Escritura escribir;
     private final String ruta = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\salida\\verificacion.txt";
 
     //el sistema maneja sus estructuras
-    public Lectura(Grafo g, DiccionarioAvl h, DiccionarioHash e, HashMap<String, Lista> de) throws IOException {
+    public Lectura(Grafo g, DiccionarioAvl h, DiccionarioHash e) throws IOException {
         this.plano = g;
         this.habitaciones = h;
         this.equipos = e;
-        this.desafiosResueltosPorEquipo = de;
         this.escribir = new Escritura();
 
-        this.leerInformacion();
     }
 
-    private void leerInformacion() throws IOException{
+    public void leerInformacion() throws IOException{
         String archivo = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\sistema.txt";
         String linea = "";
 

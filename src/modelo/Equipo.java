@@ -104,4 +104,12 @@ public class Equipo {
     public boolean equals(Equipo otroEquipo) {
         return this.nombreEquipo.equals(otroEquipo.nombreEquipo);
     }
+    public boolean estaResuelto(int codigoHabitacion, Desafio desafio){
+        boolean encontrado = false;
+        if (this.desafiosResueltos.containsKey(codigoHabitacion)){
+            Lista desafios = this.desafiosResueltos.get(codigoHabitacion);
+            encontrado = (desafios.localizar(desafio)>0);
+        }
+        return encontrado;
+    }
 }

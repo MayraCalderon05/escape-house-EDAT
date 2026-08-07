@@ -123,11 +123,10 @@ public class DiccionarioHash {
     public Object obtenerInfo(Object clave){
         NodoHashDicc aux = this.tabla[calcularPos(clave)]; //Busca el nodo cabecera en la tabla hash
         Object buscado = null;                           //Si no encuentra el nodo devuelve null
-        boolean encontrado = false;
-        while ((aux != null) && (!encontrado)){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
+        while (aux != null){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
             if(clave.equals(aux.getClave())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
                 buscado = aux.getInfo();
-                encontrado = true;                      //Si lo encuentra devuelve el dato (Equipo) del nodo encontrado
+                aux = null;                    //Si lo encuentra devuelve el dato (Equipo) del nodo encontrado
             }else{
                 aux = aux.getEnlace();                      //Pasa al siguiente nodo
             }
@@ -138,7 +137,7 @@ public class DiccionarioHash {
     public boolean existeClave(Object clave){
         NodoHashDicc aux = this.tabla[calcularPos(clave)];  //Busca el nodo cabecera en la tabla hash
         boolean encontrado = false;                         //Devuelve false si no encuentra un nodo con la clave
-        while (aux != null){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
+        while (aux != null && !encontrado){                                //Recorre el diccionario y busca al nodo que tenga la clave pasada por parametro
             if(clave.equals(aux.getClave())){        //Pregunta si la clave del nodo es la misma que la pasada por parametro
                 encontrado = true;                          //Si lo encuentra devuelve true
             }else{
