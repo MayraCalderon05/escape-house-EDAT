@@ -15,43 +15,53 @@ public class Lectura {
     private Grafo plano;
     private DiccionarioAvl habitaciones;
     private DiccionarioHash equipos;
-    private HashMap<String, Lista> desafiosResueltosPorEquipo;
     private Escritura escribir;
-    private final String ruta = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\salida\\insesionesCorrectas.txt";
+    private final String ruta = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\salida\\verificacion.txt";
 
     //el sistema maneja sus estructuras
-    public Lectura(Grafo g, DiccionarioAvl h, DiccionarioHash e, HashMap<String, Lista> de){
+    public Lectura(Grafo g, DiccionarioAvl h, DiccionarioHash e) throws IOException {
         this.plano = g;
         this.habitaciones = h;
         this.equipos = e;
-        this.desafiosResueltosPorEquipo = de;
         this.escribir = new Escritura();
+
     }
 
-    private void leerInformacion() throws IOException{
-        String habitacionesUrl = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\sistema.txt";
+    public void leerInformacion() throws IOException{
+        String archivo = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\sistema.txt";
         String linea = "";
-        int posicion = 0;
 
-        BufferedReader lectura = new BufferedReader(new FileReader(habitacionesUrl));
+        try (BufferedReader lectura = new BufferedReader(new FileReader(archivo))) {
 
-        while ((linea = lectura.readLine()) != null) {
-            char identificatorio = linea.charAt(0);
-            //toma la linea hasta el primer ; y en la posición siguiente crea el string
-            String resto = linea.substring(linea.indexOf(';') + 1);
 
-            switch (identificatorio) {
-                case 'H':
-                    procesarHabitacion(resto);
-                case 'E':
-                    procesarEquipo(resto);
-                case 'D':
-                    procesarDesafios(resto);
-                case 'P':
-                    procesarGrafo(resto);
-                default:
+            while ((linea = lectura.readLine()) != null) {
+                if (!linea.isEmpty()) {
+                    char identificatorio = linea.charAt(0);
+                    String resto = linea.substring(linea.indexOf(';') + 1);
+
+                    switch (identificatorio) {
+                        case 'H':
+                            procesarHabitacion(resto);
+                            break;
+                        case 'E':
+                            procesarEquipo(resto);
+                            break;
+                        case 'D':
+                            procesarDesafios(resto);
+                            break;
+                        case 'P':
+                            procesarGrafo(resto);
+                            break;
+                        case 'L':
+                            procesarDesafiosResueltos(resto);
+                            break;
+                        default:
+                    }
+                }
+                // si la línea está vacía, no entra al if y el while sigue solo
             }
         }
+
     }
 
     private void procesarHabitacion(String linea) throws IOException{
@@ -119,7 +129,6 @@ public class Lectura {
         //le debería pasar la linea sin el identificatorio
         StringTokenizer st = new StringTokenizer(linea, ";");
 
-        //trim saca los espacio atras y adelante
         Habitacion hab1 = (Habitacion) this.habitaciones.obtenerInfo(Integer.parseInt(st.nextToken().trim()));
         Habitacion hab2 = (Habitacion) this.habitaciones.obtenerInfo(Integer.parseInt(st.nextToken().trim()));
         int etiqueta = Integer.parseInt(st.nextToken().trim());
@@ -137,7 +146,9 @@ public class Lectura {
         StringTokenizer st = new StringTokenizer(linea, ";");
 
         //trim saca los espacio atras y adelante
-        String nombreEquipo = st.nextToken().trim();
+        //? el equipo que va a tener el desafio resuelto
+        Equipo equipo = (Equipo) this.equipos.obtenerInfo(st.nextToken().trim());
+
         String listaDesafios = st.nextToken().trim();
 
         StringTokenizer stGrupos = new StringTokenizer(listaDesafios, "()");
@@ -145,20 +156,25 @@ public class Lectura {
             String grupo = stGrupos.nextToken().trim();
 
             StringTokenizer stGrupo = new StringTokenizer(grupo, ":");
-            String habitacion = stGrupo.nextToken().trim();
+            int habitacionCodigo = Integer.parseInt(stGrupo.nextToken().trim());
+            //? la habitacion donde está guardada el equipo
+            Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(habitacionCodigo);
             String desafiosString = stGrupo.nextToken().trim();
 
-            //StringTokenizer stDesafios = new StringTokenizer()
-        }
+            StringTokenizer stDesafios = new StringTokenizer(desafiosString, ",");
+            while (stDesafios.hasMoreTokens()) {
+                //la clave del desafio
+                int puntaje = Integer.parseInt(stDesafios.nextToken().trim());
+                //? desafio que se va a guardar en el hash map
+                Desafio refDesafio = habitacion.getDesafio(puntaje);
+                if (refDesafio != null){
+                    equipo.agregarDesafioResuelto(habitacionCodigo, refDesafio);
+                    this.escribir.escribirTxt("Desafio resuelto cargado correctamente",this.ruta);
+                } else {
+                    this.escribir.escribirTxt("Ha habido un problema para marcar como resuelto el desafío",this.ruta);
+                }
 
-        Habitacion hab = (Habitacion) this.habitaciones.obtenerInfo(Integer.parseInt(st.nextToken().trim()));
-        Desafio des
-        int etiqueta = Integer.parseInt(st.nextToken().trim());
-
-        if (this.plano.insertarArco(hab1, hab2, etiqueta)) {
-            this.escribir.escribirTxt("Arco cargado correctamente",this.ruta);
-        } else {
-            this.escribir.escribirTxt("Ha habido un error al ingresar el arco",this.ruta);
+            }
         }
         
     }

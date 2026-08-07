@@ -1,10 +1,13 @@
+
 import sistema.SistemaEscapeHouse;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class escapeHouse {
     private final static SistemaEscapeHouse sistema = new SistemaEscapeHouse();
 
-    public static void main() {
+    public static void main() throws IOException{
         Scanner sc = new Scanner(System.in);
         int opcion;
         boolean continuar;
@@ -769,3 +772,4 @@ public class escapeHouse {
         return sc.nextLine();
     }
 }
+

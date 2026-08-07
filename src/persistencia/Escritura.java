@@ -9,7 +9,7 @@ public class Escritura {
         bw = null;
     }
 
-    //String habitacionesUrl = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\salida\\salida1.txt";
+    //String habitacionesUrl = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\salida\\salida.txt";
     public void escribirTxt(Lista cadenas, String ruta) throws IOException {
         String aux;
         Lista cadenasCopia = cadenas.clone();

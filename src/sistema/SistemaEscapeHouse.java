@@ -1,3 +1,4 @@
+
 package sistema;
 
 import estructuras.auxiliares.ParAuxiliar;
@@ -6,8 +7,12 @@ import estructuras.lineales.Lista;
 import estructuras.tdaEspecifico.tablaBusquedaAVL.DiccionarioAvl;
 import estructuras.tdaEspecifico.tablaBusquedaHash.DiccionarioHash;
 import modelo.*;
+import persistencia.Escritura;
+import persistencia.Lectura;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SistemaEscapeHouse {
     //asumo que en lo que es el sistema los datos ya vienen limpios, se validan en el main
@@ -16,8 +21,6 @@ public class SistemaEscapeHouse {
     private DiccionarioAvl habitaciones;
     private DiccionarioHash equipos;
     private final Habitacion entrada;
-    //el primer tipo de parametro corresponde a la clave del equipo
-    private HashMap<String, Lista> desafiosResueltosPorEquipo;
     private int numHabitacion;
 
     //definicion de puntajes como reglas para nuestro juego
@@ -25,23 +28,28 @@ public class SistemaEscapeHouse {
     private static int PUNTAJE_MEDIO = 400;
     private static int PUNTAJE_DIFICIL = 600;
 
+    private static final String urlAvanceDeSistema = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\salida\\salida.txt";
+    private static final String urlSistema = "C:\\facultad develop\\edat\\tpo final estructuras\\src\\sistema\\informacionBase\\salida\\mostrarSistema.txt";
+    private Escritura escribir;
+
     //constructor
-    public SistemaEscapeHouse( ){
+    public SistemaEscapeHouse( ) throws IOException {
         this.planoCasa = new Grafo();
         this.habitaciones = new DiccionarioAvl();
         this.equipos = new DiccionarioHash(17);
-        this.desafiosResueltosPorEquipo = new HashMap<>();
 
-        //* PENDIENTE  cargar las habitaciones, plano y desafíos antes de asignar la primera habitación
-
+        //* cargo la informacion en el archivo de texto
+        Lectura informacionPreCargada = new Lectura(this.planoCasa, this.habitaciones, this.equipos);
+        informacionPreCargada.leerInformacion();
 
         this.entrada = asignarPrimerHabitacion();
+        escribir = new Escritura();
     }
 
     //asignaciones principales
     //el metodo no puede ser static porque usa una variable de instancia
     private Habitacion asignarPrimerHabitacion(){
-        return (Habitacion) this.habitaciones.obtenerInfo(0);
+        return (Habitacion) this.habitaciones.obtenerInfo(1);
     }
     private int calcularPuntajeExigido(int dificultad){
         int puntaje;
@@ -62,7 +70,6 @@ public class SistemaEscapeHouse {
 
 
     //CRUD Habitaciones
-
     private Habitacion validarHabitacionEditable(int codigoHabitacion){
         //recupero la lista de todos los equipos en el juego
         Lista todosLosEquipos = this.equipos.listarDatos();
@@ -91,13 +98,18 @@ public class SistemaEscapeHouse {
     }
 
     //CREAD
-    public boolean crearHabitacion( String nombre, int planta, int metrosCuadrados){
+    public boolean crearHabitacion( String nombre, int planta, int metrosCuadrados) throws IOException {
             boolean exito = false;
             numHabitacion = numHabitacion + 1;
             Habitacion nuevaHabitacion = new Habitacion(numHabitacion, nombre, planta, metrosCuadrados);
             boolean insertoDicc = habitaciones.insertar(numHabitacion, nuevaHabitacion);
             boolean insertoGrafo = planoCasa.insertarVertice(nuevaHabitacion);
             exito = insertoGrafo && insertoDicc;
+            if (exito){
+                escribir.escribirTxt(("Se insertó la habitación "+(numHabitacion)), urlAvanceDeSistema);
+            } else {
+                escribir.escribirTxt(("Hubo un problema al insertar la habitación "+(numHabitacion)), urlAvanceDeSistema);
+            }
 
             return exito;
     }
@@ -113,40 +125,63 @@ public class SistemaEscapeHouse {
     }
 
     //UPDATE
-    public boolean actualizarNombreHab(int codigoHabitacion, String nuevoNombre){
+    public boolean actualizarNombreHab(int codigoHabitacion, String nuevoNombre) throws IOException {
         //busco el objeto de habitacion y valido si se puede editar
         Habitacion hab =  validarHabitacionEditable(codigoHabitacion);
         boolean exito = false;
+
         //si no es nula, se puede editar
         if (hab != null){
             hab.setNombre(nuevoNombre);
             exito = true;
         }
+
+        if (exito){
+            escribir.escribirTxt(("Se actualizó el noombre de la habitación "+codigoHabitacion), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al actualizar el nombre de la habitacion: "+(codigoHabitacion)+", nombre: "+nuevoNombre), urlAvanceDeSistema);
+        }
+
         return exito;
     }
 
-    public boolean actualizarPlantaHab(int codigoHabitacion, int nuevaPlanta){
+    public boolean actualizarPlantaHab(int codigoHabitacion, int nuevaPlanta) throws IOException {
         Habitacion hab =  validarHabitacionEditable(codigoHabitacion);
         boolean exito = false;
         if (hab != null){
             hab.setPlanta(nuevaPlanta);
             exito = true;
         }
+
+        if (exito){
+            escribir.escribirTxt(("Se actualizó la planta de la habitación "+(codigoHabitacion)+", planta: "+(nuevaPlanta)), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al actualizar la planta de la habitación: "+(codigoHabitacion)), urlAvanceDeSistema);
+        }
         return exito;
     }
 
-    public boolean actualizarMtsCuadrHab(int codigoHabitacion, int nuevosMts){
+    public boolean actualizarMtsCuadrHab(int codigoHabitacion, int nuevosMts) throws IOException {
         Habitacion hab =  validarHabitacionEditable(codigoHabitacion);
         boolean exito = false;
         if (hab != null){
             hab.setMetrosCuadrados(nuevosMts);
             exito = true;
         }
+
+        if (exito){
+            escribir.escribirTxt(("Se actualizaron los metros cuadrados de la habitación "+(codigoHabitacion)+", mt2: "+(nuevosMts)), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al actualizar los metros cuadrados de la habitación: "+(codigoHabitacion)), urlAvanceDeSistema);
+        }
         return exito;
     }
 
     //DELETE
-    public boolean eliminarHabitacion(int codigoHabitacion) {
+    public boolean eliminarHabitacion(int codigoHabitacion) throws IOException {
         boolean exito = false;
         //obtengo el objeto Habitacion
         Habitacion habitacion = validarHabitacionEditable(codigoHabitacion);
@@ -158,10 +193,15 @@ public class SistemaEscapeHouse {
             planoCasa.eliminarVertice(habitacion);
             exito = true;
         }
-            return exito;
+
+        if (exito){
+            escribir.escribirTxt(("Se eliminó la habitación "+(codigoHabitacion)), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema con eliminar la habitación "+(codigoHabitacion)), urlAvanceDeSistema);
+        }
+        return exito;
     }
-
-
 
 
     //CRUD Desafíos
@@ -175,13 +215,20 @@ public class SistemaEscapeHouse {
         return codigo > 0 && codigo <= this.numHabitacion;
     }
     //Create
-    public boolean crearDesafio(int codigoHab, int puntaje, String nombre, String tipo) {
+    public boolean crearDesafio(int codigoHab, int puntaje, String nombre, String tipo) throws IOException {
         boolean exito = false;
         if(verificarCodigo(codigoHab)&&verificarPuntaje(puntaje)&&verificarString(nombre)&&verificarString(tipo)) {
             Habitacion habitacion = (Habitacion) this.habitaciones.obtenerInfo(codigoHab);
             if (habitacion != null) {
                 exito = habitacion.agregarDesafio(puntaje, nombre, tipo);
             }
+        }
+
+        if (exito){
+            escribir.escribirTxt(("Se agregó a la habitación "+(codigoHab)+ " el desafío de "+puntaje+ " puntos"), urlAvanceDeSistema);
+
+        }else{
+            escribir.escribirTxt(("Hubo un problema al agregar a la habitación "+(codigoHab)+ " el desafío de "+puntaje+ " puntos"), urlAvanceDeSistema);
         }
         return exito;
     }
@@ -239,6 +286,7 @@ public class SistemaEscapeHouse {
                 exito = habitacion.cambiarNombreDesafio(puntaje, nombreDesafio);
             }
         }
+
         return exito;
     }
     public boolean cambiarTipoDesafio(int codigoHab, int puntaje, String tipoDesafio) {
@@ -276,11 +324,8 @@ public class SistemaEscapeHouse {
         return exito;
     }
     //READ
-    private Equipo obtenerEquipo(String nombre){
-        return (Equipo) this.equipos.obtenerInfo(nombre);
-    }
     public String mostrarInfoEquipo(String nombre){
-        String cadena = "Equipo no encontrada";
+        String cadena = "Equipo no encontrado";
         Equipo buscado = obtenerEquipo(nombre);
         if(buscado != null){
             cadena = buscado.toString();
@@ -293,7 +338,7 @@ public class SistemaEscapeHouse {
     //UPDATE
     public boolean actualizarEquipo(String nombre, int nuevaDificultad){
         boolean exito = false;
-        Equipo encontrado = obtenerEquipo(nombre);
+        Equipo encontrado = (Equipo) equipos.obtenerInfo(nombre);
 
         if (encontrado != null){
             int nuevoPuntajeExigido = calcularPuntajeExigido(nuevaDificultad);
@@ -308,8 +353,7 @@ public class SistemaEscapeHouse {
     }
 
 
-    // consultas sobre habitaciones
-
+    //? -------------- consultas sobre habitaciones
 
     public String minimoPuntaje(int cod1, int cod2){
         Habitacion hab1 = (Habitacion) this.habitaciones.obtenerInfo(cod1);
@@ -323,32 +367,34 @@ public class SistemaEscapeHouse {
         return cadena.toString();
     }
 
-    public Lista habitacionesContiguas(int codigoHabitacion){
-        //lista que se va a devolver
-        Lista habitacionesConSusPuntajes = new Lista();
+    public String habitacionesContiguas(int codigoHabitacion){
+        StringBuilder habitacionesConSusPuntajes = new StringBuilder();
 
         Lista vecinos = habitacionesContiguasAux(codigoHabitacion);
 
-        while (!vecinos.esVacia()){
-            Habitacion habitacion;
-            int puntaje;
-            StringBuilder info = new StringBuilder();
+        if (vecinos.esVacia()){
+            habitacionesConSusPuntajes.append("La habitación ").append(codigoHabitacion);
+            habitacionesConSusPuntajes.append(" no tiene habitaciones contiguas.");
+        } else {
+            while (!vecinos.esVacia()){
+                Habitacion habitacion;
+                int puntaje;
+                StringBuilder info = new StringBuilder();
 
-            //voy recuperando la posición 1 para recuperar el nombre y codigo de la habitacion
-            ParAuxiliar adyacente = (ParAuxiliar) vecinos.recuperar(1);
-            habitacion = (Habitacion) adyacente.getElemento();
-            puntaje = adyacente.getEtiqueta();
+                ParAuxiliar adyacente = (ParAuxiliar) vecinos.recuperar(1);
+                habitacion = (Habitacion) adyacente.getElemento();
+                puntaje = adyacente.getEtiqueta();
 
-            info.append(habitacion.getCodigo()).append(" - ").append(habitacion.getNombre());
-            info.append(" (Se necesitan: ").append(puntaje).append(" puntos).");
+                info.append(habitacion.getCodigo()).append(" - ").append(habitacion.getNombre());
+                info.append(" (Se necesitan: ").append(puntaje).append(" puntos).");
+                info.append(System.lineSeparator());
 
-            //agrego la información a la lista
-            habitacionesConSusPuntajes.insertar(info.toString(), habitacionesConSusPuntajes.longitud()+1);
-            //saco el elemento de la lista original
-            vecinos.eliminar(1);
+                habitacionesConSusPuntajes.append(info);
+                vecinos.eliminar(1);
+            }
         }
 
-        return habitacionesConSusPuntajes;
+        return habitacionesConSusPuntajes.toString();
     }
     private Lista habitacionesContiguasAux(int codigoHabitacion){
         Lista vecinos = new Lista();
@@ -363,31 +409,33 @@ public class SistemaEscapeHouse {
         return vecinos;
     }
 
-    public Lista sinPasarPor(int codigo1, int codigo2, int p, int codigoExcluido){
-        Lista resultado = new Lista();
+    public String sinPasarPor(int codigo1, int codigo2, int p, int codigoExcluido){
+        StringBuilder resultado = new StringBuilder();
 
         Lista l = sinPasarPorAux(codigo1, codigo2, p, codigoExcluido);
 
-        //por cada elemento "vecino"
-        while (!l.esVacia()){
-            ParAuxiliar elem = (ParAuxiliar) l.recuperar(1);
-            Lista camino = (Lista) elem.getElemento();
-            StringBuilder resVecino = new StringBuilder("Puntaje alcanzado con el siguiente camino: ");
-            resVecino.append(elem.getEtiqueta()).append(System.lineSeparator());
+        if (l.esVacia()){
+            resultado.append("No se encontró ningún camino que alcance el puntaje solicitado ");
+            resultado.append("sin pasar por la habitación ").append(codigoExcluido).append(".");
+        } else {
+            while (!l.esVacia()){
+                ParAuxiliar elem = (ParAuxiliar) l.recuperar(1);
+                Lista camino = (Lista) elem.getElemento();
+                StringBuilder resVecino = new StringBuilder("Puntaje alcanzado con el siguiente camino: ");
+                resVecino.append(elem.getEtiqueta()).append(System.lineSeparator());
 
-            while (!camino.esVacia()){
-                Habitacion actual = (Habitacion) camino.recuperar(1);
-                resVecino.append("-").append(actual.getNombre()).append(System.lineSeparator());
+                while (!camino.esVacia()){
+                    Habitacion actual = (Habitacion) camino.recuperar(1);
+                    resVecino.append("-").append(actual.getNombre()).append(System.lineSeparator());
+                    camino.eliminar(1);
+                }
 
-                camino.eliminar(1);
+                resultado.append(resVecino);
+                l.eliminar(1);
             }
-
-            //como no importa el orden de los caminos
-            resultado.insertar(resVecino.toString(), 1);
-            l.eliminar(1);
         }
 
-        return resultado;
+        return resultado.toString();
     }
     private Lista sinPasarPorAux(int codigo1, int codigo2, int p, int codigoExcluido){
         Lista caminos = new Lista();
@@ -428,7 +476,7 @@ public class SistemaEscapeHouse {
         return esPosible;
     }
 
-    //consultas sobre desafíos
+    //? ----------------------consultas sobre desafíos
     public String mostrarDesafio(int codigoDesafio, int numHabitacion){
         String cadena = "No es posible mostrar el desafio";
         Habitacion habitacion = (Habitacion) habitaciones.obtenerInfo(numHabitacion);
@@ -443,67 +491,73 @@ public class SistemaEscapeHouse {
         return cadena;
     }
 
+
     public String mostrarDesafiosResueltos(String nombreEquipo){
-        String resueltos = "Equipo no encontrado";
+        String resueltos ="Equipo no encontrado";
         Equipo buscado = (Equipo) this.equipos.obtenerInfo(nombreEquipo);
-        Lista aux;
-        if(buscado != null){
-            aux = this.desafiosResueltosPorEquipo.get(nombreEquipo);
-            resueltos = aux.toString();
+        if (buscado != null){
+            resueltos = desafiosResueltosPorEquipo(buscado);
         }
         return resueltos;
+    }
+    private String desafiosResueltosPorEquipo(Equipo equipo){
+        HashMap<Integer, Lista> desafiosResueltos = equipo.getDesafiosResueltos();
+        StringBuilder sb = new StringBuilder();
+        //por cada elemento del hash map
+        for (Map.Entry<Integer, Lista> entrada : desafiosResueltos.entrySet()){
+            sb.append("Habitación ");
+            sb.append(entrada.getKey());
+            sb.append(": ");
+            sb.append(entrada.getValue().toString()); // toString de lista
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
+
     }
 
     public boolean verificarDesafíoResuelto(String nombreEquipo, int puntajeDesafio, int codigoHabitacion){
         boolean verificado = false;
-        if (equipos.existeClave(nombreEquipo)) {
-            //si existe el equipo y si ese equipo está en el hash map es porque resolvió 1 desafío
-            if (desafiosResueltosPorEquipo.containsKey(nombreEquipo)){
-                //busco la lista
-                Lista desafiosResueltos = desafiosResueltosPorEquipo.get(nombreEquipo);
+        Equipo equipo = (Equipo) equipos.obtenerInfo(nombreEquipo);
+        if (equipo != null) {
+            //si existe el equipo
+            Habitacion habitacion = (Habitacion) habitaciones.obtenerInfo(codigoHabitacion);
+            if (habitacion != null){
+                Desafio desafio = habitacion.getDesafio(puntajeDesafio);
 
-                //busco la habitación donde está ese desafío
-                Habitacion habitacion = (Habitacion) habitaciones.obtenerInfo(codigoHabitacion);
-                if (habitacion != null){
-                    Desafio desafio = habitacion.getDesafio(puntajeDesafio);
-
-                    //si existe el desafío en esa habitación
-                    if (desafio != null){
-                        //si encuentra la posición donde está guardado el desafío, entonces está en la lista de resueltos
-                        verificado = (desafiosResueltos.localizar(desafio) > 0);
-                    }
+                //si existe el desafío en esa habitación
+                if (desafio != null){
+                    //si encuentra la posición donde está guardado el desafío, entonces está en la lista de resueltos
+                    verificado = equipo.estaResuelto(codigoHabitacion, desafio);
                 }
             }
         }
 
         return verificado;
     }
-    public Lista mostrarDesafiosTipo(int numHabitacion, int puntaje1, int puntaje2, String tipoDesafio){
-            Lista desafios = new Lista();
-            Habitacion habitacion = (Habitacion) habitaciones.obtenerInfo(numHabitacion);
-            //me fijo que la habitacion exista
-            if (habitacion != null){
-                //recupero una lista auxiliar con todos los desafios comprendidos en ese rango de puntaje
-                Lista desafiosAux = habitacion.getDesafios().listarRango(puntaje1, puntaje2);
-                //lo utilizo para contar cuantos elementos va teniendo la nueva lista
-                int pos = 0;
-                //recorre mientra la lista auxiliar temga algun elemento
-                while (!desafiosAux.esVacia()){
-                    //recupero el primer desafio de lista
-                    Desafio desafio =  (Desafio) desafiosAux.recuperar(1);
-                    //si el desafio es del mismo tipo que se pide, se agrega a la lista que se va retornar
-                    //esto va a ir filtrando solo los desafios del tipo pedido
-                    if (desafio.getTipo().equals(tipoDesafio)){
-                        desafios.insertar(desafio,pos+1);
-                    }
-                    //una vez chequeado si el desafio es o no del tipo pedido, se eliminar de la lista auxiliar
-                    desafiosAux.eliminar(1);
+    public String mostrarDesafiosTipo(int numHabitacion, int puntaje1, int puntaje2, String tipoDesafio){
+        StringBuilder sb = new StringBuilder();
+        Habitacion habitacion = (Habitacion) habitaciones.obtenerInfo(numHabitacion);
+        if (habitacion == null){
+            sb.append("No existe una habitación con el código ").append(numHabitacion).append(".");
+        } else {
+            Lista desafiosAux = habitacion.getDesafios().listarRango(puntaje1, puntaje2);
+            while (!desafiosAux.esVacia()){
+                Desafio desafio = (Desafio) desafiosAux.recuperar(1);
+                if (desafio.getTipo().equals(tipoDesafio)){
+                    sb.append(desafio.toString());
+                    sb.append(System.lineSeparator());
                 }
+                desafiosAux.eliminar(1);
             }
-            return desafios;
+            if (sb.isEmpty()){
+                sb.append("No se encontraron desafíos de tipo '").append(tipoDesafio);
+                sb.append("' en el rango de puntaje solicitado.");
+            }
+        }
+        return sb.toString();
     }
 
-    //consultas sobre equipos
+    //? -------------------------- consultas sobre equipos
     public boolean jugarDesafio(String nombreEquipo, int codigoHab, int puntaje){
         Equipo equipo = (Equipo) this.equipos.obtenerInfo(nombreEquipo);
         Habitacion habitacion;
@@ -515,12 +569,10 @@ public class SistemaEscapeHouse {
             if(habitacion != null){
                 desafio = habitacion.getDesafio(puntaje);
                 if(desafio != null){
-                    aux = this.desafiosResueltosPorEquipo.get(nombreEquipo);
-                    if(aux.localizar(desafio)<0) {
+                    if (!equipo.estaResuelto(codigoHab, desafio)){
                         equipo.acumularPuntaje(puntaje);
                         equipo.acumularPuntajeEnHabitacion(puntaje);
-                        aux.insertar(desafio, aux.longitud() + 1);
-                        this.desafiosResueltosPorEquipo.put(nombreEquipo, aux);
+                        equipo.agregarDesafioResuelto(codigoHab, desafio);
                         exito = true;
                     }
                 }
@@ -638,4 +690,38 @@ public class SistemaEscapeHouse {
     }
 
     //consultas generales
+    public String mostrarSistema() throws IOException {
+        escribir.escribirTxt(mostrarSistemaAux(), urlSistema);
+        return "Ver información del sistema en mostrarSistema.txt";
+    }
+    private String mostrarSistemaAux(){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("=".repeat(60)).append(System.lineSeparator());
+        sb.append(centrar("ESCAPE HOUSE", 60)).append(System.lineSeparator());
+        sb.append("=".repeat(60)).append("\n\n");
+
+        sb.append("--- HABITACIONES (Árbol AVL) ---\n");
+        sb.append(this.habitaciones.toString());
+        sb.append(System.lineSeparator());
+
+        sb.append("--- EQUIPOS (Tabla Hash) ---\n");
+        sb.append(this.equipos.toString());
+        sb.append(System.lineSeparator());
+
+        sb.append("--- PLANO DE LA CASA ---\n");
+        sb.append(this.planoCasa.toString());
+        sb.append(System.lineSeparator());
+
+
+        sb.append("=".repeat(60)).append(System.lineSeparator());
+
+        return sb.toString();
+    }
+
+    ///  centro el to string al medio
+    private String centrar(String texto, int ancho){
+        int espacios = (ancho - texto.length()) / 2;
+        return " ".repeat(Math.max(espacios, 0)) + texto;
+    }
 }

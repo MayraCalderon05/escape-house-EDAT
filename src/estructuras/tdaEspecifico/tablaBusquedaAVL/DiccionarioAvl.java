@@ -211,6 +211,7 @@ public class DiccionarioAvl {
         if (raiz != null || elemMaximo.compareTo(elemMinimo) > 0) {
             listarRangoAux(this.raiz, lista, elemMinimo, elemMaximo);
         }
+        return lista;
     }
 
     private void listarRangoAux(NodoAVLDicc n, Lista lista, Comparable elemMin, Comparable elemMax){
@@ -257,52 +258,31 @@ public class DiccionarioAvl {
     }
 
     public String toString(){
-        StringBuilder res = new StringBuilder("[");
-
-        if (this.raiz != null){
-            res.append(System.lineSeparator()).append(toStringAux(this.raiz));
+        if (this.raiz == null){
+            return "El árbol está vacío.\n";
         }
-        res.append("]");
-
-        return res.toString();
+        return toStringAux(this.raiz, "1");
     }
-    private String toStringAux(NodoAVLDicc n){
+    private String toStringAux(NodoAVLDicc n, String ubicacion){
         StringBuilder res = new StringBuilder();
 
         if (n != null){
             //primero el subárbol izquierdo
-            res.append(toStringAux(n.getHijoIzquierdo()));
+            res.append(toStringAux(n.getHijoIzquierdo(), ubicacion + ".1"));
 
             //despues el nodo actual
-            res.append("1: ").append(n.getInfo().toString()).append(System.lineSeparator());
-
-            //hijo izq
-            res.append("1.1: ");
-            if (n.getHijoIzquierdo() != null){
-                res.append(n.getHijoIzquierdo().getInfo().toString());
-            } else {
-                res.append("nulo");
-            }
+            res.append(ubicacion).append(": ");
+            res.append("[Clave: ").append(n.getClave());
+            res.append(", Altura: ").append(n.getAltura());
+            res.append("] ").append(n.getInfo().toString());
             res.append(System.lineSeparator());
-
-            //hijo der
-            res.append("1.2: ");
-            if (n.getHijoDerecho() != null){
-                res.append(n.getHijoDerecho().getInfo().toString());
-            } else {
-                res.append("nulo");
-            }
-
-            res.append(System.lineSeparator());
-            res.append("------------------------").append(System.lineSeparator());
 
             //despues el subárbol derecho
-            res.append(toStringAux(n.getHijoDerecho()));
+            res.append(toStringAux(n.getHijoDerecho(), ubicacion + ".2"));
         }
 
         return res.toString();
     }
-
 
     private int balance(NodoAVLDicc n){
         int balance;
@@ -365,14 +345,14 @@ public class DiccionarioAvl {
             } else if (balanceN == -2) {
                 int balanceH = balance(n.getHijoDerecho());
 
-                //si el hijo esta desbalanceado hacia la izq
+                //si el hijo esta desbalanceado hacia la izq (mismo sentido que n)
                 if ((balanceH == -1) || (balanceH == 0)) {
                     //roto a la izquierda
                     n = rotarIzquierda(n);
                 } else {
-                    //si el hijo esta desbalanceado hacia la der
+                    //si el hijo esta desbalanceado hacia la der (sentido contrario a n)
                     //rotacion doble der-izq
-                    n.setHijoDerecho(rotarIzquierda(n.getHijoIzquierdo()));
+                    n.setHijoDerecho(rotarDerecha(n.getHijoDerecho()));
                     n = rotarIzquierda(n);
                 }
             }

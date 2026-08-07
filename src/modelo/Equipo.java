@@ -1,11 +1,17 @@
 package modelo;
 
+import estructuras.lineales.Lista;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Equipo {
     private String nombreEquipo;
     private int puntajeParaSalida;
     private int puntajeAcumulado;
     private Habitacion habitacionActual;
     private int puntajeAcumuladoEnHabitacion;
+    private HashMap<Integer, Lista> desafiosResueltos;
 
     //constructores
     public Equipo(String nombre){
@@ -14,6 +20,7 @@ public class Equipo {
         this.puntajeAcumulado = 0;
         this.habitacionActual = null;
         this.puntajeAcumuladoEnHabitacion = 0;
+        this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
     public Equipo(String nombre, int puntParaSalir){
         this.nombreEquipo = nombre;
@@ -21,6 +28,7 @@ public class Equipo {
         this.puntajeAcumulado = 0;
         this.habitacionActual = null;
         this.puntajeAcumuladoEnHabitacion = 0;
+        this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
     public Equipo(String nombre, int puntParaSalir, Habitacion actual){
         this.nombreEquipo = nombre;
@@ -28,6 +36,7 @@ public class Equipo {
         this.puntajeAcumulado = 0;
         this.habitacionActual = actual;
         this.puntajeAcumuladoEnHabitacion = 0;
+        this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
     public Equipo(String nombre, int puntParaSalir, int puntAcum, Habitacion habActual, int puntActual){
         this.nombreEquipo = nombre;
@@ -35,6 +44,7 @@ public class Equipo {
         this.puntajeAcumulado = puntAcum;
         this.habitacionActual = habActual;
         this.puntajeAcumuladoEnHabitacion = puntActual;
+        this.desafiosResueltos = new HashMap<Integer, Lista>();
     }
 
     //getters
@@ -53,6 +63,7 @@ public class Equipo {
     public int getPuntajeAcumuladoEnHabitacion() {
         return this.puntajeAcumuladoEnHabitacion;
     }
+    public HashMap<Integer, Lista> getDesafiosResueltos(){ return this.desafiosResueltos; }
 
     //setters
     public void setPuntajeParaSalida(int puntaje) {
@@ -67,6 +78,14 @@ public class Equipo {
     public void cambiarHabitacionActual(Habitacion hab) {
         this.habitacionActual = hab;
     }
+    public void agregarDesafioResuelto(int codigoHabitacion, Desafio unDesafio){
+        Lista desafios = this.desafiosResueltos.get(codigoHabitacion);
+        if (desafios == null){
+            desafios = new Lista();
+            this.desafiosResueltos.put(codigoHabitacion, desafios);
+        }
+        desafios.insertar(unDesafio, desafios.longitud()+1);
+    }
 
     public void acumularPuntajeEnHabitacion(int puntaje) {
         this.puntajeAcumuladoEnHabitacion += puntaje;
@@ -75,15 +94,37 @@ public class Equipo {
         this.puntajeAcumuladoEnHabitacion = 0;
     }
 
+    private String toStringAux(){
+        StringBuilder sb = new StringBuilder("DESAFÍOS RESUELTOS POR "+this.nombreEquipo+" \n");
+        //por cada elemento del hash map
+        for (Map.Entry<Integer, Lista> entrada : this.desafiosResueltos.entrySet()){
+            sb.append("Habitación ");
+            sb.append(entrada.getKey());
+            sb.append(": ");
+            sb.append(entrada.getValue().toString()); // toString de lista
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
+    }
+    @Override
     public String toString() {
         return "Nombre: "+this.nombreEquipo+"\n" +
                 "Puntaje para la salida: "+this.puntajeParaSalida+"\n"+
                 "Puntaje acumulado en total: "+this.puntajeAcumulado+"\n"+
                 "Habitacion actual: "+this.habitacionActual+"\n"+
-                "Puntaje aucmulado en la habitacion: "+this.puntajeAcumuladoEnHabitacion+"\n";
+                "Puntaje aucmulado en la habitacion: "+this.puntajeAcumuladoEnHabitacion+"\n"+
+                toStringAux()+"\n";
     }
 
     public boolean equals(Equipo otroEquipo) {
         return this.nombreEquipo.equals(otroEquipo.nombreEquipo);
+    }
+    public boolean estaResuelto(int codigoHabitacion, Desafio desafio){
+        boolean encontrado = false;
+        if (this.desafiosResueltos.containsKey(codigoHabitacion)){
+            Lista desafios = this.desafiosResueltos.get(codigoHabitacion);
+            encontrado = (desafios.localizar(desafio)>0);
+        }
+        return encontrado;
     }
 }
