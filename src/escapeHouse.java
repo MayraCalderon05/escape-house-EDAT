@@ -27,7 +27,7 @@ public class escapeHouse {
                     "3. Mostrar sistema\n");
             System.out.print("\nIngrese su opción:\n");
             opcion = sc.nextInt();
-
+            sc.nextLine();
             switch (opcion) {
                 case 1:
                     do {
@@ -41,6 +41,7 @@ public class escapeHouse {
                     break;
                 case 3:
                     System.out.println(sistema.mostrarSistema());
+                    break;
                 default:
                     System.out.println("Opcion no valida, por favor escriba 1 o 2");
                     break;
@@ -102,6 +103,7 @@ public class escapeHouse {
         System.out.println("Seleccione una opción:\n1. Consultar sobre habitaciones\n2. Consultar sobre desafios\n3. Consultar sobre Equipo\n");
         System.out.print("\nIngrese su opción:\n");
         opcion = sc.nextInt();
+        sc.nextLine();
         do {
             switch (opcion) {
                 case 1:
@@ -133,24 +135,30 @@ public class escapeHouse {
                 "\n5. Mostrar todas las formas de ir de una habitacion a otra, sin pasar por una habitacion en especifico, y que no requiera mas de una cantidad de puntos\n");
         System.out.print("\nIngrese su opción:\n");
         opcion = sc.nextInt();
+        sc.nextLine();
         switch (opcion) {
             case 1:
                 System.out.println("Ingrese el numero de la habitacion la cual desea mostrar la informacion: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println(sistema.mostrarHabitacion(codigoHabitacion));
                 break;
             case 2:
                 System.out.println("Ingrese el numero de la habitacion la cual desea mostrar sus habitaciones contiguas: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println(sistema.habitacionesContiguas(codigoHabitacion).toString());
                 break;
             case 3:
                 System.out.println("Ingrese el numero de la habitacion de la cual desea partir: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el numero de la habitacion a la cual desea llegar:");
                 codigoHabDestino = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese la cantidad de puntos con la cual quiere realizar el recorrido:");
                 puntos = sc.nextInt();
+                sc.nextLine();
                 if (sistema.esPosibleLLegar(codigoHabitacion, codigoHabDestino, puntos)){
                     System.out.println("Si es posible llegar desde " + codigoHabitacion + " hasta " + codigoHabDestino + " acumulando " + puntos + " puntos");
                 }else {
@@ -160,19 +168,25 @@ public class escapeHouse {
             case 4:
                 System.out.println("Ingrese el numero de la habitacion de la cual desea partir: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el numero de la habitacion a la cual desea llegar:");
                 codigoHabDestino = sc.nextInt();
+                sc.nextLine();
                 System.out.println(sistema.minimoPuntaje(codigoHabitacion, codigoHabDestino));
                 break;
             case 5:
                 System.out.println("Ingrese el numero de la habitacion de la cual desea partir: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el numero de la habitacion a la cual desea llegar:");
                 codigoHabDestino = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese la cantidad de puntos con la cual quiere realizar el recorrido:");
                 puntos = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el codigo de la habitacion por la cual no desea pasar:");
                 codigoHabExcluir = sc.nextInt();
+                sc.nextLine();
                 sistema.sinPasarPor(codigoHabitacion,codigoHabDestino,puntos,codigoHabExcluir);
                 break;
             default:
@@ -191,6 +205,7 @@ public class escapeHouse {
                 "3. Configurar los desafios\n");
         System.out.print("\nIngrese su opción:\n");
         int opcion = sc.nextInt();
+        sc.nextLine();
         boolean continuarConfiguracion;
         switch (opcion){
             case 1:
@@ -212,7 +227,7 @@ public class escapeHouse {
                 System.out.println("Opcion no valida, por favor escriba 1, 2 o 3");
                 break;
         }
-        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion?");
+        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion en el menu?");
         continuarConfiguracion = mensajeConfirmacion(respuesta);
         if (!continuarConfiguracion){
             System.out.println("Operación cancelada");
@@ -230,6 +245,7 @@ public class escapeHouse {
                 "4. Eliminar habitacion\n");
         System.out.print("\nIngrese su opción:\n");
         int opcion = sc.nextInt();
+        sc.nextLine();
         boolean continuarConfHab;
         switch (opcion){
             case 1:
@@ -256,7 +272,7 @@ public class escapeHouse {
                 System.out.println("Opcion no valida, por favor escriba 1, 2, 3 o 4");
                 break;
         }
-        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion?");
+        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion en la configuracion de habitacion?");
         continuarConfHab = mensajeConfirmacion(respuesta);
         if (!continuarConfHab){
             System.out.println("Operación cancelada");
@@ -276,12 +292,15 @@ public class escapeHouse {
                 "\n4. Mostrar los desafios de un tipo, y con un puntaje dentro un rango, de una habitacion\n");
         System.out.print("\nIngrese su opción:\n");
         opcion = sc.nextInt();
+        sc.nextLine();
         switch (opcion) {
             case 1:
                 System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el puntaje del desafio del cual desea mostrar la informacion:");
                 puntaje = sc.nextInt();
+                sc.nextLine();
                 System.out.println(sistema.mostrarDesafio(puntaje, codigoHabitacion));
                 break;
             case 2:
@@ -290,8 +309,10 @@ public class escapeHouse {
             case 3:
                 System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el puntaje del desafio del cual desea saber si ya resolvio su equipo:");
                 puntaje = sc.nextInt();
+                sc.nextLine();
                 if (sistema.verificarDesafíoResuelto(nombreEquipo,puntaje,codigoHabitacion)){
                     System.out.println("El desafio "+sistema.obtenerNombreDesafio(codigoHabitacion,puntaje) + " en la habitacion N°"+codigoHabitacion + " ya ha sido resuelto por el equipo " + nombreEquipo);
                 }else {
@@ -301,10 +322,13 @@ public class escapeHouse {
             case 4:
                 System.out.println("Ingrese el numero de la habitacion a la cual pertenece el desafio: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el puntaje minimo (incluido):");
                 puntaje = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el puntaje maximo (incluido):");
                 puntajeMax = sc.nextInt();
+                sc.nextLine();
                 System.out.println("Ingrese el tipo de desafio que quiera buscar:");
                 tipo = sc.nextLine();
                 System.out.println(sistema.mostrarDesafiosTipo(codigoHabitacion,puntaje,puntajeMax, tipo).toString());
@@ -326,6 +350,7 @@ public class escapeHouse {
                 "\n5. ¿El equipo puede salir?\n");
         System.out.print("\nIngrese su opción:\n");
         opcion = sc.nextInt();
+        sc.nextLine();
         switch (opcion) {
             case 1:
                 System.out.println(sistema.mostrarInfoEquipo(nombreEquipo));
@@ -333,11 +358,13 @@ public class escapeHouse {
             case 2:
                 System.out.println("Ingrese el numero de la habitacion la cual desea poder ingresar: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 System.out.println(sistema.posiblesDesafios(nombreEquipo,codigoHabitacion));
                 break;
             case 3:
                 System.out.println("Ingrese el puntaje del desafio del cual desea jugar:");
                 puntaje = sc.nextInt();
+                sc.nextLine();
                 if (sistema.jugarDesafio(nombreEquipo,sistema.obtenerCodigoHab(nombreEquipo),puntaje)){
                     System.out.println("!!Desafio completado¡¡");
                 }else {
@@ -347,6 +374,7 @@ public class escapeHouse {
             case 4:
                 System.out.println("Ingrese el numero de la habitacion a la cual desea moverse: ");
                 codigoHabitacion = sc.nextInt();
+                sc.nextLine();
                 if (sistema.cambiarDeHabitación(nombreEquipo,codigoHabitacion)){
                     System.out.println("¡¡Ha cambiado de habitacion!!");
                 }else {
@@ -377,16 +405,13 @@ public class escapeHouse {
         nombre = sc.nextLine();
         System.out.println("ingrese en que planta se encuentra la habitacion: (ej: 0, 1,-1)");
         planta = sc.nextInt();
+        sc.nextLine();
         System.out.println("ingrese los metros cuadrados de la habitacion; (ingrese un numero entero)");
         mtsCuadrados = sc.nextInt();
-        seCreo = sistema.crearHabitacion(nombre, planta, mtsCuadrados);
+        sc.nextLine();
+        System.out.println(sistema.crearHabitacion(nombre, planta, mtsCuadrados));
 
-        if (!seCreo){
-            System.out.println("No se pudo crear la habitacion");
-            respuesta = enviarConfirmacion(sc,"Desea volver a intentarlo?");
-        }else {
-            respuesta = enviarConfirmacion(sc,"Desea crear otra habitacion?");
-        }
+        respuesta = enviarConfirmacion(sc,"Desea crear otra habitacion?");
         continuar = mensajeConfirmacion(respuesta);
         if (!continuar){
             System.out.println("Operación cancelada");
@@ -399,6 +424,7 @@ public class escapeHouse {
 
         System.out.println("ingrese el codigo de la habitacion que desea ver:");
         int codigo = sc.nextInt();
+        sc.nextLine();
         System.out.println(sistema.mostrarHabitacion(codigo));
 
         String respuesta = enviarConfirmacion(sc,"Desea ver otra habitacion?");
@@ -422,8 +448,10 @@ public class escapeHouse {
                 "4. Eliminar habitacion\n");
         System.out.print("\nIngrese su opción:\n");
         int opcion = sc.nextInt();
+        sc.nextLine();
         System.out.println("Ingrese el codigo de la habitacion");
         int codigo = sc.nextInt();
+        sc.nextLine();
         switch (opcion){
             case 1:
                 do {
@@ -444,6 +472,7 @@ public class escapeHouse {
                 do {
                     System.out.println("Ingrese la nueva planta:");
                     planta = sc.nextInt();
+                    sc.nextLine();
                     continuar = sistema.actualizarPlantaHab(codigo,planta);
                     if (continuar){
                         System.out.println("Habitacion modificada");
@@ -459,6 +488,7 @@ public class escapeHouse {
                 do {
                     System.out.println("Ingrese los metros cuadrados:");
                     mtsCuadrados = sc.nextInt();
+                    sc.nextLine();
                     continuar = sistema.actualizarMtsCuadrHab(codigo,mtsCuadrados);
                     if (continuar){
                         System.out.println("Habitacion modificada");
@@ -484,6 +514,7 @@ public class escapeHouse {
     public static boolean borrarHabitacion( Scanner sc) throws IOException {
         System.out.println("ingrese el codigo de la habitacion que desea borrar:");
         int codigo = sc.nextInt();
+        sc.nextLine();
         boolean seElimino;
         String respuesta;
         boolean continuar;
@@ -509,6 +540,7 @@ public class escapeHouse {
                 "3. Eliminar equipo\n");
         System.out.print("\nIngrese su opción:\n");
         int opcion = sc.nextInt();
+        sc.nextLine();
         boolean continuarConfEquipo;
         switch (opcion){
             case 1:
@@ -530,7 +562,7 @@ public class escapeHouse {
                 System.out.println("Opcion no valida, por favor escriba 1, 2 o 3");
                 break;
         }
-        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion?");
+        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion en la configuracion del equipo?");
         continuarConfEquipo = mensajeConfirmacion(respuesta);
         if (!continuarConfEquipo){
             System.out.println("Operación cancelada");
@@ -561,6 +593,7 @@ public class escapeHouse {
         String nombre = sc.nextLine();
         System.out.println("Ingrese la nueva dificultad del equipo");
         int nuevaDificultad = sc.nextInt();
+        sc.nextLine();
         boolean seModifico = sistema.actualizarEquipo(nombre, nuevaDificultad);
         if(seModifico){
             System.out.println("Equipo modificado");
@@ -596,12 +629,13 @@ public class escapeHouse {
     public static boolean configuracionDesafio( Scanner sc) throws IOException {
         System.out.println("\nBIENVENIDA/O A LA CONFIGURACION DE DESAFIO\n" +
                 "\nSeleccione una opción:\n" +
-                "1. Agregar habitacion\n" +
-                "2. Ver habitacion\n" +
-                "3. Modificar habitacion\n"+
-                "4. Eliminar habitacion\n");
+                "1. Agregar Desafío\n" +
+                "2. Ver Desafío\n" +
+                "3. Modificar Desafío\n"+
+                "4. Eliminar Desafío\n");
         System.out.print("\nIngrese su opción:\n");
         int opcion = sc.nextInt();
+        sc.nextLine();
         boolean continuarConfDesafio;
         switch (opcion){
             case 1:
@@ -628,7 +662,7 @@ public class escapeHouse {
                 System.out.println("Opcion no valida, por favor escriba 1, 2, 3 o 4");
                 break;
         }
-        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion?");
+        String respuesta = enviarConfirmacion(sc,"Desea realizar otra operacion en la configuracion de desafio?");
         continuarConfDesafio = mensajeConfirmacion(respuesta);
         if (!continuarConfDesafio){
             System.out.println("Operación cancelada");
@@ -644,8 +678,10 @@ public class escapeHouse {
 
         System.out.println("Ingrese el codigo de la habitacion donde se va agregar el desafio:");
         codigoHab = sc.nextInt();
+        sc.nextLine();
         System.out.println("Ingrese el puntaje del desafio:");
         puntaje = sc.nextInt();
+        sc.nextLine();
         System.out.println("ingrese el nombre del desafio:");
         nombre = sc.nextLine();
         System.out.println("ingrese el tipo de desafio");
@@ -670,9 +706,11 @@ public class escapeHouse {
 
         System.out.println("ingrese el puntaje del desafio:");
         int puntaje = sc.nextInt();
+        sc.nextLine();
 
         System.out.println("ingrese el codigo de la habitacion del desafio:");
         int codigo = sc.nextInt();
+        sc.nextLine();
 
         System.out.println(sistema.mostrarDesafio(puntaje,codigo));
 
@@ -695,10 +733,13 @@ public class escapeHouse {
                 "2. El tipo\n");
         System.out.print("\nIngrese su opción:\n");
         int opcion = sc.nextInt();
+        sc.nextLine();
         System.out.println("Ingrese el puntaje del desafio a modificar:");
         int puntaje = sc.nextInt();
+        sc.nextLine();
         System.out.println("Ingrese el codigo de la habitacion del desafio:");
         int codigo = sc.nextInt();
+        sc.nextLine();
         switch (opcion){
             case 1:
                 do {
@@ -746,8 +787,10 @@ public class escapeHouse {
 
         System.out.println("Ingrese el puntaje del desafio que desea eliminar:");
         int puntaje = sc.nextInt();
+        sc.nextLine();
         System.out.println("ingrese el codigo de la habitacion que desea eliminar:");
         int codigo = sc.nextInt();
+        sc.nextLine();
         boolean seElimino;
         String respuesta;
         boolean continuar;

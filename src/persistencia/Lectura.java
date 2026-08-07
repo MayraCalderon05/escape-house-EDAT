@@ -80,6 +80,8 @@ public class Lectura {
         //inserto solo el vertice en el arco, el grafo se arma en un metodo aparte
         if ((this.habitaciones.insertar(codigo, h)) && (this.plano.insertarVertice(h))) {
             this.escribir.escribirTxt("Habitación "+ Integer.toString(codigo) +" cargada correctamente",this.ruta);
+            escribir.escribirTxt(("Al insertar "+ codigo + ": "+ this.habitaciones.obtenerUltimaRotacion()), this.ruta);
+
         } else {
             this.escribir.escribirTxt("Ha habido un error al ingresar la habitacion "+ Integer.toString(codigo),this.ruta);
         }

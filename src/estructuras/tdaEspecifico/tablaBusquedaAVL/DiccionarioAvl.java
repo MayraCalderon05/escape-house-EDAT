@@ -4,10 +4,15 @@ import estructuras.lineales.Lista;
 
 public class DiccionarioAvl {
     private NodoAVLDicc raiz;
+    private String ultimaRotacion;
 
     //constructor
     public DiccionarioAvl(){
         this.raiz = null;
+        this.ultimaRotacion = "Sin rotación";
+    }
+    public String obtenerUltimaRotacion(){
+        return this.ultimaRotacion;
     }
 
     //metodos
@@ -29,6 +34,7 @@ public class DiccionarioAvl {
     public boolean insertar(Comparable clave, Object info){
         //may
         boolean exito = true;
+        this.ultimaRotacion = "Sin rotación";
         if (this.raiz == null){
             this.raiz = new NodoAVLDicc(clave, info);
         } else if (encontrarNodo(clave, this.raiz) == null){
@@ -79,8 +85,9 @@ public class DiccionarioAvl {
         return exito;
     }
     private NodoAVLDicc eliminarAux(NodoAVLDicc n, Comparable clave){
-        Comparable claveAux = n.getClave();
         if (n != null){
+            Comparable claveAux = n.getClave();
+
             if(claveAux.compareTo(clave) < 0){
                 n.setHijoIzquierdo(eliminarAux(n.getHijoIzquierdo(), clave));
             } else if (claveAux.compareTo(clave) > 0) {
@@ -261,27 +268,41 @@ public class DiccionarioAvl {
         if (this.raiz == null){
             return "El árbol está vacío.\n";
         }
-        return toStringAux(this.raiz, "1");
+        return toStringAux(this.raiz);
     }
-    private String toStringAux(NodoAVLDicc n, String ubicacion){
+    private String toStringAux(NodoAVLDicc n){
         StringBuilder res = new StringBuilder();
 
         if (n != null){
             //primero el subárbol izquierdo
-            res.append(toStringAux(n.getHijoIzquierdo(), ubicacion + ".1"));
+            res.append(toStringAux(n.getHijoIzquierdo()));
 
             //despues el nodo actual
-            res.append(ubicacion).append(": ");
             res.append("[Clave: ").append(n.getClave());
             res.append(", Altura: ").append(n.getAltura());
             res.append("] ").append(n.getInfo().toString());
             res.append(System.lineSeparator());
 
             //despues el subárbol derecho
-            res.append(toStringAux(n.getHijoDerecho(), ubicacion + ".2"));
+            res.append(toStringAux(n.getHijoDerecho()));
         }
 
         return res.toString();
+    }
+
+    public Object maximoElem() {
+        NodoAVLDicc actual = null;
+        Object info = null;
+        if (this.raiz != null) {
+            actual = this.raiz;
+
+            while (actual.getHijoDerecho() != null) {
+                actual = actual.getHijoDerecho();
+            }
+
+            info = actual.getInfo();
+        }
+        return info;
     }
 
     private int balance(NodoAVLDicc n){
@@ -335,11 +356,13 @@ public class DiccionarioAvl {
                 if ((balanceH == 1) || (balanceH == 0)) {
                     //roto a la derecha
                     n = rotarDerecha(n);
+                    this.ultimaRotacion = "Rotacion simple derecha en clave "+n.getClave();
                 } else {
                     //si el hijo esta desbalanceado hacia la der
                     //rotacion doble izq-der
                     n.setHijoIzquierdo(rotarIzquierda(n.getHijoIzquierdo()));
                     n = rotarDerecha(n);
+                    this.ultimaRotacion = "Rotacion doble izquierda-derecha en clave "+n.getClave();
                 }
                 //si esta n desbalanceado hacia la der
             } else if (balanceN == -2) {
@@ -349,11 +372,13 @@ public class DiccionarioAvl {
                 if ((balanceH == -1) || (balanceH == 0)) {
                     //roto a la izquierda
                     n = rotarIzquierda(n);
+                    this.ultimaRotacion = "Rotacion simple izquierda en clave "+n.getClave();
                 } else {
                     //si el hijo esta desbalanceado hacia la der (sentido contrario a n)
                     //rotacion doble der-izq
                     n.setHijoDerecho(rotarDerecha(n.getHijoDerecho()));
                     n = rotarIzquierda(n);
+                    this.ultimaRotacion = "Rotacion doble derecha-izquierda en clave "+n.getClave();
                 }
             }
         }

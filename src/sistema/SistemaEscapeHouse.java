@@ -44,6 +44,8 @@ public class SistemaEscapeHouse {
 
         this.entrada = asignarPrimerHabitacion();
         escribir = new Escritura();
+        //guarda el ultimo
+        this.numHabitacion = calcularNumHabitacionContinuacion();
     }
 
     //asignaciones principales
@@ -66,6 +68,9 @@ public class SistemaEscapeHouse {
                 break;
         }
         return puntaje;
+    }
+    private int calcularNumHabitacionContinuacion(){
+        return (((Habitacion) habitaciones.maximoElem()).getCodigo());
     }
 
 
@@ -98,8 +103,9 @@ public class SistemaEscapeHouse {
     }
 
     //CREAD
-    public boolean crearHabitacion( String nombre, int planta, int metrosCuadrados) throws IOException {
+    public String crearHabitacion( String nombre, int planta, int metrosCuadrados) throws IOException {
             boolean exito = false;
+            String respuesta;
             numHabitacion = numHabitacion + 1;
             Habitacion nuevaHabitacion = new Habitacion(numHabitacion, nombre, planta, metrosCuadrados);
             boolean insertoDicc = habitaciones.insertar(numHabitacion, nuevaHabitacion);
@@ -107,11 +113,14 @@ public class SistemaEscapeHouse {
             exito = insertoGrafo && insertoDicc;
             if (exito){
                 escribir.escribirTxt(("Se insertó la habitación "+(numHabitacion)), urlAvanceDeSistema);
+                escribir.escribirTxt(("Al insertar "+ numHabitacion + ": "+ this.habitaciones.obtenerUltimaRotacion()), urlAvanceDeSistema);
+                respuesta = nuevaHabitacion.toString();
             } else {
                 escribir.escribirTxt(("Hubo un problema al insertar la habitación "+(numHabitacion)), urlAvanceDeSistema);
+                respuesta="No se pudo crear la habitación";
             }
 
-            return exito;
+            return respuesta;
     }
 
     //READ

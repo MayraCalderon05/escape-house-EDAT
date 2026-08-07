@@ -622,7 +622,7 @@ public class Grafo {
 
     private void toStringAux(NodoVert n, StringBuilder resultado){
         if (n != null){
-            resultado.append(n.getElem().toString()).append("-> [");
+            resultado.append(n.getElem().toString()).append("-------> [");
             NodoAdy adyN = n.getPrimerAdy();
             while (adyN != null){
                 resultado.append(adyN.getVertice().getElem().toString());

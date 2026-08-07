@@ -244,7 +244,7 @@ public class DiccionarioHash {
     private String toStringAux(NodoHashDicc n){
         StringBuilder cadena = new StringBuilder();
         while (n != null){
-            cadena.append(n.toString());
+            cadena.append(n.getInfo().toString());
             n = n.getEnlace();
 
             if (n != null){
@@ -257,7 +257,7 @@ public class DiccionarioHash {
     public String toString(){
         StringBuilder res = new StringBuilder("[\n");
         for (int i = 0; i < this.TAM; i++) {
-            res.append(i).append("\n   ");
+            res.append("Posición: ").append(i).append("\n  ");
             NodoHashDicc actual = tabla[i];
             if (actual != null){
                 res.append(toStringAux(actual));
