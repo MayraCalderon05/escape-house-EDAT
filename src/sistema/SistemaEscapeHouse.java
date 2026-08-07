@@ -287,6 +287,9 @@ public class SistemaEscapeHouse {
         }
         return cadena;
     }
+    public int obtenerCodigoHab(String nombre){
+        return obtenerEquipo(nombre).getHabitacionActual().getCodigo();
+    }
     //UPDATE
     public boolean actualizarEquipo(String nombre, int nuevaDificultad){
         boolean exito = false;
