@@ -5,7 +5,15 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class escapeHouse {
-    private final static SistemaEscapeHouse sistema = new SistemaEscapeHouse();
+    private final static SistemaEscapeHouse sistema;
+
+    static {
+        try {
+            sistema = new SistemaEscapeHouse();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void main() throws IOException{
         Scanner sc = new Scanner(System.in);
@@ -170,7 +178,7 @@ public class escapeHouse {
     }
 
     //menu Configuracion
-    public static boolean menuConfiguracion(Scanner sc, int opcion){
+    public static boolean menuConfiguracion(Scanner sc) throws IOException {
 
         System.out.println("\nBIENVENIDA/O A LA CONFIGURACION DEL JUEGO\n" +
                 "\nSeleccione una opción:\n" +
@@ -178,7 +186,7 @@ public class escapeHouse {
                 "2. Configurar los equipos\n" +
                 "3. Configurar los desafios\n");
         System.out.print("\nIngrese su opción:\n");
-        opcion = sc.nextInt();
+        int opcion = sc.nextInt();
         boolean continuarConfiguracion;
         switch (opcion){
             case 1:
@@ -209,7 +217,7 @@ public class escapeHouse {
     }
 
     //configuracion de habitacion
-    public static boolean configuracionHabitacion( Scanner sc){
+    public static boolean configuracionHabitacion( Scanner sc) throws IOException {
         System.out.println("\nBIENVENIDA/O A LA CONFIGURACION DE HABITACION\n" +
                 "\nSeleccione una opción:\n" +
                 "1. Agregar habitacion\n" +
@@ -354,10 +362,8 @@ public class escapeHouse {
         }
     }
 
-    //menu Configuracion
-    public static boolean menuConfiguracion(Scanner sc){
 
-    public static boolean agregarHabitacion( Scanner sc){
+    public static boolean agregarHabitacion( Scanner sc) throws IOException {
         boolean continuar;
         String nombre, respuesta;
         int planta, mtsCuadrados;
@@ -399,7 +405,7 @@ public class escapeHouse {
         return continuar;
     }
 
-    public static boolean modificarHabitacion( Scanner sc){
+    public static boolean modificarHabitacion( Scanner sc) throws IOException {
         boolean continuar = true;
         String respuesta;
         String nombre;
@@ -471,7 +477,7 @@ public class escapeHouse {
         return continuar;
     }
 
-    public static boolean borrarHabitacion( Scanner sc){
+    public static boolean borrarHabitacion( Scanner sc) throws IOException {
         System.out.println("ingrese el codigo de la habitacion que desea borrar:");
         int codigo = sc.nextInt();
         boolean seElimino;
@@ -583,7 +589,7 @@ public class escapeHouse {
     }
 
     //configuracion de DESAFIO
-    public static boolean configuracionDesafio( Scanner sc){
+    public static boolean configuracionDesafio( Scanner sc) throws IOException {
         System.out.println("\nBIENVENIDA/O A LA CONFIGURACION DE DESAFIO\n" +
                 "\nSeleccione una opción:\n" +
                 "1. Agregar habitacion\n" +
@@ -626,7 +632,7 @@ public class escapeHouse {
         return continuarConfDesafio;
     }
 
-    public static boolean agregarDesafio(Scanner sc){
+    public static boolean agregarDesafio(Scanner sc) throws IOException {
         boolean continuar;
         String nombre, tipo, respuesta;
         int puntaje, codigoHab;
